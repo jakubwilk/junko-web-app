@@ -1,0 +1,71 @@
+@import '../../../assets/styles/helpers';
+
+.login-page {
+    @include height(100vh, 100%);
+    position: relative;
+    background-image: url('../../../assets/images/login-background.jpg');
+    background-position: top center;
+    background-attachment: fixed;
+    background-size: cover;
+    z-index: 20;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        @include box(100%);
+        background-color: rgba(white, .85);
+    }
+
+    & .container {
+        @include flex-center-vertical();
+    }
+
+    & .page-logo {
+        position: relative;
+        z-index: 15;
+        @include my(0, 35px);
+        @include mx(auto);
+    }
+
+    & .login-card {
+        position: relative;
+        z-index: 15;
+        background-color: $white;
+        @include border-radius(12px);
+        @include mx(auto);
+        @include px(25px);
+        @include py(25px);
+        box-shadow: 0 0 15px 15px rgba($black, .05);
+
+        @include tablet {
+            @include width(auto, 75vw);
+        }
+
+        @include notebook {
+            @include width(auto, 55vw);
+        }
+
+        @include laptop {
+            @include width(auto, 40vw);
+        }
+
+        @include desktop {
+            @include width(auto, 30vw);
+        }
+
+        &-title {
+            @include my(0, auto);
+            text-align: center;
+            @include font-size(32, $font-bold);
+        }
+
+        &-subtitle {
+            @include my(15px, 0);
+            text-align: center;
+            color: rgba($black, .65);
+        }
+    }
+}
