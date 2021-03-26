@@ -1,0 +1,28 @@
+$tablet: 768;
+$notebook: 1024;
+$laptop: 1366;
+$desktop: 1600;
+
+@mixin tablet {
+    @media only screen and (min-width: $tablet * 1px) {
+        @content;
+    }
+}
+
+@mixin notebook {
+    @media only screen and (min-width: $notebook * 1px) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media only screen and (min-width: $laptop * 1px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media only screen and (min-width: $desktop * 1px) {
+        @content;
+    }
+}

@@ -1,0 +1,78 @@
+@mixin font-size($font-size, $font-weight: 400, $font-style: normal, $base: 16) {
+    font-size: $font-size * 1px;
+    font-size: ($font-size / $base) * 1rem;
+    font-weight: $font-weight;
+    font-style: $font-style;
+}
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity = $opacity-ie);
+}
+
+@mixin px($left, $right: $left) {
+    padding-left: $left;
+    padding-right: $right;
+}
+
+@mixin py($top, $bottom: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+}
+
+@mixin mx($left, $right: $left) {
+    margin-left: $left;
+    margin-right: $right;
+}
+
+@mixin my($top, $bottom: $top) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+}
+
+@mixin height($min-height, $height: $min-height) {
+    min-height: $min-height;
+    height: $height;
+}
+
+@mixin width($min-width, $width: $min-width) {
+    min-width: $min-width;
+    width: $width;
+}
+
+@mixin box($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+
+@mixin border-top-radius($left-radius, $right-radius: $left-radius) {
+    border-top-left-radius: $left-radius;
+    border-top-right-radius: $right-radius;
+}
+
+@mixin border-bottom-radius($left-radius, $right-radius: $left-radius) {
+    border-bottom-left-radius: $left-radius;
+    border-bottom-right-radius: $right-radius;
+}
+
+@mixin border-left-radius($top-radius, $bottom-radius: $top-radius) {
+    border-top-left-radius: $top-radius;
+    border-bottom-left-radius: $bottom-radius;
+}
+
+@mixin border-right-radius($top-radius, $bottom-radius: $top-radius) {
+    border-top-right-radius: $top-radius;
+    border-bottom-right-radius: $bottom-radius;
+}
+
+@mixin button-primary() {
+    display: inline-flex;
+    @include py(5px);
+    @include px(25px);
+    border-radius: 6px;
+}
