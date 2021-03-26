@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { TLoginFormState } from "../../utils/types/login.types";
 import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 
 const LoginForm = () => {
 	const formik = useFormik({
@@ -35,7 +36,7 @@ const LoginForm = () => {
 				<span className={"p-inputgroup-addon login-form-addon"}>
 					<i className={"pi pi-lock"} aria-hidden={true} />
 				</span>
-				<span className={"p-float-label login-form-group"}>
+				<span className={"p-float-label login-form-input-group"}>
 					<InputText
 						type={"password"}
 						id={"password"}
@@ -48,7 +49,7 @@ const LoginForm = () => {
 					<label className={"login-form-label"} htmlFor={"password"}>Hasło użytkownika</label>
 				</span>
 			</div>
-			<button type={"submit"}>Zaloguj się</button>
+			<Button className={"login-form-button"} label={"Zaloguj się"} icon={"pi pi-angle-right"} iconPos={"right"} type={"submit"} />
 		</form>
 	);
 }

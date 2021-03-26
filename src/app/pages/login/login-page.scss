@@ -68,4 +68,17 @@
             color: rgba($black, .65);
         }
     }
+
+    & .login-form {
+        @include my(25px, 0);
+        text-align: center;
+
+        &-group {
+            @include my(35px);
+        }
+
+        &-button {
+            @include mx(auto);
+        }
+    }
 }
