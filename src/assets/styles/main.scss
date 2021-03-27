@@ -12,6 +12,10 @@ body {
     @include my(0);
 }
 
+a {
+    text-decoration: none;
+}
+
 .container {
     @include height(inherit, 100%);
     @include mx(32px);

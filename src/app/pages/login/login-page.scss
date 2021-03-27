@@ -26,7 +26,7 @@
     & .page-logo {
         position: relative;
         z-index: 15;
-        @include my(0, 35px);
+        @include my(25px, 35px);
         @include mx(auto);
     }
 
@@ -36,6 +36,7 @@
         background-color: $white;
         @include border-radius(12px);
         @include mx(auto);
+        @include my(0, 25px);
         @include px(25px);
         @include py(25px);
         box-shadow: 0 0 15px 15px rgba($black, .05);
@@ -81,6 +82,16 @@
             &:first-of-type {
                 @include my(0, 15px);
             }
+
+            &:last-of-type {
+                align-items: center;
+
+                @include tablet {
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    flex-direction: row;
+                }
+            }
         }
 
         &-label {
@@ -112,11 +123,20 @@
 
         &-checkbox {
             @include flex-center-horizontal();
+            @include my(0, 15px);
+
+            @include tablet {
+                @include my(0);
+            }
 
             & .login-form-label {
                 @include mx(5px);
                 @include my(0);
             }
+        }
+
+        &-forgot {
+            @include font-size(14);
         }
 
         &-button {

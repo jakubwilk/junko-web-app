@@ -1,11 +1,12 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { TLoginFormState } from "../../utils/types/login.types";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import { LoginSchema } from "../../utils/validation/login-form.validation";
-import { Message } from "primereact/message";
-import { Checkbox } from "primereact/checkbox";
+import { TLoginFormState } from '../../utils/types/login.types';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { LoginSchema } from '../../utils/validation/login-form.validation';
+import { Message } from 'primereact/message';
+import { Checkbox } from 'primereact/checkbox';
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
 
@@ -66,6 +67,9 @@ const LoginForm = () => {
 				<div className={"p-field-checkbox login-form-checkbox"}>
 					<Checkbox id={"remember"} name={"isRemember"} checked={formik.values.isRemember} onChange={formik.handleChange} />
 					<label className={"login-form-label"} htmlFor={"isRemember"}>Zapamiętaj mnie</label>
+				</div>
+				<div className={"login-form-forgot"}>
+					<Link to={"/reset-password"}>Zapomniałeś/aś hasła? Ustaw nowe</Link>
 				</div>
 			</div>
 			<Button className={"login-form-button"} label={"Zaloguj się"} icon={"pi pi-angle-right"} iconPos={"right"} type={"submit"} />
