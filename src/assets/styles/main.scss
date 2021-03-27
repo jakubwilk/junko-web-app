@@ -1,2 +1,43 @@
 @import './helpers';
 @import './utils';
+
+html {
+    font-size: 100%;
+}
+
+body {
+    font-family: $poppins-font;
+    @include font-size(16);
+    @include mx(0);
+    @include my(0);
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    @include height(inherit, 100%);
+    @include mx(32px);
+
+    @include tablet {
+        @include width(auto, 720px);
+        @include mx(auto);
+    }
+
+    @include notebook {
+        @include width(auto, 960px);
+    }
+
+    @include laptop {
+        @include width(auto, 85vw);
+    }
+
+    @include desktop {
+        @include width(auto, 75vw);
+    }
+
+    &-fluid {
+        @include mx(32px);
+    }
+}
