@@ -74,7 +74,49 @@
         text-align: center;
 
         &-group {
-            @include my(35px);
+            @include flex-column();
+            align-items: flex-start;
+            @include my(0, 25px);
+
+            &:first-of-type {
+                @include my(0, 15px);
+            }
+        }
+
+        &-label {
+            @include font-size(14);
+            @include my(0, 5px);
+            @include mx(15px);
+        }
+
+        &-input-group {
+            @include width(100%);
+        }
+
+        &-input {
+            width: inherit;
+
+            &-error {
+                &:focus,
+                &:enabled:hover {
+                    border-color: rgb(114 28 36);
+                    box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 50%);
+                }
+            }
+        }
+
+        &-error {
+            @include width(100%);
+            @include my(10px, 0);
+        }
+
+        &-checkbox {
+            @include flex-center-horizontal();
+
+            & .login-form-label {
+                @include mx(5px);
+                @include my(0);
+            }
         }
 
         &-button {

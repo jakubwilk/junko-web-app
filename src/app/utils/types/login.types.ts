@@ -10,5 +10,6 @@ export type TLoginCardProps = {
 
 export type TLoginFormState = {
 	email: string,
-	password: string
+	password: string,
+	isRemember: boolean
 }
