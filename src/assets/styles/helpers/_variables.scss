@@ -1,4 +1,4 @@
-$poppins-font: "Poppins", sans-seif;
+$poppins-font: 'Poppins', sans-seif;
 
 $font-light: 300;
 $font-regular: 400;
@@ -6,6 +6,10 @@ $font-bold: 600;
 $font-italic: italic;
 $font-normal: normal;
 
-// Basic theme colors
 $white: #ffffff;
 $black: #000000;
+
+// Basic theme colors
+$brick: rgba(114, 28, 36, 1);
+$red: rgba(220, 53, 69, 1);
+
