@@ -7,13 +7,13 @@ import { LoginSchema } from '../../utils/validation/login-form.validation';
 import { Message } from 'primereact/message';
 import { Checkbox } from 'primereact/checkbox';
 import { Link } from 'react-router-dom';
-// import { getUserSession } from '../../api/auth-rest';
+import { getUserSession } from '../../api/auth-rest';
 
 const LoginForm = () => {
-    // const formSubmit = async () => {
-    //     const response = await getUserSession();
-    //     console.log(response);
-    // }
+    const formSubmit = async () => {
+        const response = await getUserSession();
+        console.log(response);
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -22,8 +22,9 @@ const LoginForm = () => {
             isRemember: false
         },
         validationSchema: LoginSchema,
-        onSubmit: (formData: TLoginFormState) => {
-            alert(JSON.stringify(formData, null, 2));
+        onSubmit: async (formData: TLoginFormState) => {
+            await formSubmit();
+            // alert(JSON.stringify(formData, null, 2));
         }
     })
 

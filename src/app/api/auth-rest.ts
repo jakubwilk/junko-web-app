@@ -8,7 +8,7 @@ export const getUserSession = async (): Promise<void> => {
             'Content-Type': 'application/json'
         }
     }
-    const response: Response = await fetch(apiUri, config);
+    const response: Response = await fetch(apiUri + '/users', config);
 
     return response.json();
 }
