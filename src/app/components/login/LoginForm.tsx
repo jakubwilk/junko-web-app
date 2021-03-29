@@ -7,8 +7,13 @@ import { LoginSchema } from '../../utils/validation/login-form.validation';
 import { Message } from 'primereact/message';
 import { Checkbox } from 'primereact/checkbox';
 import { Link } from 'react-router-dom';
+// import { getUserSession } from '../../api/auth-rest';
 
 const LoginForm = () => {
+    // const formSubmit = async () => {
+    //     const response = await getUserSession();
+    //     console.log(response);
+    // }
 
     const formik = useFormik({
         initialValues: {
@@ -22,7 +27,6 @@ const LoginForm = () => {
         }
     })
 
-    // @ts-ignore
     return (
         <form className={'login-form'} onSubmit={formik.handleSubmit}>
             <div className={'p-field login-form-group'}>
