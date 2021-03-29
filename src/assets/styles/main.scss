@@ -13,30 +13,35 @@ body {
 }
 
 a {
+    color: $blue;
     text-decoration: none;
+    
+    &:active {
+        color: $blue;
+    }
 }
 
 .container {
     @include height(inherit, 100%);
     @include mx(32px);
-
+    
     @include tablet {
         @include width(auto, 720px);
         @include mx(auto);
     }
-
+    
     @include notebook {
         @include width(auto, 960px);
     }
-
+    
     @include laptop {
         @include width(auto, 85vw);
     }
-
+    
     @include desktop {
         @include width(auto, 75vw);
     }
-
+    
     &-fluid {
         @include mx(32px);
     }
