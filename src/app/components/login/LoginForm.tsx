@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { TLoginFormState } from '../../utils/types/login.types';
 import { InputText } from 'primereact/inputtext';
@@ -7,12 +7,22 @@ import { LoginSchema } from '../../utils/validation/login-form.validation';
 import { Message } from 'primereact/message';
 import { Checkbox } from 'primereact/checkbox';
 import { Link } from 'react-router-dom';
-import { getUserSession } from '../../api/auth-rest';
+import { openUserSession } from '../../api/auth-rest';
+import { AuthLoginMessages } from '../../utils/types/auth.types';
+import { authLoginHandler } from '../../api/error-handler';
 
 const LoginForm = () => {
-    const formSubmit = async () => {
-        const response = await getUserSession();
-        console.log(response);
+    const [authError, setAuthError] = useState<string>('');
+
+    const formSubmit = async (formData: TLoginFormState) => {
+        const response = await openUserSession(formData);
+        const messages: AuthLoginMessages = {
+            serverErrorMessage: 'Wystąpił problem z serwerem, proszę spróbować później',
+            userNotFoundMessage: 'Nie znaleziono użytkownika',
+            wrongUserDataMessage: 'Błędna nazwa użytkownika lub hasło'
+        }
+
+        authLoginHandler(response.statusCode, messages, setAuthError);
     }
 
     const formik = useFormik({
@@ -23,16 +33,19 @@ const LoginForm = () => {
         },
         validationSchema: LoginSchema,
         onSubmit: async (formData: TLoginFormState) => {
-            await formSubmit();
-            // alert(JSON.stringify(formData, null, 2));
+            await formSubmit(formData);
         }
     })
 
     return (
-        <form className={'login-form'} onSubmit={formik.handleSubmit}>
-            <div className={'p-field login-form-group'}>
-                <label className={'login-form-label'} htmlFor={'email'}>Email użytkownika</label>
-                <span className={' p-input-icon-left login-form-input-group'}>
+        <>
+            {authError.length > 0
+                ? <Message className={'login-form-error'} severity={'error'} text={authError}/>
+                : null}
+            <form className={'login-form'} onSubmit={formik.handleSubmit}>
+                <div className={'p-field login-form-group'}>
+                    <label className={'login-form-label'} htmlFor={'email'}>Email użytkownika</label>
+                    <span className={' p-input-icon-left login-form-input-group'}>
 					<i className={'pi pi-envelope'} aria-hidden={'true'}/>
 					<InputText
                         className={`login-form-input ${formik.errors.email ? 'login-form-input-error' : null}`}
@@ -44,13 +57,13 @@ const LoginForm = () => {
                         onChange={formik.handleChange}
                     />
 				</span>
-                {formik.errors.email && formik.touched.email
-                    ? <Message className={'login-form-error'} severity={'error'} text={formik.errors.email}/>
-                    : null}
-            </div>
-            <div className={'p-field login-form-group'}>
-                <label className={'login-form-label'} htmlFor={'password'}>Hasło użytkownika</label>
-                <span className={'p-input-icon-left login-form-input-group'}>
+                    {formik.errors.email && formik.touched.email
+                        ? <Message className={'login-form-error'} severity={'error'} text={formik.errors.email}/>
+                        : null}
+                </div>
+                <div className={'p-field login-form-group'}>
+                    <label className={'login-form-label'} htmlFor={'password'}>Hasło użytkownika</label>
+                    <span className={'p-input-icon-left login-form-input-group'}>
 					<i className={'pi pi-lock'} aria-hidden={true}/>
 					<InputText
                         className={`login-form-input ${formik.errors.password ? 'login-form-input-error' : null}`}
@@ -64,23 +77,24 @@ const LoginForm = () => {
                         onChange={formik.handleChange}
                     />
 				</span>
-                {formik.errors.password && formik.touched.password
-                    ? <Message className={'login-form-error'} severity={'error'} text={formik.errors.password}/>
-                    : null}
-            </div>
-            <div className={'login-form-group'}>
-                <div className={'p-field-checkbox login-form-checkbox'}>
-                    <Checkbox id={'remember'} name={'isRemember'} checked={formik.values.isRemember}
-                              onChange={formik.handleChange}/>
-                    <label className={'login-form-label'} htmlFor={'isRemember'}>Zapamiętaj mnie</label>
+                    {formik.errors.password && formik.touched.password
+                        ? <Message className={'login-form-error'} severity={'error'} text={formik.errors.password}/>
+                        : null}
                 </div>
-                <div className={'login-form-forgot'}>
-                    <Link to={'/reset-password'}>Zapomniałeś/aś hasła? Ustaw nowe</Link>
+                <div className={'login-form-group'}>
+                    <div className={'p-field-checkbox login-form-checkbox'}>
+                        <Checkbox id={'remember'} name={'isRemember'} checked={formik.values.isRemember}
+                                  onChange={formik.handleChange}/>
+                        <label className={'login-form-label'} htmlFor={'isRemember'}>Zapamiętaj mnie</label>
+                    </div>
+                    <div className={'login-form-forgot'}>
+                        <Link to={'/reset-password'}>Zapomniałeś/aś hasła? Ustaw nowe</Link>
+                    </div>
                 </div>
-            </div>
-            <Button className={'login-form-button'} label={'Zaloguj się'} icon={'pi pi-angle-right'} iconPos={'right'}
-                    type={'submit'}/>
-        </form>
+                <Button className={'login-form-button'} label={'Zaloguj się'} icon={'pi pi-angle-right'} iconPos={'right'}
+                        type={'submit'}/>
+            </form>
+        </>
     );
 }
 

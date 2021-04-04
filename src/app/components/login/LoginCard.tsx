@@ -10,9 +10,7 @@ const LoginCard = (props: TLoginCardProps) => {
             <div className={'login-card'}>
                 <h1 className={'login-card-title'}>{title}</h1>
                 <p className={'login-card-subtitle'}>{subtitle}</p>
-
                 {children}
-
             </div>
         </>
     );
