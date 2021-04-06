@@ -1,7 +1,7 @@
 import React from 'react';
-import { TLoginCardProps } from '../../utils/types/login.types';
+import { ILoginCardProps } from '../../utils/interfaces/login';
 
-const LoginCard = (props: TLoginCardProps) => {
+const LoginCard = (props: ILoginCardProps) => {
     const {logo, alt, title, subtitle, children} = props;
 
     return (

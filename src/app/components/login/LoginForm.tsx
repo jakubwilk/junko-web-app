@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { TLoginFormState } from '../../utils/types/login.types';
+import { TAuthLoginMessages } from '../../utils/types/auth.types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { LoginSchema } from '../../utils/validation/login-form.validation';
 import { Message } from 'primereact/message';
 import { Checkbox } from 'primereact/checkbox';
 import { Link } from 'react-router-dom';
-import { openUserSession } from '../../api/auth-rest';
-import { AuthLoginMessages } from '../../utils/types/auth.types';
-import { authLoginHandler } from '../../api/error-handler';
+import { openUserSession } from '../../api/providers/auth';
+import { ILoginFormState } from '../../utils/interfaces/login';
 
 const LoginForm = () => {
-    const [authError, setAuthError] = useState<string>('');
+    const [authError, setAuthError] = useState('');
 
-    const formSubmit = async (formData: TLoginFormState) => {
+    const formSubmit = async (formData: ILoginFormState) => {
         const response = await openUserSession(formData);
-        const messages: AuthLoginMessages = {
+        const messages: TAuthLoginMessages = {
             serverErrorMessage: 'Wystąpił problem z serwerem, proszę spróbować później',
             userNotFoundMessage: 'Nie znaleziono użytkownika',
             wrongUserDataMessage: 'Błędna nazwa użytkownika lub hasło'
         }
-
-        authLoginHandler(response.statusCode, messages, setAuthError);
     }
 
     const formik = useFormik({
@@ -32,7 +29,7 @@ const LoginForm = () => {
             isRemember: false
         },
         validationSchema: LoginSchema,
-        onSubmit: async (formData: TLoginFormState) => {
+        onSubmit: async (formData: ILoginFormState) => {
             await formSubmit(formData);
         }
     })
