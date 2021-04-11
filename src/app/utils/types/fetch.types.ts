@@ -1,3 +1,4 @@
-export type TFetch = {
-    key: string;
+export type TFetchException = {
+    response: string | Record<string, any>,
+    statusCode: number
 }

@@ -1,25 +1,51 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { TAuthLoginMessages } from '../../utils/types/auth.types';
+import { TAuthLoginMessages, TFetchLoginSuccess } from '../../utils/types/auth.types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { LoginSchema } from '../../utils/validation/login-form.validation';
 import { Message } from 'primereact/message';
 import { Checkbox } from 'primereact/checkbox';
 import { Link } from 'react-router-dom';
-import { openUserSession } from '../../api/providers/auth';
 import { ILoginFormState } from '../../utils/interfaces/login';
+import { displayLoginErrorMessage } from '../../utils/helpers/errors-ui-handler';
+import { TFetchException } from '../../utils/types/fetch.types';
+import { apiUri } from '../../api/config';
 
 const LoginForm = () => {
     const [authError, setAuthError] = useState('');
+    const [isLoading, setLoading] = useState(false);
 
     const formSubmit = async (formData: ILoginFormState) => {
-        const response = await openUserSession(formData);
         const messages: TAuthLoginMessages = {
             serverErrorMessage: 'Wystąpił problem z serwerem, proszę spróbować później',
             userNotFoundMessage: 'Nie znaleziono użytkownika',
             wrongUserDataMessage: 'Błędna nazwa użytkownika lub hasło'
         }
+
+        setLoading(true);
+        fetch(apiUri + '/auth', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(res => res.json())
+            .then((response: TFetchLoginSuccess | TFetchException) => {
+                if (response.statusCode !== 200) {
+                    setAuthError(displayLoginErrorMessage(response.statusCode, messages));
+                } else {
+                    console.log(response);
+                }
+
+                setLoading(false);
+            })
+            .catch(error => {
+                setAuthError(displayLoginErrorMessage(500, messages));
+                setLoading(false);
+            });
     }
 
     const formik = useFormik({
@@ -32,7 +58,7 @@ const LoginForm = () => {
         onSubmit: async (formData: ILoginFormState) => {
             await formSubmit(formData);
         }
-    })
+    });
 
     return (
         <>
@@ -88,7 +114,7 @@ const LoginForm = () => {
                         <Link to={'/reset-password'}>Zapomniałeś/aś hasła? Ustaw nowe</Link>
                     </div>
                 </div>
-                <Button className={'login-form-button'} label={'Zaloguj się'} icon={'pi pi-angle-right'} iconPos={'right'}
+                <Button className={'login-form-button'} label={`${isLoading ? 'Czekaj' : 'Zaloguj się'}`} icon={'pi pi-angle-right'} iconPos={'right'}
                         type={'submit'}/>
             </form>
         </>
