@@ -16,6 +16,7 @@
 		"@types/react-router": "^5.1.13",
 		"@types/react-router-dom": "^5.1.7",
 		"@types/yup": "^0.29.11",
+		"axios": "^0.21.1",
 		"cross-env": "^7.0.3",
 		"formik": "^2.2.6",
 		"primeicons": "^4.1.0",

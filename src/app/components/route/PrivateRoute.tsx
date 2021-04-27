@@ -1,9 +1,12 @@
 import { IPrivateRouteProps } from '../../utils/interfaces/route';
 import { Redirect, Route } from 'react-router-dom';
 import React from 'react';
+import { useAuthorization } from '../../api/hooks/UseAuthorization';
 
 const PrivateRoute = (routeProps: IPrivateRouteProps) => {
     const { component: Component, ...rest } = routeProps;
+    const token = routeProps.location?.state as string;
+    const auth = useAuthorization(token);
     const isAuthorized = true;
 
     return (
