@@ -1,25 +1,35 @@
-import React from 'react';
-import { Route, Router, Switch } from 'react-router-dom';
-import { createBrowserHistory, History } from 'history';
-import LoginPage from './pages/login/LoginPage';
-import DashboardOwnerPage from './pages/panel/DashboardOwnerPage';
-import PrivateRoute from './components/route/PrivateRoute';
+import { Component } from 'react';
+import { Router, Switch, Route } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { IAppProps, IAppState } from './interfaces/app.interface';
+import AppProvider from './context/AppProvider';
+import { AppContext } from './context/AppContext';
+import LoginPage from './pages/login/Login';
+import PrivateRoute from './components/router/PrivateRoute';
+import AdminPage from './pages/dashboard/Admin';
+import UserPage from './pages/dashboard/User';
 
-const history: History = createBrowserHistory();
+const history = createBrowserHistory();
 
-const App = () => {
-    return (
-        <div className={'app'}>
-            <Router history={history}>
-                <Switch>
-                    <Route exact path={'/'}>
-                        <LoginPage title={'Junko | Logowanie'} />
-                    </Route>
-                    <PrivateRoute path={'/dashboard'} component={() => <DashboardOwnerPage title={'Junko | Panel zarządzania'} />} />
-                </Switch>
-            </Router>
-        </div>
-    );
+class App extends Component<IAppProps, IAppState> {
+    static contextType = AppContext;
+
+    render() {
+        return (
+            <AppProvider>
+                <Router history={history}>
+                    <Switch>
+                        <Route exact path={'/'} render={() => <LoginPage />} />
+                        <PrivateRoute
+                            path={'/dashboard'}
+                            adminPage={<AdminPage />}
+                            userPage={<UserPage />}
+                        />
+                    </Switch>
+                </Router>
+            </AppProvider>
+        )
+    }
 }
 
 export default App;
