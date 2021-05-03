@@ -8,26 +8,52 @@ import LoginPage from './pages/login/Login';
 import PrivateRoute from './components/router/PrivateRoute';
 import AdminPage from './pages/dashboard/Admin';
 import UserPage from './pages/dashboard/User';
+import { getUserSession } from './api/auth';
 
 const history = createBrowserHistory();
 
 class App extends Component<IAppProps, IAppState> {
     static contextType = AppContext;
 
-    render() {
+    constructor(props: IAppProps) {
+        super(props);
+
+        this.state = {
+            isLoading: true,
+            isValidToken: false
+        }
+    }
+
+    componentDidMount = async () => {
+        console.log(this.context);
+        const response = await getUserSession();
+        console.log(response);
+        this.setState({ isLoading: false });
+    }
+
+    render = () => {
+        const { isLoading, isValidToken } = this.state;
+
         return (
-            <AppProvider>
-                <Router history={history}>
-                    <Switch>
-                        <Route exact path={'/'} render={() => <LoginPage />} />
-                        <PrivateRoute
-                            path={'/dashboard'}
-                            adminPage={<AdminPage />}
-                            userPage={<UserPage />}
-                        />
-                    </Switch>
-                </Router>
-            </AppProvider>
+            <>
+                {isLoading ? null : (
+                    <AppProvider>
+                        <Router history={history}>
+                            <Switch>
+                                <Route exact path={'/'} render={() => <LoginPage />} />
+                                <PrivateRoute
+                                    path={'/dashboard'}
+                                    children={<AdminPage />}
+                                />
+                                <PrivateRoute
+                                    path={'/panel'}
+                                    children={<UserPage />}
+                                />
+                            </Switch>
+                        </Router>
+                    </AppProvider>
+                )}
+            </>
         )
     }
 }

@@ -22,7 +22,7 @@ class AppProvider extends Component<IAppContextProps, IAppContextState> {
         this.setState({ userRole: role });
     }
 
-    render() {
+    render = () => {
         const { children } = this.props;
         const { userId, userRole } = this.state;
         const { updateUserId, updateUserRole } = this;

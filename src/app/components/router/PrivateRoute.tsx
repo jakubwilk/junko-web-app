@@ -15,39 +15,28 @@ class PrivateRoute extends Component<IPrivateRouteProps, IPrivateRouteState> {
         }
     }
 
-    renderDashboard = (userRole: number, adminPage: ReactElement, userPage: ReactElement) => {
-        switch (userRole) {
-            case 1:
-                return adminPage;
-            case 3:
-                return userPage;
-            default:
-                return <LoginPage />;
-        }
+    componentDidMount = () => {
+        this.setState({ isLoading: false });
     }
 
-    componentDidMount() {
-        this.setState({isLoading: false});
-    }
-
-    render() {
-        const {adminPage, userPage, ...rest} = this.props;
-        const {isLoading} = this.state;
+    render = () => {
+        const { children, ...rest } = this.props;
+        const { isLoading} = this.state;
 
         return (
             <>
-                {isLoading ? null : (
+                { isLoading ? null : (
                     <AppContext.Consumer>
                         {value => (
                             <Route
-                                {...rest}
+                                { ...rest }
                                 render={({location}) =>
                                     value.userRole === 0 ? (
                                         <Redirect to={{
                                             pathname: '/',
                                             state: { from: location }
                                         }}/>
-                                    ) : this.renderDashboard(value.userRole, adminPage, userPage)
+                                    ) : children
                                 }
                             />
                         )}
