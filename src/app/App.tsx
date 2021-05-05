@@ -1,16 +1,15 @@
 import { Component } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import { IAppProps, IAppState } from './interfaces/app.interface';
-import AppProvider from './context/AppProvider';
 import { AppContext } from './context/AppContext';
 import LoginPage from './pages/login/Login';
 import PrivateRoute from './components/router/PrivateRoute';
 import AdminPage from './pages/dashboard/Admin';
 import UserPage from './pages/dashboard/User';
 import { getUserSession } from './api/auth';
-
-const history = createBrowserHistory();
+import { TResponseCheckUserRole } from './types/auth.types';
+import { HTTP_CODE } from './constants/http';
+import { history } from './history';
 
 class App extends Component<IAppProps, IAppState> {
     static contextType = AppContext;
@@ -19,39 +18,51 @@ class App extends Component<IAppProps, IAppState> {
         super(props);
 
         this.state = {
-            isLoading: true,
-            isValidToken: false
+            isLoading: true
         }
     }
 
     componentDidMount = () => {
+        const { updateUserRole } = this.context;
         getUserSession()
-            .then(res => console.log(res))
-            .then(err => console.log(err));
-        this.setState({ isLoading: false });
+            .then((res: TResponseCheckUserRole) => {
+                if (res.statusCode === HTTP_CODE.OK) {
+                    updateUserRole(res.userRole);
+                } else {
+                    updateUserRole(0);
+                }
+
+                this.setState({ isLoading: false });
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({ isLoading: false });
+            });
     }
 
     render = () => {
-        const { isLoading, isValidToken } = this.state;
+        const { isLoading } = this.state;
 
         return (
             <>
                 {isLoading ? null : (
-                    <AppProvider>
-                        <Router history={history}>
-                            <Switch>
-                                <Route exact path={'/'} render={() => <LoginPage />} />
-                                <PrivateRoute
-                                    path={'/dashboard'}
-                                    children={<AdminPage />}
-                                />
-                                <PrivateRoute
-                                    path={'/panel'}
-                                    children={<UserPage />}
-                                />
-                            </Switch>
-                        </Router>
-                    </AppProvider>
+                    <AppContext.Consumer>
+                        {value => (
+                            <Router history={history}>
+                                <Switch>
+                                    <Route exact path={'/'} render={() => <LoginPage />} />
+                                    <PrivateRoute
+                                        path={'/dashboard'}
+                                        children={<AdminPage />}
+                                    />
+                                    <PrivateRoute
+                                        path={'/panel'}
+                                        children={<UserPage />}
+                                    />
+                                </Switch>
+                            </Router>
+                        )}
+                    </AppContext.Consumer>
                 )}
             </>
         )

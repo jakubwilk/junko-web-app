@@ -14,21 +14,25 @@ class AppProvider extends Component<IAppContextProps, IAppContextState> {
         }
     }
 
-    updateUserId = (userId: string) => {
+    updateUserId = (userId: string): void => {
         this.setState({ userId: userId });
     }
 
-    updateUserRole = (role: number) => {
+    updateUserRole = (role: number): void => {
         this.setState({ userRole: role });
     }
 
     render = () => {
         const { children } = this.props;
         const { userId, userRole } = this.state;
-        const { updateUserId, updateUserRole } = this;
 
         return (
-            <AppContext.Provider value={{ userId, userRole, updateUserId, updateUserRole }}>
+            <AppContext.Provider value={{
+                userId: userId,
+                userRole: userRole,
+                updateUserId: this.updateUserId,
+                updateUserRole: this.updateUserRole
+            }}>
                 {children}
             </AppContext.Provider>
         );

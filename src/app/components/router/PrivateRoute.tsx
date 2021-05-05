@@ -1,8 +1,7 @@
-import { Component, ReactElement } from 'react';
+import { Component } from 'react';
 import { IPrivateRouteProps, IPrivateRouteState } from '../../interfaces/private-route.interface';
 import { Redirect, Route } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
-import LoginPage from '../../pages/login/Login';
 
 class PrivateRoute extends Component<IPrivateRouteProps, IPrivateRouteState> {
     static contextType = AppContext;

@@ -38,7 +38,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
             .catch(err => console.log(err));
     }
 
-    render() {
+    render = () => {
         const { email, password } = this.state;
 
         return (
