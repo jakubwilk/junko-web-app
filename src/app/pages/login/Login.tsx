@@ -1,6 +1,7 @@
 import { Component } from 'react';
-import { ILoginPageProps, ILoginPageState } from '../../interfaces/login-page.interface';
+import { ILoginPageProps, ILoginPageState } from '../../interfaces/login.interface';
 import { Helmet } from 'react-helmet';
+import LoginForm from '../../components/login/LoginForm';
 
 class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
     render() {
@@ -9,7 +10,7 @@ class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
                 <Helmet>
                     <title>{`Junko | Logowanie`}</title>
                 </Helmet>
-                <h1>Logowanie</h1>
+                <LoginForm />
             </>
         );
     }

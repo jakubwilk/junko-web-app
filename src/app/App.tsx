@@ -24,10 +24,10 @@ class App extends Component<IAppProps, IAppState> {
         }
     }
 
-    componentDidMount = async () => {
-        console.log(this.context);
-        const response = await getUserSession();
-        console.log(response);
+    componentDidMount = () => {
+        getUserSession()
+            .then(res => console.log(res))
+            .then(err => console.log(err));
         this.setState({ isLoading: false });
     }
 

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { TAppContext } from '../types/context.type';
+import { TAppContext } from '../types/context.types';
 
 export const AppContext = createContext<TAppContext>({
     userId: '',
