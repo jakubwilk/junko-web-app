@@ -23,19 +23,18 @@ class App extends Component<IAppProps, IAppState> {
     }
 
     componentDidMount = () => {
-        const { updateUserRole } = this.context;
+        const { setBasicUserData } = this.context;
         getUserSession()
             .then((res: TResponseCheckUserRole) => {
                 if (res.statusCode === HTTP_CODE.OK) {
-                    updateUserRole(res.userRole);
+                    setBasicUserData(res.userId, res.userRole);
                 } else {
-                    updateUserRole(0);
+                    setBasicUserData('', 0);
                 }
 
                 this.setState({ isLoading: false });
             })
             .catch(err => {
-                console.log(err);
                 this.setState({ isLoading: false });
             });
     }

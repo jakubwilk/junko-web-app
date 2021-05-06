@@ -8,47 +8,14 @@ import { Redirect } from 'react-router-dom';
 class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
     static contextType = AppContext;
 
-    constructor(props: ILoginPageProps) {
-        super(props);
-
-        this.state = {
-            isRedirectAllowed: false,
-            dashboardUrl: ''
-        }
-    }
-
-    redirectUserToDashboard = (role: number) => {
-        switch (role) {
-            case 1:
-                this.setState({ dashboardUrl: '/dashboard' });
-                break;
-            case 2:
-                this.setState({ dashboardUrl: '/dashboard' });
-                break;
-            case 3:
-                this.setState({ dashboardUrl: '/panel' });
-                break;
-            default:
-                this.setState({ dashboardUrl: '/' });
-                break;
-        }
-    }
-
-    componentDidMount = () => {
-        const { userRole } = this.context;
-
-        this.redirectUserToDashboard(userRole);
-        this.setState({ isRedirectAllowed: true });
-    }
-
     render = () => {
-        const { isRedirectAllowed, dashboardUrl } = this.state;
+        const { isRedirectAllowed, url } = this.context;
 
         return (
             <>
                 {isRedirectAllowed ? (
                     <Redirect to={{
-                        pathname: dashboardUrl,
+                        pathname: url,
                         state: { from: this.props.location }
                     }} />
                 ) : (

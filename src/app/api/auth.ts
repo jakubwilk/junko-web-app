@@ -9,6 +9,7 @@ export const getUserSession = async () => {
             'Content-Type': 'application/json'
         }
     });
+
     return response.json();
 }
 
@@ -21,5 +22,6 @@ export const createUserSession = async (data: TLoginUserData) => {
         },
         body: JSON.stringify(data)
     });
+
     return response.json();
 }

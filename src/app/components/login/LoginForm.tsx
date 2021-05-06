@@ -1,9 +1,13 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
 import { ILoginFormProps, ILoginFormState } from '../../interfaces/login.interface';
-import { TLoginUserData } from '../../types/auth.types';
+import { TLoginUserData, TResponseLoginUser } from '../../types/auth.types';
 import { createUserSession } from '../../api/auth';
+import { AppContext } from '../../context/AppContext';
+import { HTTP_CODE } from '../../constants/http';
 
 class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
+    static contextType = AppContext;
+
     constructor(props: ILoginFormProps) {
         super(props);
 
@@ -25,6 +29,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     }
 
     handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        const { setBasicUserData } = this.context;
         event.preventDefault();
         const { email, password, isRemember } = this.state;
         const data: TLoginUserData = {
@@ -34,7 +39,13 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         };
 
         createUserSession(data)
-            .then(res => console.log(res))
+            .then((res: TResponseLoginUser) => {
+                if (res.statusCode === HTTP_CODE.OK) {
+                    setBasicUserData(res.userId, res.userRole);
+                } else {
+                    setBasicUserData('', 0);
+                }
+            })
             .catch(err => console.log(err));
     }
 

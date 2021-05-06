@@ -1,9 +1,6 @@
 import { RouteProps } from 'react-router';
 
-export interface ILoginPageState {
-    isRedirectAllowed: boolean;
-    dashboardUrl: string;
-}
+export interface ILoginPageState {}
 
 export interface ILoginPageProps extends RouteProps {}
 

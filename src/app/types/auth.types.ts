@@ -1,5 +1,12 @@
 export type TResponseCheckUserRole = {
     statusCode: number,
+    userRole: number,
+    userId: string,
+}
+
+export type TResponseLoginUser = {
+    statusCode: number,
+    userId: string,
     userRole: number
 }
 
