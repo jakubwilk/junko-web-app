@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { IAppContextProps, IAppContextState } from '../interfaces/context.interface';
 import { AppContext } from './AppContext';
-import { TLoginUserData } from '../types/auth.types';
 
 class AppProvider extends Component<IAppContextProps, IAppContextState> {
     constructor(props: IAppContextProps) {
@@ -10,6 +9,9 @@ class AppProvider extends Component<IAppContextProps, IAppContextState> {
         this.state = {
             userId: '',
             userRole: 0,
+            firstName: '',
+            lastName: '',
+            email: '',
             url: '',
             isRedirectAllowed: false
         }
@@ -46,30 +48,41 @@ class AppProvider extends Component<IAppContextProps, IAppContextState> {
         this.redirectUserToDashboard(userRole);
     }
 
+    setPersonalUserData = (firstName: string, lastName: string, email: string) => {
+        this.setState({ firstName: firstName, lastName: lastName, email: email });
+    }
+
     resetContextState = () => {
         this.setState({
-           userId: '',
-           userRole: 0,
-           url: '',
-           isRedirectAllowed: false
+            userId: '',
+            userRole: 0,
+            firstName: '',
+            lastName: '',
+            email: '',
+            url: '',
+            isRedirectAllowed: false
         });
     }
 
     render = () => {
         const { children } = this.props;
-        const { userId, userRole, url, isRedirectAllowed } = this.state;
+        const { userId, userRole, firstName, lastName, email, url, isRedirectAllowed } = this.state;
 
         return (
             <AppContext.Provider value={{
                 userId: userId,
                 userRole: userRole,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
                 url: url,
                 isRedirectAllowed: isRedirectAllowed,
                 updateUserId: this.updateUserId,
                 updateUserRole: this.updateUserRole,
                 redirectUserToDashboard: this.redirectUserToDashboard,
                 resetContextState: this.resetContextState,
-                setBasicUserData: this.setBasicUserData
+                setBasicUserData: this.setBasicUserData,
+                setPersonalUserData: this.setPersonalUserData
             }}>
                 {children}
             </AppContext.Provider>

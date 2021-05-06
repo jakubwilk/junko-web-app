@@ -26,11 +26,11 @@ class PrivateRoute extends Component<IPrivateRouteProps, IPrivateRouteState> {
             <>
                 { isLoading ? null : (
                     <AppContext.Consumer>
-                        {value => (
+                        {( value ) => (
                             <Route
                                 { ...rest }
                                 render={({location}) =>
-                                    value.userRole === 0 ? (
+                                    value.userRole  === 0 ? (
                                         <Redirect to={{
                                             pathname: '/',
                                             state: { from: location }

@@ -1,3 +1,5 @@
-export interface IAdminDashboardState {}
+export interface IAdminDashboardState {
+    isLoading: boolean;
+}
 
 export interface IAdminDashboardProps {}
