@@ -10,6 +10,7 @@ import { getUserSession } from './api/auth';
 import { TResponseCheckUserRole } from './types/auth.types';
 import { HTTP_CODE } from './constants/http';
 import { history } from './history';
+import { ROLES } from './constants/roles';
 
 class App extends Component<IAppProps, IAppState> {
     static contextType = AppContext;
@@ -29,7 +30,7 @@ class App extends Component<IAppProps, IAppState> {
                 if (res.statusCode === HTTP_CODE.OK) {
                     setBasicUserData(res.userId, res.userRole);
                 } else {
-                    setBasicUserData('', 0);
+                    setBasicUserData('', ROLES.NONE);
                 }
 
                 this.setState({ isLoading: false });

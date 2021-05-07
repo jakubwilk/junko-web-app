@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { IUserDashboardProps, IUserDashboardState } from '../../interfaces/user-dashboard.interface';
+import { IUserDashboardProps, IUserDashboardState } from '../../interfaces/dashboard.interface';
 
 class UserPage extends Component<IUserDashboardProps, IUserDashboardState> {
     render() {

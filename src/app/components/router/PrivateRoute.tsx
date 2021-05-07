@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { IPrivateRouteProps, IPrivateRouteState } from '../../interfaces/private-route.interface';
 import { Redirect, Route } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
+import { ROLES } from '../../constants/roles';
 
 class PrivateRoute extends Component<IPrivateRouteProps, IPrivateRouteState> {
     static contextType = AppContext;
@@ -30,7 +31,7 @@ class PrivateRoute extends Component<IPrivateRouteProps, IPrivateRouteState> {
                             <Route
                                 { ...rest }
                                 render={({location}) =>
-                                    value.userRole  === 0 ? (
+                                    value.userRole  === ROLES.NONE ? (
                                         <Redirect to={{
                                             pathname: '/',
                                             state: { from: location }

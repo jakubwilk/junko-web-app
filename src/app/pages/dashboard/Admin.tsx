@@ -1,9 +1,10 @@
 import { Component } from 'react';
-import { IAdminDashboardProps, IAdminDashboardState } from '../../interfaces/admin-dashboard.interface';
+import { IAdminDashboardProps, IAdminDashboardState } from '../../interfaces/dashboard.interface';
 import { Helmet } from 'react-helmet';
 import { AppContext } from '../../context/AppContext';
 import { getUserData } from '../../api/user';
 import { HTTP_CODE } from '../../constants/http';
+import AddUser from '../../components/users/shared/AddUser';
 
 class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
     static contextType = AppContext;
@@ -45,6 +46,13 @@ class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
     render = () => {
         const { isLoading } = this.state;
 
+        // What should be on dashboard:
+        // Users list
+        // Orders list
+        // Last active order
+        // Previous order
+        // Add user
+
         return (
             <>
                 {isLoading ? null : (
@@ -53,6 +61,7 @@ class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
                             <title>Junko | Panel zarządzania</title>
                         </Helmet>
                         <h2>Witaj, {this.displayUserName()} <br />Admin page</h2>
+                        <AddUser />
                     </>
                 )}
             </>

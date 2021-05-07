@@ -4,6 +4,7 @@ import { TLoginUserData, TResponseLoginUser } from '../../types/auth.types';
 import { createUserSession } from '../../api/auth';
 import { AppContext } from '../../context/AppContext';
 import { HTTP_CODE } from '../../constants/http';
+import { ROLES } from '../../constants/roles';
 
 class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     static contextType = AppContext;
@@ -43,7 +44,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
                 if (res.statusCode === HTTP_CODE.OK) {
                     setBasicUserData(res.userId, res.userRole);
                 } else {
-                    setBasicUserData('', 0);
+                    setBasicUserData('', ROLES.NONE);
                 }
             })
             .catch(err => console.log(err));

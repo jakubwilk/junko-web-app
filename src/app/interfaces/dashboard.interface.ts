@@ -3,3 +3,7 @@ export interface IAdminDashboardState {
 }
 
 export interface IAdminDashboardProps {}
+
+export interface IUserDashboardState {}
+
+export interface IUserDashboardProps {}
