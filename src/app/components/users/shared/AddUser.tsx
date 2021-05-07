@@ -3,6 +3,7 @@ import { IAddUserProps, IAddUserState } from '../../../interfaces/users.interfac
 import { ROLES } from '../../../constants/roles';
 import { TAddUserData } from '../../../types/auth.types';
 import { addUser } from '../../../api/auth';
+import SimpleReactValidator from 'simple-react-validator'
 
 class AddUser extends Component<IAddUserProps, IAddUserState> {
     constructor(props: IAddUserProps) {
@@ -11,7 +12,8 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
         this.state = {
             email: '',
             role: 0,
-            isLoading: false
+            isLoading: false,
+            validator: new SimpleReactValidator()
         }
     }
 
@@ -19,21 +21,25 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
         event.preventDefault();
         this.setState({ isLoading: true });
         const { reloadList } = this.props;
-        const { email, role } = this.state;
+        const { email, role, validator } = this.state;
         const data: TAddUserData = {
             email: email,
             role: role
         };
 
-        addUser(data)
-            .then(res => {
-                console.log(res);
+        if (validator.allValid()) {
+            addUser(data)
+                .then(res => {
+                    console.log(res);
 
-                if (reloadList !== undefined) {
-                    reloadList();
-                }
-            })
-            .catch(err => console.log(err));
+                    if (reloadList !== undefined) {
+                        reloadList();
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            validator.showMessages();
+        }
 
         this.setState({ isLoading: false });
     }
@@ -57,10 +63,11 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
     }
 
     render = () => {
-        const { role, email, isLoading } = this.state;
+        const { isModal } = this.props;
+        const { role, email, isLoading, validator } = this.state;
 
         return (
-            <div className={"add-user"}>
+            <div className={`add-user ${isModal ? "add-user-modal" : "add-user-page"}`}>
                 <h2 className={"add-user-title"}>{"Dodaj użytkownika"}</h2>
                 <form className={"form"} onSubmit={(e) => this.handleSubmit(e)}>
                     <div className={"form-group"}>
@@ -96,6 +103,7 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
                             disabled={role === ROLES.NONE}
                             onChange={(e) => this.handleChange(e)}
                         />
+                        {validator.message('email', email, 'required|email')}
                     </div>
                     <div className={"form-group"}>
                         <button

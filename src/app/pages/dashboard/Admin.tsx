@@ -61,7 +61,7 @@ class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
                             <title>Junko | Panel zarządzania</title>
                         </Helmet>
                         <h2>Witaj, {this.displayUserName()} <br />Admin page</h2>
-                        <AddUser />
+                        <AddUser isModal={false} />
                     </>
                 )}
             </>
