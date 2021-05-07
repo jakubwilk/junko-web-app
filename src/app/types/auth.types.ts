@@ -10,9 +10,13 @@ export type TResponseLoginUser = {
     userRole: number
 }
 
+export type TAddUserData = {
+    email: string;
+    role: number;
+}
+
 export type TLoginUserData = {
     email: string,
     password: string,
     isRemember: boolean
 }
-

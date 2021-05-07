@@ -1,6 +1,8 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
 import { IAddUserProps, IAddUserState } from '../../../interfaces/users.interface';
 import { ROLES } from '../../../constants/roles';
+import { TAddUserData } from '../../../types/auth.types';
+import { addUser } from '../../../api/auth';
 
 class AddUser extends Component<IAddUserProps, IAddUserState> {
     constructor(props: IAddUserProps) {
@@ -17,8 +19,14 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
         event.preventDefault();
         const { reloadList } = this.props;
         const { email, role } = this.state;
+        const data: TAddUserData = {
+            email: email,
+            role: role
+        };
 
-        console.log(email, role);
+        addUser(data)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     }
 
     handleChecked = (event: ChangeEvent<HTMLInputElement>) => {
