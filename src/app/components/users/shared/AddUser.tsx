@@ -17,6 +17,7 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
 
     handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        this.setState({ isLoading: true });
         const { reloadList } = this.props;
         const { email, role } = this.state;
         const data: TAddUserData = {
@@ -25,8 +26,16 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
         };
 
         addUser(data)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res);
+
+                if (reloadList !== undefined) {
+                    reloadList();
+                }
+            })
             .catch(err => console.log(err));
+
+        this.setState({ isLoading: false });
     }
 
     handleChecked = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +57,7 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
     }
 
     render = () => {
-        const { role, email } = this.state;
+        const { role, email, isLoading } = this.state;
 
         return (
             <div className={"add-user"}>
@@ -89,7 +98,10 @@ class AddUser extends Component<IAddUserProps, IAddUserState> {
                         />
                     </div>
                     <div className={"form-group"}>
-                        <button className={"form-button"}>{"Dodaj"}</button>
+                        <button
+                            className={"form-button"}
+                            disabled={isLoading}
+                        >{"Dodaj"}</button>
                     </div>
                 </form>
             </div>
