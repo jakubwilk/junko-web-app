@@ -4,6 +4,9 @@ import { Helmet } from 'react-helmet';
 import LoginForm from '../../components/login/LoginForm';
 import { AppContext } from '../../context/AppContext';
 import { Redirect } from 'react-router-dom';
+import './login-page.scss';
+import LoginHeading from '../../components/login/LoginHeading';
+import logo from '../../../assets/images/logo-site.png';
 
 class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
     static contextType = AppContext;
@@ -23,7 +26,15 @@ class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
                       <Helmet>
                           <title>{`Junko | Logowanie`}</title>
                       </Helmet>
-                      <LoginForm />
+                      <div className={"login-page"}>
+                          <LoginHeading
+                              image={logo}
+                              imageClassName={"login-page-logo"}
+                              title={"Zaloguj się na swoje konto"}
+                              titleClassName={"login-page-title"}
+                          />
+                          <LoginForm />
+                      </div>
                   </>
                 )}
             </>

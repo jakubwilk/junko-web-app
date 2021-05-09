@@ -5,6 +5,8 @@ import { createUserSession } from '../../api/auth';
 import { AppContext } from '../../context/AppContext';
 import { HTTP_CODE } from '../../constants/http';
 import { ROLES } from '../../constants/roles';
+import FormInput from '../forms/FormInput';
+import Form from '../forms/Form';
 
 class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     static contextType = AppContext;
@@ -15,8 +17,14 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         this.state = {
             email: '',
             password: '',
-            isRemember: false
+            isRemember: true
         }
+    }
+
+    handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
+        const { isRemember } = this.state;
+
+        this.setState({ isRemember: !isRemember });
     }
 
     handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,32 +59,52 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     }
 
     render = () => {
-        const { email, password } = this.state;
+        const { email, password, isRemember } = this.state;
 
         return (
-            <div className={"login-form"}>
-                <form onSubmit={(e) => this.handleSubmit(e)}>
-                    <label htmlFor={"email"}>Email</label>
-                    <input
+            <Form
+                className={"login-form"}
+                onSubmit={(e) => this.handleSubmit(e)}
+            >
+                <div className={"form-group"}>
+                    <FormInput
                         type={"text"}
+                        label={"Email"}
+                        labelClassName={"label login-form-input-label"}
+                        className={"input login-form-input"}
                         id={"email"}
                         name={"email"}
                         placeholder={"joe@localhost"}
                         value={email}
                         onChange={(e) => this.handleChange(e)}
                     />
-                    <label htmlFor={"password"}>Password</label>
-                    <input
+                </div>
+                <div className={"form-group"}>
+                    <FormInput
                         type={"password"}
+                        label={"Hasło"}
+                        labelClassName={"label login-form-input-label"}
                         id={"password"}
+                        className={"input login-form-input"}
                         name={"password"}
-                        placeholder={"password"}
                         value={password}
                         onChange={(e) => this.handleChange(e)}
                     />
-                    <button>Login</button>
-                </form>
-            </div>
+                </div>
+                <div className={"form-group"}>
+                    <FormInput
+                        type={"checkbox"}
+                        label={"Zapamiętaj mnie"}
+                        labelClassName={"label login-form-checkbox-label"}
+                        id={"isRemember"}
+                        className={"login-form-checkbox"}
+                        name={"isRemember"}
+                        checked={isRemember}
+                        onChange={(e) => this.handleCheck(e)}
+                    />
+                </div>
+                <button className={"button login-form-button"}>Login</button>
+            </Form>
         );
     }
 }

@@ -1,0 +1,23 @@
+@import './../helpers';
+
+.input {
+    
+    &:focus {
+        outline: none;
+    }
+}
+
+.label {
+    display: block;
+    @include my(0, .3rem);
+    cursor: pointer;
+    user-select: none;
+}
+
+.button {
+    @include border-radius(4px);
+    border-color: transparent;
+    background-color: transparent;
+    cursor: pointer;
+    user-select: none;
+}

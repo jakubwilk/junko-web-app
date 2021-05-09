@@ -1,6 +1,10 @@
 @import './helpers';
 @import './utils';
 
+* {
+    box-sizing: border-box;
+}
+
 html {
     font-size: 100%;
 }
@@ -19,6 +23,15 @@ a {
     &:active {
         color: $blue;
     }
+}
+
+label,
+button,
+input,
+textarea,
+select,
+option {
+    font-family: $poppins-font;
 }
 
 .container {

@@ -1,3 +1,32 @@
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+
+@mixin border-top-radius($left-radius, $right-radius: $left-radius) {
+    border-top-left-radius: $left-radius;
+    border-top-right-radius: $right-radius;
+}
+
+@mixin border-bottom-radius($left-radius, $right-radius: $left-radius) {
+    border-bottom-left-radius: $left-radius;
+    border-bottom-right-radius: $right-radius;
+}
+
+@mixin border-left-radius($top-radius, $bottom-radius: $top-radius) {
+    border-top-left-radius: $top-radius;
+    border-bottom-left-radius: $bottom-radius;
+}
+
+@mixin border-right-radius($top-radius, $bottom-radius: $top-radius) {
+    border-top-right-radius: $top-radius;
+    border-bottom-right-radius: $bottom-radius;
+}
+
+@mixin box($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
 @mixin flex-center() {
     display: flex;
     justify-content: center;
@@ -26,20 +55,19 @@
     font-style: $font-style;
 }
 
-@mixin opacity($opacity) {
-    opacity: $opacity;
-    $opacity-ie: $opacity * 100;
-    filter: alpha(opacity=$opacity-ie);
+@mixin height($min-height, $height: $min-height) {
+    min-height: $min-height;
+    height: $height;
 }
 
-@mixin px($left, $right: $left) {
-    padding-left: $left;
-    padding-right: $right;
+@mixin hw($height, $width: $height) {
+    height: $height;
+    width: $width;
 }
 
-@mixin py($top, $bottom: $top) {
-    padding-top: $top;
-    padding-bottom: $bottom;
+@mixin margin($topbottom, $leftright) {
+    @include my($topbottom);
+    @include mx($leftright);
 }
 
 @mixin mx($left, $right: $left) {
@@ -52,48 +80,28 @@
     margin-bottom: $bottom;
 }
 
-@mixin height($min-height, $height: $min-height) {
-    min-height: $min-height;
-    height: $height;
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie);
+}
+
+@mixin padding($topbottom, $leftright) {
+    @include py($topbottom);
+    @include px($leftright);
+}
+
+@mixin px($left, $right: $left) {
+    padding-left: $left;
+    padding-right: $right;
+}
+
+@mixin py($top, $bottom: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
 }
 
 @mixin width($min-width, $width: $min-width) {
     min-width: $min-width;
     width: $width;
-}
-
-@mixin box($width, $height: $width) {
-    width: $width;
-    height: $height;
-}
-
-@mixin border-radius($radius) {
-    border-radius: $radius;
-}
-
-@mixin border-top-radius($left-radius, $right-radius: $left-radius) {
-    border-top-left-radius: $left-radius;
-    border-top-right-radius: $right-radius;
-}
-
-@mixin border-bottom-radius($left-radius, $right-radius: $left-radius) {
-    border-bottom-left-radius: $left-radius;
-    border-bottom-right-radius: $right-radius;
-}
-
-@mixin border-left-radius($top-radius, $bottom-radius: $top-radius) {
-    border-top-left-radius: $top-radius;
-    border-bottom-left-radius: $bottom-radius;
-}
-
-@mixin border-right-radius($top-radius, $bottom-radius: $top-radius) {
-    border-top-right-radius: $top-radius;
-    border-bottom-right-radius: $bottom-radius;
-}
-
-@mixin button-primary() {
-    display: inline-flex;
-    @include py(5px);
-    @include px(25px);
-    border-radius: 6px;
 }
