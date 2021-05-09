@@ -7,6 +7,7 @@ import { HTTP_CODE } from '../../constants/http';
 import { ROLES } from '../../constants/roles';
 import FormInput from '../forms/FormInput';
 import Form from '../forms/Form';
+import SimpleReactValidator from 'simple-react-validator';
 
 class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     static contextType = AppContext;
@@ -17,7 +18,15 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         this.state = {
             email: '',
             password: '',
-            isRemember: true
+            isRemember: true,
+            isLoading: false,
+            validator: new SimpleReactValidator({
+                element: (message: string) => <span className={"login-form-validation"}>{message}</span>,
+                messages: {
+                    required: "Pole jest wymagane",
+                    email: "Podano niepoprawny adres email"
+                }
+            })
         }
     }
 
@@ -38,28 +47,36 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     }
 
     handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        const { setBasicUserData } = this.context;
         event.preventDefault();
-        const { email, password, isRemember } = this.state;
+        const { setBasicUserData } = this.context;
+        const { email, password, isRemember, validator } = this.state;
         const data: TLoginUserData = {
             email: email,
             password: password,
             isRemember: isRemember
         };
 
-        createUserSession(data)
-            .then((res: TResponseLoginUser) => {
-                if (res.statusCode === HTTP_CODE.OK) {
-                    setBasicUserData(res.userId, res.userRole);
-                } else {
-                    setBasicUserData('', ROLES.NONE);
-                }
-            })
-            .catch(err => console.log(err));
+        this.setState({ isLoading: true });
+
+        if (validator.allValid()) {
+            createUserSession(data)
+                .then((res: TResponseLoginUser) => {
+                    if (res.statusCode === HTTP_CODE.OK) {
+                        setBasicUserData(res.userId, res.userRole);
+                    } else {
+                        setBasicUserData('', ROLES.NONE);
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            validator.showMessages();
+        }
+
+        this.setState({ isLoading: false });
     }
 
     render = () => {
-        const { email, password, isRemember } = this.state;
+        const { email, password, isRemember, validator } = this.state;
 
         return (
             <Form
@@ -77,7 +94,9 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
                         placeholder={"joe@localhost"}
                         value={email}
                         onChange={(e) => this.handleChange(e)}
+                        onBlur={() => validator.showMessageFor('email')}
                     />
+                    {validator.message('email', email, 'required|email')}
                 </div>
                 <div className={"form-group"}>
                     <FormInput
@@ -90,6 +109,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
                         value={password}
                         onChange={(e) => this.handleChange(e)}
                     />
+                    {validator.message('password', password, 'required')}
                 </div>
                 <div className={"form-group"}>
                     <FormInput

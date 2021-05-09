@@ -3,7 +3,7 @@ import { IFormInputProps, IFormInputState } from '../../interfaces/forms.interfa
 
 class FormInput extends Component<IFormInputProps, IFormInputState> {
     render = () => {
-        const { type, label, labelClassName, id, className, name, placeholder, value, checked, onChange } = this.props;
+        const { type, label, labelClassName, id, className, name, placeholder, value, checked, onChange, onBlur } = this.props;
 
         return (
             <>
@@ -17,6 +17,7 @@ class FormInput extends Component<IFormInputProps, IFormInputState> {
                     value={value}
                     checked={checked}
                     onChange={(e) => onChange ? onChange(e) : null}
+                    onBlur={(e) => onBlur ? onBlur(e) : null}
                     autoComplete={"off"}
                 />
             </>

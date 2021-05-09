@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, MouseEvent, ReactElement } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, MouseEvent, ReactElement } from 'react';
 
 export interface IFormState {}
 
@@ -24,4 +24,5 @@ export interface IFormInputProps {
     checked?: boolean;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onClick?: (event: MouseEvent<HTMLInputElement>) => void;
+    onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 }

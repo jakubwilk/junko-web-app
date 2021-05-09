@@ -82,6 +82,13 @@ body {
             }
         }
         
+        &-validation {
+            display: block;
+            @include font-size(14);
+            @include my(5px, 0);
+            color: $red;
+        }
+        
         &-button {
             @include my(1rem, 0);
             @include font-size(16);
