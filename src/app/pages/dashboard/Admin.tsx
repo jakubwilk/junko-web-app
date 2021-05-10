@@ -5,6 +5,12 @@ import { AppContext } from '../../context/AppContext';
 import { getUserData } from '../../api/user';
 import { HTTP_CODE } from '../../constants/http';
 import AddUser from '../../components/users/shared/AddUser';
+import Navbar from '../../components/dashboard/shared/Navbar';
+import logo from '../../../assets/images/logo-site.png';
+import Menu from '../../components/shared/menu/Menu';
+import { adminMenu } from '../../constants/menu';
+import MenuItem from '../../components/shared/menu/MenuItem';
+import { TMenuItem } from '../../types/menu.types';
 
 class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
     static contextType = AppContext;
@@ -56,13 +62,31 @@ class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
         return (
             <>
                 {isLoading ? null : (
-                    <>
+                    <div className={"admin"}>
                         <Helmet>
                             <title>Junko | Panel zarządzania</title>
                         </Helmet>
+
+                        <Navbar logoUrl={logo}>
+                            <div className={"navbar-menu"}>
+                                <Menu>
+                                    {adminMenu.links.map((item: TMenuItem) =>
+                                        <MenuItem
+                                            key={item.key}
+                                            href={item.href}
+                                            title={item.title}
+                                            name={item.name}
+                                            isActive={item.isActive}
+                                            isDisabled={item.isDisabled}
+                                        />
+                                    )}
+                                </Menu>
+                                <button>{"Wyloguj się"}</button>
+                            </div>
+                        </Navbar>
                         <h2>Witaj, {this.displayUserName()} <br />Admin page</h2>
                         <AddUser isModal={false} />
-                    </>
+                    </div>
                 )}
             </>
         );
