@@ -8,6 +8,7 @@ import { ROLES } from '../../constants/roles';
 import FormInput from '../forms/FormInput';
 import Form from '../forms/Form';
 import SimpleReactValidator from 'simple-react-validator';
+import { ClipLoader } from 'react-spinners';
 
 class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     static contextType = AppContext;
@@ -46,7 +47,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         });
     }
 
-    handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const { setBasicUserData } = this.context;
         const { email, password, isRemember, validator } = this.state;
@@ -56,7 +57,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
             isRemember: isRemember
         };
 
-        this.setState({ isLoading: true });
+        await this.setState({ isLoading: true });
 
         if (validator.allValid()) {
             createUserSession(data)
@@ -72,11 +73,11 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
             validator.showMessages();
         }
 
-        this.setState({ isLoading: false });
+        await this.setState({ isLoading: false });
     }
 
     render = () => {
-        const { email, password, isRemember, validator } = this.state;
+        const { email, password, isRemember, isLoading, validator } = this.state;
 
         return (
             <Form
@@ -104,7 +105,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
                         label={"Hasło"}
                         labelClassName={"label login-form-input-label"}
                         id={"password"}
-                        className={"input login-form-input"}
+                        className={`input login-form-input`}
                         name={"password"}
                         value={password}
                         onChange={(e) => this.handleChange(e)}
@@ -123,7 +124,14 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
                         onChange={(e) => this.handleCheck(e)}
                     />
                 </div>
-                <button className={"button login-form-button"}>Login</button>
+                <button className={"button login-form-button"}>
+                    {isLoading ? (
+                        <>
+                            <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
+                            {"Logowanie"}
+                        </>
+                    ) : "Zaloguj się"}
+                </button>
             </Form>
         );
     }

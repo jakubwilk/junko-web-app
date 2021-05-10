@@ -59,3 +59,13 @@ option {
         @include mx(32px);
     }
 }
+
+.page-loader {
+    @include flex-center();
+    position: fixed;
+    z-index: 25;
+    background-color: $white;
+    @include hw(100%);
+    top: 0;
+    left: 0;
+}

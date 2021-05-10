@@ -11,6 +11,7 @@ import { TResponseCheckUserRole } from './types/auth.types';
 import { HTTP_CODE } from './constants/http';
 import { history } from './history';
 import { ROLES } from './constants/roles';
+import { MoonLoader } from 'react-spinners';
 
 class App extends Component<IAppProps, IAppState> {
     static contextType = AppContext;
@@ -45,7 +46,11 @@ class App extends Component<IAppProps, IAppState> {
 
         return (
             <>
-                {isLoading ? null : (
+                {isLoading ? (
+                    <div className={"page-loader"}>
+                        <MoonLoader color={'#007bff'} loading={isLoading} size={150} />
+                    </div>
+                ) : (
                     <AppContext.Consumer>
                         {value => (
                             <Router history={history}>

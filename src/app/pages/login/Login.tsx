@@ -22,7 +22,7 @@ class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
                         state: { from: this.props.location }
                     }} />
                 ) : (
-                  <>
+                  <div className={"login"}>
                       <Helmet>
                           <title>{`Junko | Logowanie`}</title>
                       </Helmet>
@@ -35,7 +35,7 @@ class LoginPage extends Component<ILoginPageProps, ILoginPageState> {
                           />
                           <LoginForm />
                       </div>
-                  </>
+                  </div>
                 )}
             </>
         );
