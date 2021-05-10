@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { INavbarProps, INavbarState } from '../../../interfaces/navbar.interface';
+import './navbar.scss';
 
 class Navbar extends Component<INavbarProps, INavbarState> {
     render = () => {
@@ -12,9 +13,8 @@ class Navbar extends Component<INavbarProps, INavbarState> {
                         <h1 className={"navbar-logo"}>
                             <img className={"navbar-image"} src={logoUrl} alt={alt} />
                         </h1>
+                        {children}
                     </div>
-
-                    {children}
                 </div>
             </header>
         );

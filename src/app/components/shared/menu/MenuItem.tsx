@@ -10,7 +10,7 @@ class MenuItem extends Component<IMenuItemProps, IMenuItemState> {
             <>
                 {isActive ? (
                     <li className={"menu-item"}>
-                        <Link className={isDisabled ? "disabled" : ""} to={href} title={title}>{name}</Link>
+                        <Link className={`menu-link ${isDisabled ? 'disabled' : ''}`} to={href} title={title}>{name}</Link>
                     </li>
                 ) : null}
             </>

@@ -5,12 +5,13 @@ import { AppContext } from '../../context/AppContext';
 import { getUserData } from '../../api/user';
 import { HTTP_CODE } from '../../constants/http';
 import AddUser from '../../components/users/shared/AddUser';
-import Navbar from '../../components/dashboard/shared/Navbar';
+import Navbar from '../../components/shared/navbar/Navbar';
 import logo from '../../../assets/images/logo-site.png';
 import Menu from '../../components/shared/menu/Menu';
 import { adminMenu } from '../../constants/menu';
 import MenuItem from '../../components/shared/menu/MenuItem';
 import { TMenuItem } from '../../types/menu.types';
+import './dashboard.scss';
 
 class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
     static contextType = AppContext;
@@ -81,10 +82,16 @@ class AdminPage extends Component<IAdminDashboardProps, IAdminDashboardState> {
                                         />
                                     )}
                                 </Menu>
-                                <button>{"Wyloguj się"}</button>
+                                <div className={"navbar-user"}>
+                                    <p className={"navbar-user-data"}>
+                                        {"Witaj, "}
+                                        <strong>{this.displayUserName()}</strong>
+                                    </p>
+                                    <button className={"button navbar-button-logout"}>{"Wyloguj się"}</button>
+                                </div>
                             </div>
                         </Navbar>
-                        <h2>Witaj, {this.displayUserName()} <br />Admin page</h2>
+                        <h2>Admin page</h2>
                         <AddUser isModal={false} />
                     </div>
                 )}
