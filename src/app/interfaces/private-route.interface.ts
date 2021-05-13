@@ -14,7 +14,7 @@ export interface IRouteNavigationState {
     isRedirect: boolean;
 }
 
-export interface IRouteNavigationProps {
+export interface IRouteNavigationProps extends RouteProps {
     userId: string;
     userRole: number;
     firstName: string;

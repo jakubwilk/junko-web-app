@@ -1,6 +1,5 @@
 import { Component, MouseEvent } from 'react';
 import { IRouteNavigationProps, IRouteNavigationState } from '../../interfaces/private-route.interface';
-import { getUserData } from '../../api/user';
 import { HTTP_CODE } from '../../constants/http';
 import logo from '../../../assets/images/logo-site.png';
 import Menu from '../shared/menu/Menu';
@@ -11,30 +10,32 @@ import Navbar from '../shared/navbar/Navbar';
 import { ROLES } from '../../constants/roles';
 import { deleteUserSession } from '../../api/auth';
 import { Redirect } from 'react-router-dom';
+import { MoonLoader } from 'react-spinners';
 
 class RouteNavigation extends Component<IRouteNavigationProps, IRouteNavigationState> {
     constructor(props: IRouteNavigationProps) {
         super(props);
 
         this.state = {
-            isLoading: true,
+            isLoading: false,
             isRedirect: false
         }
     }
 
-    handleLogout = (event: MouseEvent<HTMLButtonElement>) => {
-        const { userId } = this.props;
-        this.setState({ isLoading: true });
+    handleLogout = async (event: MouseEvent<HTMLButtonElement>) => {
+        try {
+            const { userId } = this.props;
+            this.setState({ isLoading: true });
 
-        deleteUserSession(userId)
-            .then(res => {
-                if (res.statusCode === HTTP_CODE.OK) {
-                    this.setState({ isRedirect: true })
-                }
-            })
-            .catch(err => console.log(err));
+            const response = await deleteUserSession(userId);
+            if (response.statusCode === HTTP_CODE.OK) {
+                await this.setState({ isRedirect: true });
+            }
 
-        this.setState({ isLoading: false });
+            this.setState({ isLoading: false });
+        } catch (err: unknown) {
+            this.setState({ isLoading: false });
+        }
     }
 
     displayUserName = (): string => {
@@ -48,48 +49,56 @@ class RouteNavigation extends Component<IRouteNavigationProps, IRouteNavigationS
     }
 
     render = () => {
-        const { isRedirect } = this.state;
+        const { isLoading, isRedirect } = this.state;
         const { userRole } = this.props;
 
         return (
             <>
                 {isRedirect ? (
-                    <Redirect to={'/'} />
+                    <Redirect push to={'/'} />
                 ) : (
-                    <Navbar logoUrl={logo}>
-                        <div className={"navbar-menu"}>
-                            <Menu>
-                                <>
-                                    {userRole === ROLES.OWNER || userRole === ROLES.EMPLOYEE ? (
-                                        <>
-                                            {adminMenu.links.map((item: TMenuItem) =>
-                                                <MenuItem
-                                                    key={item.key}
-                                                    href={item.href}
-                                                    title={item.title}
-                                                    name={item.name}
-                                                    isActive={item.isActive}
-                                                    isDisabled={item.isDisabled}
-                                                />
-                                            )}
-                                        </>
-                                    ) : null}
-                                </>
-                            </Menu>
-                            <div className={"navbar-user"}>
-                                <p className={"navbar-user-data"}>
-                                    {"Witaj, "}
-                                    <strong>{this.displayUserName()}</strong>
-                                </p>
-                                <button
-                                    className={"button navbar-button-logout"}
-                                    onClick={(e) => this.handleLogout(e)}
-                                >
-                                    {"Wyloguj się"}
-                                </button>
+                    <>
+                        {isLoading ? (
+                            <div className={"page-loader"}>
+                                <MoonLoader color={'#007bff'} loading={isLoading} size={150} />
                             </div>
-                        </div>
-                    </Navbar>
+                        ) : (
+                            <Navbar logoUrl={logo}>
+                                <div className={"navbar-menu"}>
+                                    <Menu>
+                                        <>
+                                            {userRole === ROLES.OWNER || userRole === ROLES.EMPLOYEE ? (
+                                                <>
+                                                    {adminMenu.links.map((item: TMenuItem) =>
+                                                        <MenuItem
+                                                            key={item.key}
+                                                            href={item.href}
+                                                            title={item.title}
+                                                            name={item.name}
+                                                            isActive={item.isActive}
+                                                            isDisabled={item.isDisabled}
+                                                        />
+                                                    )}
+                                                </>
+                                            ) : null}
+                                        </>
+                                    </Menu>
+                                    <div className={"navbar-user"}>
+                                        <p className={"navbar-user-data"}>
+                                            {"Witaj, "}
+                                            <strong>{this.displayUserName()}</strong>
+                                        </p>
+                                        <button
+                                            className={"button navbar-button-logout"}
+                                            onClick={(e) => this.handleLogout(e)}
+                                        >
+                                            {"Wyloguj się"}
+                                        </button>
+                                    </div>
+                                </div>
+                            </Navbar>
+                        )}
+                    </>
                 )}
             </>
         );

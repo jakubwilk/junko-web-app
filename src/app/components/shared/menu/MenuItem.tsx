@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { IMenuItemProps, IMenuItemState } from '../../../interfaces/navbar.interface';
 
 class MenuItem extends Component<IMenuItemProps, IMenuItemState> {
@@ -10,7 +10,7 @@ class MenuItem extends Component<IMenuItemProps, IMenuItemState> {
             <>
                 {isActive ? (
                     <li className={"menu-item"}>
-                        <Link className={`menu-link ${isDisabled ? 'disabled' : ''}`} to={href} title={title}>{name}</Link>
+                        <NavLink className={`menu-link ${isDisabled ? 'disabled' : ''}`} activeClassName={"menu-link-active"} to={href} title={title}>{name}</NavLink>
                     </li>
                 ) : null}
             </>

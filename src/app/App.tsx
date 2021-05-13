@@ -68,9 +68,11 @@ class App extends Component<IAppProps, IAppState> {
                                         lastName={value.lastName}
                                         email={value.email}
                                     />
-                                ) : null}
+                                ) : <></>}
                                 <Switch>
-                                    <Route exact path={'/'} render={() => <LoginPage />} />
+                                    <Route exact path={'/'}>
+                                        <LoginPage />
+                                    </Route>
                                     <PrivateRoute path={'/dashboard'}>
                                         <AdminPage />
                                     </PrivateRoute>
@@ -87,4 +89,4 @@ class App extends Component<IAppProps, IAppState> {
     }
 }
 
-export default App;
+export default App

@@ -54,7 +54,8 @@
             transition: color .1s ease-in-out;
             
             &:focus,
-            &:hover {
+            &:hover,
+            &-active {
                 color: $blue;
                 outline: none;
                 border: 0;

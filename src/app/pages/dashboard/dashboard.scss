@@ -2,5 +2,5 @@
 
 .admin {
     background-color: $snow;
-    @include height(100vh, 100%);
+    @include height(calc(100vh - 60px), 100%);
 }
