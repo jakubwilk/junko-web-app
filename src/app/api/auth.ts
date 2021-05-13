@@ -13,6 +13,18 @@ export const getUserSession = async () => {
     return response.json();
 }
 
+export const deleteUserSession = async (userId: string) => {
+    const response = await fetch(`${API_URL}/auth/user/${userId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.json();
+}
+
 export const createUserSession = async (data: TLoginUserData) => {
     const response = await fetch(`${API_URL}/auth`, {
         method: 'POST',

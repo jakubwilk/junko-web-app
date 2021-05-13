@@ -6,5 +6,18 @@ export interface IPrivateRouteState {
 }
 
 export interface IPrivateRouteProps extends RouteProps {
-    children: ReactElement
+    children: ReactElement;
+}
+
+export interface IRouteNavigationState {
+    isLoading: boolean;
+    isRedirect: boolean;
+}
+
+export interface IRouteNavigationProps {
+    userId: string;
+    userRole: number;
+    firstName: string;
+    lastName: string;
+    email: string;
 }

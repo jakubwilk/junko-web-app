@@ -12,6 +12,9 @@ import { HTTP_CODE } from './constants/http';
 import { history } from './history';
 import { ROLES } from './constants/roles';
 import { MoonLoader } from 'react-spinners';
+import RouteNavigation from './components/router/RouteNavigation';
+import { getUserData } from './api/user';
+import { TResponseUserData } from './types/user.types';
 
 class App extends Component<IAppProps, IAppState> {
     static contextType = AppContext;
@@ -24,22 +27,25 @@ class App extends Component<IAppProps, IAppState> {
         }
     }
 
-    componentDidMount = () => {
-        const { setBasicUserData } = this.context;
-        getUserSession()
-            .then((res: TResponseCheckUserRole) => {
-                if (res.statusCode === HTTP_CODE.OK) {
-                    setBasicUserData(res.userId, res.userRole);
-                } else {
-                    setBasicUserData('', ROLES.NONE);
-                }
+    componentDidMount = async () => {
+        try {
+            const { setBasicUserData, setPersonalUserData } = this.context;
+            const userSession: TResponseCheckUserRole = await getUserSession();
 
-                this.setState({ isLoading: false });
-            })
-            .catch(err => {
-                this.setState({ isLoading: false });
-            });
+            if (userSession.statusCode === HTTP_CODE.OK) {
+                const userData: TResponseUserData = await getUserData(userSession.userId);
+                setBasicUserData(userSession.userId, userSession.userRole);
+                setPersonalUserData(userData.data.firstName, userData.data.lastName, userData.data.email);
+            } else {
+                setBasicUserData('', ROLES.NONE);
+            }
+
+            this.setState({ isLoading: false });
+        } catch (error: unknown) {
+            this.setState({ isLoading: false });
+        }
     }
+
 
     render = () => {
         const { isLoading } = this.state;
@@ -54,16 +60,23 @@ class App extends Component<IAppProps, IAppState> {
                     <AppContext.Consumer>
                         {value => (
                             <Router history={history}>
+                                {value.userId ? (
+                                    <RouteNavigation
+                                        userId={value.userId}
+                                        userRole={value.userRole}
+                                        firstName={value.firstName}
+                                        lastName={value.lastName}
+                                        email={value.email}
+                                    />
+                                ) : null}
                                 <Switch>
                                     <Route exact path={'/'} render={() => <LoginPage />} />
-                                    <PrivateRoute
-                                        path={'/dashboard'}
-                                        children={<AdminPage />}
-                                    />
-                                    <PrivateRoute
-                                        path={'/panel'}
-                                        children={<UserPage />}
-                                    />
+                                    <PrivateRoute path={'/dashboard'}>
+                                        <AdminPage />
+                                    </PrivateRoute>
+                                    <PrivateRoute path={'/panel'}>
+                                        <UserPage />
+                                    </PrivateRoute>
                                 </Switch>
                             </Router>
                         )}
