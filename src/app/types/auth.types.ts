@@ -20,3 +20,8 @@ export type TLoginUserData = {
     password: string,
     isRemember: boolean
 }
+
+export type TRegisterUserData = {
+    email: string,
+    password: string
+}

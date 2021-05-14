@@ -1,6 +1,6 @@
 @import '../../../assets/styles/helpers';
 
-.login {
+.register {
     @include flex-center();
     @include width(100vw);
     @include height(100vh, 100%);
@@ -30,65 +30,54 @@
         @include padding(2rem, 2rem);
         @include my(3rem);
         z-index: 20;
-    
-        & .login-header {
+        
+        & .register-header {
             text-align: center;
         }
-    
+        
         &-logo {
             @include my(0, 1rem);
         }
-    
+        
         &-title {
             @include my(0, 1.5rem);
             @include font-size(18);
             color: $dark;
         }
-    
-        & .login-form {
-            text-align: center;
         
+        & .register-form {
+            text-align: center;
+            
             & .form-group {
                 @include flex-center();
                 flex-wrap: wrap;
                 @include my(0, 1rem);
             }
-        
+            
             &-input {
                 @include width(100%);
                 @include border-radius(4px);
                 border: 1px solid $silver;
                 @include padding(10px, 15px);
-            
+                
                 &:hover {
                     border-color: $blue;
                 }
-            
+                
                 &-label {
                     @include width(100%);
                     @include font-size(14);
                     color: $dark;
                 }
             }
-        
-            &-checkbox {
-                @include hw(18px);
-                cursor: pointer;
             
-                &-label {
-                    @include font-size(14);
-                    @include px(0, .5rem);
-                    @include my(0);
-                }
-            }
-        
             &-validation {
                 display: block;
                 @include font-size(14);
                 @include my(5px, 0);
                 color: $red;
             }
-        
+            
             &-button {
                 @include flex-center();
                 @include my(2rem, 0);
@@ -98,18 +87,18 @@
                 background-color: $blue;
                 @include width(175px);
                 @include padding(5px, 25px);
-            
+                
                 &:hover {
                     background-color: darken($blue, 10%);
                 }
             }
-            
+    
             &-link {
                 display: block;
                 @include font-size(14);
                 @include my(1rem, 0);
                 color: $dark;
-                
+        
                 &:hover,
                 &:focus {
                     color: $blue;
@@ -117,6 +106,5 @@
                 }
             }
         }
-    
     }
 }

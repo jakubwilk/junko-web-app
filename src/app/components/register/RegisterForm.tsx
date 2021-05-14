@@ -1,7 +1,7 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { ILoginFormProps, ILoginFormState } from '../../interfaces/login.interface';
-import { TLoginUserData, TResponseLoginUser } from '../../types/auth.types';
+import { IRegisterFormProps, IRegisterFormState } from '../../interfaces/register.interface';
+import { TRegisterUserData, TResponseLoginUser } from '../../types/auth.types';
 import { createUserSession } from '../../api/auth';
 import { AppContext } from '../../context/AppContext';
 import { HTTP_CODE } from '../../constants/http';
@@ -11,31 +11,33 @@ import Form from '../forms/Form';
 import SimpleReactValidator from 'simple-react-validator';
 import { ClipLoader } from 'react-spinners';
 
-class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
+class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
     static contextType = AppContext;
 
-    constructor(props: ILoginFormProps) {
+    constructor(props: IRegisterFormProps) {
         super(props);
 
         this.state = {
             email: '',
             password: '',
-            isRemember: true,
+            rePassword: '',
             isLoading: false,
             validator: new SimpleReactValidator({
-                element: (message: string) => <span className={"login-form-validation"}>{message}</span>,
+                element: (message: string) => <span className={"register-form-validation"}>{message}</span>,
                 messages: {
                     required: "Pole jest wymagane",
                     email: "Podano niepoprawny adres email"
+                },
+                validators: {
+                    same: {
+                        message: "Hasła nie są identyczne",
+                        rule: (val: string, params: unknown[], validator: SimpleReactValidator) => {
+                            return val !== this.state.rePassword
+                        }
+                    }
                 }
             })
         }
-    }
-
-    handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
-        const { isRemember } = this.state;
-
-        this.setState({ isRemember: !isRemember });
     }
 
     handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,46 +53,47 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const { setBasicUserData } = this.context;
-        const { email, password, isRemember, validator } = this.state;
-        const data: TLoginUserData = {
+        const { email, password, validator } = this.state;
+        const data: TRegisterUserData = {
             email: email,
-            password: password,
-            isRemember: isRemember
+            password: password
         };
 
         await this.setState({ isLoading: true });
 
-        if (validator.allValid()) {
-            createUserSession(data)
-                .then((res: TResponseLoginUser) => {
-                    if (res.statusCode === HTTP_CODE.OK) {
-                        setBasicUserData(res.userId, res.userRole);
-                    } else {
-                        setBasicUserData('', ROLES.NONE);
-                    }
-                })
-                .catch(err => console.log(err));
-        } else {
-            validator.showMessages();
-        }
+        // if (validator.allValid()) {
+        //     createUserSession(data)
+        //         .then((res: TResponseLoginUser) => {
+        //             if (res.statusCode === HTTP_CODE.OK) {
+        //                 setBasicUserData(res.userId, res.userRole);
+        //             } else {
+        //                 setBasicUserData('', ROLES.NONE);
+        //             }
+        //         })
+        //         .catch(err => console.log(err));
+        // } else {
+        //     validator.showMessages();
+        // }
+
+        validator.showMessages();
 
         await this.setState({ isLoading: false });
     }
 
     render = () => {
-        const { email, password, isRemember, isLoading, validator } = this.state;
+        const { email, password, rePassword, isLoading, validator } = this.state;
 
         return (
             <Form
-                className={"login-form"}
+                className={"register-form"}
                 onSubmit={(e) => this.handleSubmit(e)}
             >
                 <div className={"form-group"}>
                     <FormInput
                         type={"text"}
                         label={"Email"}
-                        labelClassName={"label login-form-input-label"}
-                        className={"input login-form-input"}
+                        labelClassName={"label register-form-input-label"}
+                        className={"input register-form-input"}
                         id={"email"}
                         name={"email"}
                         placeholder={"joe@localhost"}
@@ -104,39 +107,42 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
                     <FormInput
                         type={"password"}
                         label={"Hasło"}
-                        labelClassName={"label login-form-input-label"}
+                        labelClassName={"label register-form-input-label"}
                         id={"password"}
-                        className={`input login-form-input`}
+                        className={`input register-form-input`}
                         name={"password"}
                         value={password}
                         onChange={(e) => this.handleChange(e)}
+                        onBlur={() => validator.showMessageFor('email')}
                     />
                     {validator.message('password', password, 'required')}
                 </div>
                 <div className={"form-group"}>
                     <FormInput
-                        type={"checkbox"}
-                        label={"Zapamiętaj mnie"}
-                        labelClassName={"label login-form-checkbox-label"}
-                        id={"isRemember"}
-                        className={"login-form-checkbox"}
-                        name={"isRemember"}
-                        checked={isRemember}
-                        onChange={(e) => this.handleCheck(e)}
+                        type={"password"}
+                        label={"Potwierdź hasło"}
+                        labelClassName={"label register-form-input-label"}
+                        id={"repassword"}
+                        className={`input register-form-input`}
+                        name={"rePassword"}
+                        value={rePassword}
+                        onChange={(e) => this.handleChange(e)}
+                        onBlur={() => validator.showMessageFor('email')}
                     />
+                    {validator.message('repassword', rePassword, 'required|same')}
                 </div>
-                <button className={"button login-form-button"}>
+                <button className={"button register-form-button"}>
                     {isLoading ? (
                         <>
                             <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
-                            {"Logowanie"}
+                            {"Rejestracja"}
                         </>
-                    ) : "Zaloguj się"}
+                    ) : "Utwórz konto"}
                 </button>
-                <Link to={'/sign-up'} className={"login-form-link"}>{"Nie masz konta? Zarejestruj się!"}</Link>
+                <Link to={'/'} className={"register-form-link"}>{"Powrót do strony głównej"}</Link>
             </Form>
         );
     }
 }
 
-export default LoginForm;
+export default RegisterForm;

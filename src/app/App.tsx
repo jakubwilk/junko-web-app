@@ -15,6 +15,7 @@ import { MoonLoader } from 'react-spinners';
 import RouteNavigation from './components/router/RouteNavigation';
 import { getUserData } from './api/user';
 import { TResponseUserData } from './types/user.types';
+import RegisterPage from './pages/register/Register';
 
 class App extends Component<IAppProps, IAppState> {
     static contextType = AppContext;
@@ -72,6 +73,9 @@ class App extends Component<IAppProps, IAppState> {
                                 <Switch>
                                     <Route exact path={'/'}>
                                         <LoginPage />
+                                    </Route>
+                                    <Route path={'/sign-up'}>
+                                        <RegisterPage />
                                     </Route>
                                     <PrivateRoute path={'/dashboard'}>
                                         <AdminPage />
