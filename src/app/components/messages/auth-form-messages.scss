@@ -1,0 +1,31 @@
+@import './../../../assets/styles/helpers';
+
+.error {
+    border: 1px solid rgba($red, .2);
+    background-color: rgba($red, .1);
+    @include border-radius(4px);
+    @include my(0, 1.5rem);
+    @include padding(10px, 15px);
+    
+    &-message {
+        @include my(0);
+        @include font-size(14);
+        text-align: center;
+        color: $red;
+    }
+}
+
+.success {
+    border: 1px solid rgba($green, .2);
+    background-color: rgba($green, .1);
+    @include border-radius(4px);
+    @include my(0, 1.5rem);
+    @include padding(10px, 15px);
+    
+    &-message {
+        @include my(0);
+        @include font-size(14);
+        text-align: center;
+        color: $green;
+    }
+}

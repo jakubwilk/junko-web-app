@@ -2,7 +2,7 @@ import { ChangeEvent, Component, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { IRegisterFormProps, IRegisterFormState } from '../../interfaces/register.interface';
 import { TRegisterUserData, TResponseLoginUser } from '../../types/auth.types';
-import { createUserSession } from '../../api/auth';
+import { createUser } from '../../api/auth';
 import { AppContext } from '../../context/AppContext';
 import { HTTP_CODE } from '../../constants/http';
 import { ROLES } from '../../constants/roles';
@@ -10,6 +10,7 @@ import FormInput from '../forms/FormInput';
 import Form from '../forms/Form';
 import SimpleReactValidator from 'simple-react-validator';
 import { ClipLoader } from 'react-spinners';
+import AuthFormsMessages from '../messages/AuthFormsMessages';
 
 class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
     static contextType = AppContext;
@@ -22,6 +23,7 @@ class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
             password: '',
             rePassword: '',
             isLoading: false,
+            statusCode: 0,
             validator: new SimpleReactValidator({
                 element: (message: string) => <span className={"register-form-validation"}>{message}</span>,
                 messages: {
@@ -32,7 +34,7 @@ class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
                     same: {
                         message: "Hasła nie są identyczne",
                         rule: (val: string, params: unknown[], validator: SimpleReactValidator) => {
-                            return val !== this.state.rePassword
+                            return val === this.state.password;
                         }
                     }
                 }
@@ -61,86 +63,89 @@ class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
 
         await this.setState({ isLoading: true });
 
-        // if (validator.allValid()) {
-        //     createUserSession(data)
-        //         .then((res: TResponseLoginUser) => {
-        //             if (res.statusCode === HTTP_CODE.OK) {
-        //                 setBasicUserData(res.userId, res.userRole);
-        //             } else {
-        //                 setBasicUserData('', ROLES.NONE);
-        //             }
-        //         })
-        //         .catch(err => console.log(err));
-        // } else {
-        //     validator.showMessages();
-        // }
-
-        validator.showMessages();
+        if (validator.allValid()) {
+            createUser(data)
+                .then((res: TResponseLoginUser) => {
+                    if (res.statusCode === HTTP_CODE.OK) {
+                        this.setState({ statusCode: res.statusCode });
+                        setBasicUserData(res.userId, res.userRole);
+                    } else {
+                        this.setState({ statusCode: res.statusCode });
+                        setBasicUserData('', ROLES.NONE);
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            validator.showMessages();
+        }
 
         await this.setState({ isLoading: false });
     }
 
     render = () => {
-        const { email, password, rePassword, isLoading, validator } = this.state;
+        const { email, password, rePassword, isLoading, statusCode, validator } = this.state;
 
         return (
-            <Form
-                className={"register-form"}
-                onSubmit={(e) => this.handleSubmit(e)}
-            >
-                <div className={"form-group"}>
-                    <FormInput
-                        type={"text"}
-                        label={"Email"}
-                        labelClassName={"label register-form-input-label"}
-                        className={"input register-form-input"}
-                        id={"email"}
-                        name={"email"}
-                        placeholder={"joe@localhost"}
-                        value={email}
-                        onChange={(e) => this.handleChange(e)}
-                        onBlur={() => validator.showMessageFor('email')}
-                    />
-                    {validator.message('email', email, 'required|email')}
-                </div>
-                <div className={"form-group"}>
-                    <FormInput
-                        type={"password"}
-                        label={"Hasło"}
-                        labelClassName={"label register-form-input-label"}
-                        id={"password"}
-                        className={`input register-form-input`}
-                        name={"password"}
-                        value={password}
-                        onChange={(e) => this.handleChange(e)}
-                        onBlur={() => validator.showMessageFor('email')}
-                    />
-                    {validator.message('password', password, 'required')}
-                </div>
-                <div className={"form-group"}>
-                    <FormInput
-                        type={"password"}
-                        label={"Potwierdź hasło"}
-                        labelClassName={"label register-form-input-label"}
-                        id={"repassword"}
-                        className={`input register-form-input`}
-                        name={"rePassword"}
-                        value={rePassword}
-                        onChange={(e) => this.handleChange(e)}
-                        onBlur={() => validator.showMessageFor('email')}
-                    />
-                    {validator.message('repassword', rePassword, 'required|same')}
-                </div>
-                <button className={"button register-form-button"}>
-                    {isLoading ? (
-                        <>
-                            <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
-                            {"Rejestracja"}
-                        </>
-                    ) : "Utwórz konto"}
-                </button>
-                <Link to={'/'} className={"register-form-link"}>{"Powrót do strony głównej"}</Link>
-            </Form>
+            <>
+                <AuthFormsMessages statusCode={statusCode} />
+                <Form
+                    className={"register-form"}
+                    onSubmit={(e) => this.handleSubmit(e)}
+                >
+                    <div className={"form-group"}>
+                        <FormInput
+                            type={"text"}
+                            label={"Email"}
+                            labelClassName={"label register-form-input-label"}
+                            className={"input register-form-input"}
+                            id={"email"}
+                            name={"email"}
+                            placeholder={"joe@localhost"}
+                            value={email}
+                            onChange={(e) => this.handleChange(e)}
+                            onBlur={() => validator.showMessageFor('email')}
+                        />
+                        {validator.message('email', email, 'required|email')}
+                    </div>
+                    <div className={"form-group"}>
+                        <FormInput
+                            type={"password"}
+                            label={"Hasło"}
+                            labelClassName={"label register-form-input-label"}
+                            id={"password"}
+                            className={`input register-form-input`}
+                            name={"password"}
+                            value={password}
+                            onChange={(e) => this.handleChange(e)}
+                            onBlur={() => validator.showMessageFor('email')}
+                        />
+                        {validator.message('password', password, 'required')}
+                    </div>
+                    <div className={"form-group"}>
+                        <FormInput
+                            type={"password"}
+                            label={"Potwierdź hasło"}
+                            labelClassName={"label register-form-input-label"}
+                            id={"repassword"}
+                            className={`input register-form-input`}
+                            name={"rePassword"}
+                            value={rePassword}
+                            onChange={(e) => this.handleChange(e)}
+                            onBlur={() => validator.showMessageFor('email')}
+                        />
+                        {validator.message('repassword', rePassword, 'required|same')}
+                    </div>
+                    <button className={"button register-form-button"}>
+                        {isLoading ? (
+                            <>
+                                <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
+                                {"Rejestracja"}
+                            </>
+                        ) : "Utwórz konto"}
+                    </button>
+                    <Link to={'/'} className={"register-form-link"}>{"Powrót do strony głównej"}</Link>
+                </Form>
+            </>
         );
     }
 }

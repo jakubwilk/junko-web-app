@@ -20,6 +20,7 @@ export interface IRegisterFormState {
     password: string;
     rePassword: string;
     isLoading: boolean;
+    statusCode: number;
     validator: SimpleReactValidator;
 }
 

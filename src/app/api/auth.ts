@@ -1,5 +1,5 @@
 import { API_URL } from '../constants/api';
-import { TAddUserData, TLoginUserData } from '../types/auth.types';
+import { TAddUserData, TLoginUserData, TRegisterUserData } from '../types/auth.types';
 
 export const getUserSession = async () => {
     const response = await fetch(`${API_URL}/auth/role`, {
@@ -34,6 +34,19 @@ export const createUserSession = async (data: TLoginUserData) => {
         },
         body: JSON.stringify(data)
     });
+
+    return response.json();
+}
+
+export const createUser = async (data: TRegisterUserData) => {
+    const response = await fetch(`${API_URL}/auth`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
 
     return response.json();
 }
