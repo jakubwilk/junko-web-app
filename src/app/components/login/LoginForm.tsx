@@ -1,149 +1,56 @@
-import { ChangeEvent, Component, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { ILoginFormProps, ILoginFormState } from '../../interfaces/login.interface';
-import { TLoginUserData, TResponseLoginUser } from '../../types/auth.types';
-import { createUserSession } from '../../api/auth';
-import { AppContext } from '../../context/AppContext';
-import { HTTP_CODE } from '../../constants/http';
-import { ROLES } from '../../constants/roles';
-import FormInput from '../forms/FormInput';
-import Form from '../forms/Form';
-import SimpleReactValidator from 'simple-react-validator';
-import { ClipLoader } from 'react-spinners';
-import AuthFormsMessages from '../messages/AuthFormsMessages';
+import { Form, Formik, Field } from 'formik';
+import * as Yup from 'yup';
+import { ILoginInitialValues } from '../../interfaces/login.interface';
 
-class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
-    static contextType = AppContext;
+const loginSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Podano niepoprawny adres')
+        .required('Email jest wymagany'),
+    password: Yup.string()
+        .required('Hasło jest wymagane'),
+});
 
-    constructor(props: ILoginFormProps) {
-        super(props);
-
-        this.state = {
-            email: '',
-            password: '',
-            messageComponent: <></>,
-            isRemember: true,
-            isLoading: false,
-            validator: new SimpleReactValidator({
-                element: (message: string) => <span className={"login-form-validation"}>{message}</span>,
-                messages: {
-                    required: "Pole jest wymagane",
-                    email: "Podano niepoprawny adres email"
-                }
-            })
-        }
+const LoginForm = () => {
+    const initialValues: ILoginInitialValues = {
+        email: '',
+        password: '',
+        rememberMe: []
     }
 
-    handleCheck = (event: ChangeEvent<HTMLInputElement>) => {
-        const { isRemember } = this.state;
-
-        this.setState({ isRemember: !isRemember });
-    }
-
-    handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        const input = event.target as HTMLInputElement;
-
-        this.setState({
-            ...this.state,
-            [input.name]: input.value
-        });
-    }
-
-    handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const { setBasicUserData } = this.context;
-        const { email, password, isRemember, validator } = this.state;
-        const data: TLoginUserData = {
-            email: email,
-            password: password,
-            isRemember: isRemember
-        };
-
-        await this.setState({ isLoading: true });
-
-        if (validator.allValid()) {
-            createUserSession(data)
-                .then((res: TResponseLoginUser) => {
-                    if (res.statusCode === HTTP_CODE.OK) {
-                        this.setState({ messageComponent: <AuthFormsMessages statusCode={res.statusCode} />});
-                        setBasicUserData(res.userId, res.userRole);
-                    } else {
-                        this.setState({ messageComponent: <AuthFormsMessages statusCode={res.statusCode} />});
-                        setBasicUserData('', ROLES.NONE);
-                    }
-                })
-                .catch(err => console.log(err));
-        } else {
-            validator.showMessages();
-        }
-
-        await this.setState({ isLoading: false });
-    }
-
-    render = () => {
-        const { email, password, messageComponent, isRemember, isLoading, validator } = this.state;
-
-        return (
-            <>
-                {messageComponent}
-                <Form
-                    className={"login-form"}
-                    onSubmit={(e) => this.handleSubmit(e)}
-                >
+    return (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={loginSchema}
+            onSubmit={(values, actions) => {
+                console.log(values);
+                console.log(actions);
+            }}
+        >
+            {({ errors, touched }) => (
+                <Form className={"form"}>
                     <div className={"form-group"}>
-                        <FormInput
-                            type={"text"}
-                            label={"Email"}
-                            labelClassName={"label login-form-input-label"}
-                            className={"input login-form-input"}
-                            id={"email"}
-                            name={"email"}
-                            placeholder={"joe@localhost"}
-                            value={email}
-                            onChange={(e) => this.handleChange(e)}
-                            onBlur={() => validator.showMessageFor('email')}
-                        />
-                        {validator.message('email', email, 'required|email')}
+                        <label htmlFor={"email"}>{"Email użytkownika"}</label>
+                        <Field className={errors.email && touched.email ? "form-field-error" : ""} id={"email"} name={"email"} placeholder={"johndoe@localhost"} autoComplete={"off"} />
+                        {errors.email && touched.email ? (
+                            <span className={"form-error"}>{errors.email}</span>
+                        ) : null}
                     </div>
                     <div className={"form-group"}>
-                        <FormInput
-                            type={"password"}
-                            label={"Hasło"}
-                            labelClassName={"label login-form-input-label"}
-                            id={"password"}
-                            className={`input login-form-input`}
-                            name={"password"}
-                            value={password}
-                            onChange={(e) => this.handleChange(e)}
-                        />
-                        {validator.message('password', password, 'required')}
+                        <label htmlFor={"password"}>{"Hasło użytkownika"}</label>
+                        <Field className={errors.password && touched.password ? "form-field-error" : ""} type={"password"} id={"password"} name={"password"} autoComplete={"off"} />
+                        {errors.password && touched.password ? (
+                            <span className={"form-error"}>{errors.password}</span>
+                        ) : null}
                     </div>
-                    <div className={"form-group"}>
-                        <FormInput
-                            type={"checkbox"}
-                            label={"Zapamiętaj mnie"}
-                            labelClassName={"label login-form-checkbox-label"}
-                            id={"isRemember"}
-                            className={"login-form-checkbox"}
-                            name={"isRemember"}
-                            checked={isRemember}
-                            onChange={(e) => this.handleCheck(e)}
-                        />
+                    <div className={"form-group-checkbox"}>
+                        <label htmlFor={"rememberMe"}>{"Zapamiętaj mnie"}</label>
+                        <Field type={"checkbox"} name={"rememberMe"} id={"rememberMe"} value={"1"} />
                     </div>
-                    <button className={"button login-form-button"}>
-                        {isLoading ? (
-                            <>
-                                <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
-                                {"Logowanie"}
-                            </>
-                        ) : "Zaloguj się"}
-                    </button>
-                    <Link to={'/sign-up'} className={"login-form-link"}>{"Nie masz konta? Zarejestruj się!"}</Link>
+                    <button className={"button form-button"} type={"submit"}>{"Zaloguj się"}</button>
                 </Form>
-            </>
-        );
-    }
+            )}
+        </Formik>
+    );
 }
 
 export default LoginForm;

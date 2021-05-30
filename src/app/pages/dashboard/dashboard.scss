@@ -1,6 +1,0 @@
-@import '../../../assets/styles/helpers';
-
-.admin {
-    background-color: $snow;
-    @include height(calc(100vh - 60px), 100%);
-}
