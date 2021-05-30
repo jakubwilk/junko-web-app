@@ -23,7 +23,7 @@ class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
             password: '',
             rePassword: '',
             isLoading: false,
-            statusCode: 0,
+            messageComponent: <></>,
             validator: new SimpleReactValidator({
                 element: (message: string) => <span className={"register-form-validation"}>{message}</span>,
                 messages: {
@@ -67,10 +67,10 @@ class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
             createUser(data)
                 .then((res: TResponseLoginUser) => {
                     if (res.statusCode === HTTP_CODE.OK) {
-                        this.setState({ statusCode: res.statusCode });
+                        this.setState({ messageComponent: <AuthFormsMessages statusCode={res.statusCode} /> });
                         setBasicUserData(res.userId, res.userRole);
                     } else {
-                        this.setState({ statusCode: res.statusCode });
+                        this.setState({ messageComponent: <AuthFormsMessages statusCode={res.statusCode} /> });
                         setBasicUserData('', ROLES.NONE);
                     }
                 })
@@ -83,11 +83,11 @@ class RegisterForm extends Component<IRegisterFormProps, IRegisterFormState> {
     }
 
     render = () => {
-        const { email, password, rePassword, isLoading, statusCode, validator } = this.state;
+        const { email, password, rePassword, isLoading, messageComponent, validator } = this.state;
 
         return (
             <>
-                <AuthFormsMessages statusCode={statusCode} />
+                {messageComponent}
                 <Form
                     className={"register-form"}
                     onSubmit={(e) => this.handleSubmit(e)}

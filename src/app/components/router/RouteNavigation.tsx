@@ -41,7 +41,7 @@ class RouteNavigation extends Component<IRouteNavigationProps, IRouteNavigationS
     displayUserName = (): string => {
         const { firstName, lastName, email } = this.props;
 
-        if (firstName === null && lastName === null) {
+        if (firstName === '' && lastName === '') {
             return `${email}`;
         } else {
             return `${firstName} ${lastName}`;

@@ -10,6 +10,7 @@ import FormInput from '../forms/FormInput';
 import Form from '../forms/Form';
 import SimpleReactValidator from 'simple-react-validator';
 import { ClipLoader } from 'react-spinners';
+import AuthFormsMessages from '../messages/AuthFormsMessages';
 
 class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     static contextType = AppContext;
@@ -20,6 +21,7 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
         this.state = {
             email: '',
             password: '',
+            messageComponent: <></>,
             isRemember: true,
             isLoading: false,
             validator: new SimpleReactValidator({
@@ -64,8 +66,10 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
             createUserSession(data)
                 .then((res: TResponseLoginUser) => {
                     if (res.statusCode === HTTP_CODE.OK) {
+                        this.setState({ messageComponent: <AuthFormsMessages statusCode={res.statusCode} />});
                         setBasicUserData(res.userId, res.userRole);
                     } else {
+                        this.setState({ messageComponent: <AuthFormsMessages statusCode={res.statusCode} />});
                         setBasicUserData('', ROLES.NONE);
                     }
                 })
@@ -78,63 +82,66 @@ class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     }
 
     render = () => {
-        const { email, password, isRemember, isLoading, validator } = this.state;
+        const { email, password, messageComponent, isRemember, isLoading, validator } = this.state;
 
         return (
-            <Form
-                className={"login-form"}
-                onSubmit={(e) => this.handleSubmit(e)}
-            >
-                <div className={"form-group"}>
-                    <FormInput
-                        type={"text"}
-                        label={"Email"}
-                        labelClassName={"label login-form-input-label"}
-                        className={"input login-form-input"}
-                        id={"email"}
-                        name={"email"}
-                        placeholder={"joe@localhost"}
-                        value={email}
-                        onChange={(e) => this.handleChange(e)}
-                        onBlur={() => validator.showMessageFor('email')}
-                    />
-                    {validator.message('email', email, 'required|email')}
-                </div>
-                <div className={"form-group"}>
-                    <FormInput
-                        type={"password"}
-                        label={"Hasło"}
-                        labelClassName={"label login-form-input-label"}
-                        id={"password"}
-                        className={`input login-form-input`}
-                        name={"password"}
-                        value={password}
-                        onChange={(e) => this.handleChange(e)}
-                    />
-                    {validator.message('password', password, 'required')}
-                </div>
-                <div className={"form-group"}>
-                    <FormInput
-                        type={"checkbox"}
-                        label={"Zapamiętaj mnie"}
-                        labelClassName={"label login-form-checkbox-label"}
-                        id={"isRemember"}
-                        className={"login-form-checkbox"}
-                        name={"isRemember"}
-                        checked={isRemember}
-                        onChange={(e) => this.handleCheck(e)}
-                    />
-                </div>
-                <button className={"button login-form-button"}>
-                    {isLoading ? (
-                        <>
-                            <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
-                            {"Logowanie"}
-                        </>
-                    ) : "Zaloguj się"}
-                </button>
-                <Link to={'/sign-up'} className={"login-form-link"}>{"Nie masz konta? Zarejestruj się!"}</Link>
-            </Form>
+            <>
+                {messageComponent}
+                <Form
+                    className={"login-form"}
+                    onSubmit={(e) => this.handleSubmit(e)}
+                >
+                    <div className={"form-group"}>
+                        <FormInput
+                            type={"text"}
+                            label={"Email"}
+                            labelClassName={"label login-form-input-label"}
+                            className={"input login-form-input"}
+                            id={"email"}
+                            name={"email"}
+                            placeholder={"joe@localhost"}
+                            value={email}
+                            onChange={(e) => this.handleChange(e)}
+                            onBlur={() => validator.showMessageFor('email')}
+                        />
+                        {validator.message('email', email, 'required|email')}
+                    </div>
+                    <div className={"form-group"}>
+                        <FormInput
+                            type={"password"}
+                            label={"Hasło"}
+                            labelClassName={"label login-form-input-label"}
+                            id={"password"}
+                            className={`input login-form-input`}
+                            name={"password"}
+                            value={password}
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                        {validator.message('password', password, 'required')}
+                    </div>
+                    <div className={"form-group"}>
+                        <FormInput
+                            type={"checkbox"}
+                            label={"Zapamiętaj mnie"}
+                            labelClassName={"label login-form-checkbox-label"}
+                            id={"isRemember"}
+                            className={"login-form-checkbox"}
+                            name={"isRemember"}
+                            checked={isRemember}
+                            onChange={(e) => this.handleCheck(e)}
+                        />
+                    </div>
+                    <button className={"button login-form-button"}>
+                        {isLoading ? (
+                            <>
+                                <ClipLoader css={"margin-right: 10px"} color={"#ffffff"} size={20} />
+                                {"Logowanie"}
+                            </>
+                        ) : "Zaloguj się"}
+                    </button>
+                    <Link to={'/sign-up'} className={"login-form-link"}>{"Nie masz konta? Zarejestruj się!"}</Link>
+                </Form>
+            </>
         );
     }
 }

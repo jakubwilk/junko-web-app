@@ -1,5 +1,6 @@
 import { RouteProps } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
+import { ReactElement } from 'react';
 
 export interface ILoginPageState {}
 
@@ -18,6 +19,7 @@ export interface ILoginHeadingProps {
 export interface ILoginFormState {
     email: string;
     password: string;
+    messageComponent: ReactElement;
     isRemember: boolean;
     isLoading: boolean;
     validator: SimpleReactValidator;

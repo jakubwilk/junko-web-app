@@ -22,6 +22,9 @@ class AuthFormsMessages extends Component<IAuthFormsMessagesProps, IAuthFormsMes
             case 400:
                 await this.setState({ message: AUTH_LOCALE.USER_EXISTS, isReady: true });
                 break;
+            case 403:
+                await this.setState({ message: AUTH_LOCALE.USER_NOT_EXIST, isReady: true });
+                break;
             case 500:
                 await this.setState({ message: AUTH_LOCALE.SERVER_ERROR, isReady: true });
                 break;

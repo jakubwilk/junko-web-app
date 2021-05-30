@@ -1,5 +1,6 @@
 import { RouteProps } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
+import { ReactElement } from 'react';
 
 export interface IRegisterPageState {}
 
@@ -20,7 +21,7 @@ export interface IRegisterFormState {
     password: string;
     rePassword: string;
     isLoading: boolean;
-    statusCode: number;
+    messageComponent: ReactElement;
     validator: SimpleReactValidator;
 }
 
