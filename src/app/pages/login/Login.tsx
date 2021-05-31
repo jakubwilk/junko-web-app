@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import logo from '../../../assets/images/logo-site.png';
 import LoginForm from '../../components/login/LoginForm';
 import './login.scss';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/auth-context';
+import { ROLES } from '../../constants/roles';
+import { Redirect } from 'react-router';
 
 const Login = () => {
-    return (
+    const { id, role } = useContext(AuthContext);
+
+    return id === undefined ? (
         <>
             <Helmet>
                 <title>{"Junko | Zaloguj się"}</title>
@@ -21,6 +27,12 @@ const Login = () => {
                     <Link to={"/sign-up"} className={"login-link"}>{"Nie masz konta? Załóż je"}</Link>
                 </div>
             </div>
+        </>
+    ) : (
+        <>
+            {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <Redirect to={"/dashboard"} /> : null}
+            {role === ROLES.USER ? <Redirect to={"/panel"} /> : null}
+            {role === undefined ? <Redirect to={"/"} /> : null}
         </>
     );
 }

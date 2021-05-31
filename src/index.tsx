@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { AuthContextProvider } from './app/context/auth-context';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import './assets/styles/main.scss';
 
 ReactDOM.render(
-    <App/>,
+    <AuthContextProvider>
+        <App/>
+    </AuthContextProvider>,
     document.getElementById('root')
 );
 

@@ -1,15 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { AuthContextProvider } from './context/auth-context';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
-import DashboardWrapper from './pages/dashboard/DashboardWrapper';
+import PrivateRoute from './components/router/PrivateRoute';
+import { getUserSession } from './api/auth';
+import { TResponseCheckUserRole } from './types/auth.types';
+import { AuthContext } from './context/auth-context';
+import AdminDashboard from './pages/dashboard/Admin';
 
 const App = () => {
     const [isReady, setReady] = useState<boolean>(false);
+    const { setId, setRole } = useContext(AuthContext);
 
     useEffect(() => {
-        setReady(true);
+        getUserSession()
+            .then((res: TResponseCheckUserRole) => {
+                setId(res.userId);
+                setRole(res.userRole);
+                setReady(true);
+            })
+            .catch(err => {
+                console.log(err);
+                setReady(true);
+            });
 
         return () => {
             setReady(false);
@@ -17,21 +30,17 @@ const App = () => {
     }, [])
 
     return isReady ? (
-        <AuthContextProvider>
-            <Router>
-                <Switch>
-                    <Route exact path={"/"}>
-                        <Login />
-                    </Route>
-                    <Route path={"/sign-up"}>
-                        <Register />
-                    </Route>
-                    <Route path={"/dashboard"}>
-                        <DashboardWrapper />
-                    </Route>
-                </Switch>
-            </Router>
-        </AuthContextProvider>
+        <Router>
+            <Switch>
+                <Route exact path={"/"}>
+                    <Login />
+                </Route>
+                <Route path={"/sign-up"}>
+                    <Register />
+                </Route>
+                <PrivateRoute component={AdminDashboard} path={"/dashboard"} exact={false} />
+            </Switch>
+        </Router>
     ) : null;
 }
 
