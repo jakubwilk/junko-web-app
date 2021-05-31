@@ -1,6 +1,6 @@
 @import "./../../../assets/styles/helpers";
 
-.login {
+.register {
     @include flex-center();
     position: relative;
     background: url("./../../../assets/images/login-background.jpg") center no-repeat;
@@ -8,7 +8,7 @@
     text-align: center;
     @include height(100vh, auto);
     @include width(100vw, auto);
-
+    
     &::after {
         content: '';
         position: absolute;
@@ -60,7 +60,7 @@
         
         &-group {
             @include my(0, 1rem);
-    
+            
             & label {
                 display: block;
                 @include font-size(14);
@@ -88,7 +88,7 @@
             @include flex-center-horizontal();
             align-items: center;
             @include my(0, 1rem);
-    
+            
             & label {
                 display: inline-block;
                 @include font-size(16);
@@ -115,23 +115,10 @@
         }
         
         &-button {
-            @include flex-center-horizontal();
-            align-items: center;
             background-color: $blue;
             color: $white;
             @include font-size(16);
             @include padding(8px, 25px);
-            @include mx(auto);
-            
-            &.disabled {
-                user-select: none;
-                pointer-events: none;
-                @include opacity(.5);
-            }
-            
-            & span {
-                @include mx(0, .5rem);
-            }
         }
     }
 }

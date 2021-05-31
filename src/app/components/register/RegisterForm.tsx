@@ -1,40 +1,41 @@
 import { useState } from 'react';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import ClipLoader from "react-spinners/ClipLoader";
-import { ILoginInitialValues } from '../../interfaces/login.interface';
-import { TLoginUserData } from '../../types/auth.types';
+import ClipLoader from 'react-spinners/ClipLoader';
+import { IRegisterInitialValues } from '../../interfaces/register.interface';
 
-const loginSchema = Yup.object().shape({
+const registerSchema = Yup.object().shape({
     email: Yup.string()
         .email('Podano niepoprawny adres')
         .required('Email jest wymagany'),
     password: Yup.string()
+        .min(16, 'Podane hasło jest za krótkie, powinno mieć minimum 16 znaków')
+        .trim('Hasło nie może zawierać spacji')
+        .oneOf([Yup.ref('repeatPassword'), null], 'Hasła muszą być takie same')
         .required('Hasło jest wymagane'),
+    repeatPassword: Yup.string()
+        .trim('Hasło nie może zawierać spacji')
+        .oneOf([Yup.ref('password'), null], 'Hasła muszą być takie same')
+        .required('Pole wymagane')
 });
 
-const LoginForm = () => {
+const RegisterForm = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
 
-    const initialValues: ILoginInitialValues = {
+    const initialValues: IRegisterInitialValues = {
         email: '',
         password: '',
-        rememberMe: []
+        repeatPassword: ''
     }
 
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={loginSchema}
+            validationSchema={registerSchema}
             onSubmit={(values, actions) => {
                 setLoading(true);
 
-                const userData: TLoginUserData = {
-                    email: values.email,
-                    password: values.password,
-                    isRemember: values.rememberMe.length > 0
-                }
-                console.log(userData);
+                console.log(values);
 
                 setLoading(false);
             }}
@@ -55,20 +56,23 @@ const LoginForm = () => {
                             <span className={"form-error"}>{errors.password}</span>
                         ) : null}
                     </div>
-                    <div className={"form-group-checkbox"}>
-                        <label htmlFor={"rememberMe"}>{"Zapamiętaj mnie"}</label>
-                        <Field type={"checkbox"} name={"rememberMe"} id={"rememberMe"} value={"1"} />
+                    <div className={"form-group"}>
+                        <label htmlFor={"repeatPassword"}>{"Powtórz hasło"}</label>
+                        <Field className={errors.repeatPassword && touched.repeatPassword ? "form-field-error" : ""} type={"password"} id={"repeatPassword"} name={"repeatPassword"} autoComplete={"off"} />
+                        {errors.repeatPassword && touched.repeatPassword ? (
+                            <span className={"form-error"}>{errors.repeatPassword}</span>
+                        ) : null}
                     </div>
                     <button className={`button form-button ${isLoading ? "disabled" : ""}`} type={"submit"}>{isLoading ? (
                         <>
                             <ClipLoader color={"#ffffff"} loading={isLoading} size={15} />
-                            {"Logowanie"}
+                            {"Tworzenie konta"}
                         </>
-                    ) : "Zaloguj się"}</button>
+                    ) : "Utwórz konto"}</button>
                 </Form>
             )}
         </Formik>
     );
 }
 
-export default LoginForm;
+export default RegisterForm;
