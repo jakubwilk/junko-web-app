@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import ClipLoader from "react-spinners/ClipLoader";
 import { ILoginInitialValues } from '../../interfaces/login.interface';
-import { TLoginUserData } from '../../types/auth.types';
+import { TLoginUserData, TResponseLoginUser } from '../../types/auth.types';
+import { createUserSession } from '../../api/auth';
+import { HTTP_CODE } from '../../constants/http';
+import { useHistory } from 'react-router';
+import { AuthContext } from '../../context/auth-context';
 
 const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -15,6 +19,8 @@ const loginSchema = Yup.object().shape({
 
 const LoginForm = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
+    const { setId, setRole } = useContext(AuthContext);
+    const history = useHistory();
 
     const initialValues: ILoginInitialValues = {
         email: '',
@@ -26,17 +32,24 @@ const LoginForm = () => {
         <Formik
             initialValues={initialValues}
             validationSchema={loginSchema}
-            onSubmit={(values, actions) => {
-                setLoading(true);
-
+            onSubmit={async (values, actions) => {
                 const userData: TLoginUserData = {
                     email: values.email,
                     password: values.password,
                     isRemember: values.rememberMe.length > 0
                 }
-                console.log(userData);
 
-                setLoading(false);
+                setLoading(true);
+                const response: TResponseLoginUser = await createUserSession(userData);
+
+                if (response.statusCode === HTTP_CODE.OK) {
+                    setLoading(false);
+                    setId(response.userId);
+                    setRole(response.userRole);
+                    history.push('/dashboard');
+                } else {
+                    setLoading(false);
+                }
             }}
         >
             {({ errors, touched }) => (

@@ -52,7 +52,7 @@ const RegisterForm = () => {
                     <div className={"form-group"}>
                         <label htmlFor={"password"}>{"Hasło użytkownika"}</label>
                         <Field className={errors.password && touched.password ? "form-field-error" : ""} type={"password"} id={"password"} name={"password"} autoComplete={"off"} />
-                        {errors.password && touched.password ? (
+                        {errors.password && touched. password ? (
                             <span className={"form-error"}>{errors.password}</span>
                         ) : null}
                     </div>
