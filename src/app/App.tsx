@@ -8,22 +8,31 @@ import { TResponseCheckUserRole } from './types/auth.types';
 import { AuthContext } from './context/auth-context';
 import AdminDashboard from './pages/dashboard/Admin';
 import NoMatch from './pages/no-match/NoMatch';
+import { HTTP_CODE } from './constants/http';
+import { TUserBasicResponseData } from './types/user.types';
+import { getUserData } from './api/user';
 
 const App = () => {
     const [isReady, setReady] = useState<boolean>(false);
-    const { setId, setRole } = useContext(AuthContext);
+    const { setId, setRole, setEmail, setFirstName, setLastName } = useContext(AuthContext);
 
     useEffect(() => {
-        getUserSession()
-            .then((res: TResponseCheckUserRole) => {
-                setId(res.userId);
-                setRole(res.userRole);
-                setReady(true);
-            })
-            .catch(err => {
-                console.log(err);
-                setReady(true);
-            });
+        (async () => {
+            const userSession: TResponseCheckUserRole = await getUserSession();
+            if (userSession.statusCode === HTTP_CODE.OK) {
+                setId(userSession.userId);
+                setRole(userSession.userRole);
+            }
+
+            const userBasicData: TUserBasicResponseData = await getUserData(userSession.userId);
+            if (userBasicData.statusCode === HTTP_CODE.OK) {
+                setEmail(userBasicData.data.email);
+                setFirstName(userBasicData.data.firstName);
+                setLastName(userBasicData.data.lastName);
+            }
+
+            setReady(true);
+        })();
 
         return () => {
             setReady(false);
