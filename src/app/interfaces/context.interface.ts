@@ -10,3 +10,8 @@ export interface IUserAuthContext {
     setFirstName: (firstName: string) => void;
     setLastName: (lastName: string) => void;
 }
+
+export interface INavigationContext {
+    currentUrl: string;
+    setCurrentUrl: (url: string) => void;
+}

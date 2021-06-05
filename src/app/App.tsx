@@ -7,6 +7,7 @@ import { getUserSession } from './api/auth';
 import { TResponseCheckUserRole } from './types/auth.types';
 import { AuthContext } from './context/auth-context';
 import AdminDashboard from './pages/dashboard/Admin';
+import NoMatch from './pages/no-match/NoMatch';
 
 const App = () => {
     const [isReady, setReady] = useState<boolean>(false);
@@ -39,6 +40,9 @@ const App = () => {
                     <Register />
                 </Route>
                 <PrivateRoute component={AdminDashboard} path={"/dashboard"} exact={false} />
+                <Route path={"*"}>
+                    <NoMatch />
+                </Route>
             </Switch>
         </Router>
     ) : null;

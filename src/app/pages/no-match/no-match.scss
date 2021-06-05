@@ -1,0 +1,34 @@
+@import "./../../../assets/styles/helpers";
+
+.no-match {
+    @include flex-column();
+    align-items: center;
+    justify-content: center;
+    @include height(100vh, 100%);
+    @include py(10vh);
+    
+    &-title {
+        @include font-size(120, $font-bold);
+        @include my(0);
+        line-height: 120px;
+        color: $night;
+    }
+    
+    &-description {
+        color: $dark;
+        @include font-size(24);
+        @include opacity(.7);
+        @include my(2rem, 5rem);
+    }
+    
+    &-link {
+        color: $blue;
+        transition: color .2s ease-in-out;
+        
+        &:hover,
+        &:focus {
+            outline: none;
+            color: $dark;
+        }
+    }
+}

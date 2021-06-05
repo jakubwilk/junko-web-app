@@ -4,10 +4,13 @@ import { AuthContextProvider } from './app/context/auth-context';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import './assets/styles/main.scss';
+import { NavigationContextProvider } from './app/context/navigation-context';
 
 ReactDOM.render(
     <AuthContextProvider>
-        <App/>
+        <NavigationContextProvider>
+            <App/>
+        </NavigationContextProvider>
     </AuthContextProvider>,
     document.getElementById('root')
 );
