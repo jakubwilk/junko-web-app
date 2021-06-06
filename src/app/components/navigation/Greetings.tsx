@@ -1,6 +1,6 @@
 import { IUserGreetings } from '../../interfaces/user.interface';
 
-const Greetings = ({ email, firstName, lastName }: IUserGreetings) => {
+const Greetings = ({ email, firstName, lastName, handleLogout }: IUserGreetings) => {
     const displayUserName = (): string => {
         return firstName === '' && lastName === '' ? email : `${firstName} ${lastName}`;
     }
@@ -11,6 +11,9 @@ const Greetings = ({ email, firstName, lastName }: IUserGreetings) => {
                 {"Witaj, "}
                 <strong>{displayUserName()}</strong>
             </p>
+            <button className={"button greetings-logout"} onClick={(e) => handleLogout(e)}>
+                {"Wyloguj się"}
+            </button>
         </div>
     );
 }

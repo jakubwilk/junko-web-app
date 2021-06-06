@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, MouseEvent } from 'react';
 import { Helmet } from 'react-helmet';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import DashboardNavigation from '../../components/navigation/DashboardNavigation';
@@ -15,8 +15,12 @@ const AdminMainPage = () => {
 }
 
 const AdminDashboard = () => {
-    const { email, firstName, lastName } = useContext(AuthContext);
+    const { id, email, firstName, lastName } = useContext(AuthContext);
     const [isReady, setReady] = useState<boolean>(false);
+
+    const handleLogout = (e: MouseEvent<HTMLButtonElement>) => {
+        console.log(id);
+    }
 
     useEffect(() => {
         setReady(true);
@@ -27,7 +31,7 @@ const AdminDashboard = () => {
     }, []);
 
     return isReady ? (
-        <>
+        <div className={"admin-page"}>
             <Helmet>
                 <title>{"Junko | Panel pracownika"}</title>
             </Helmet>
@@ -47,18 +51,18 @@ const AdminDashboard = () => {
                         </li>
                     ))}
                 </ul>
-                <Greetings email={email} firstName={firstName} lastName={lastName} />
+                <Greetings email={email} firstName={firstName} lastName={lastName} handleLogout={handleLogout} />
             </DashboardNavigation>
 
             <Switch>
                 <Route exact={true} path={"/dashboard"}>
                     <AdminMainPage />
                 </Route>
-                <Route path={"/dashboard/users"}>
+                <Route exact={true} path={"/dashboard/users"}>
                     <UsersPage />
                 </Route>
             </Switch>
-        </>
+        </div>
     ) : null
 }
 

@@ -11,7 +11,7 @@ import { Redirect } from 'react-router';
 const Login = () => {
     const { id, role } = useContext(AuthContext);
 
-    return id === undefined ? (
+    return id === "" ? (
         <>
             <Helmet>
                 <title>{"Junko | Zaloguj się"}</title>

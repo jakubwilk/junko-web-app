@@ -1,0 +1,56 @@
+@import "./../../../assets/styles/helpers";
+
+.navigation {
+    background-color: $white;
+    
+    &-content {
+        @include flex-center-between();
+        @include height(100px);
+    }
+    
+    &-menu {
+        @include flex-center-horizontal();
+        @include my(0);
+        @include mx(0, 2rem);
+        @include px(0);
+        list-style: none;
+    }
+    
+    &-item {
+        @include mx(1rem, 0);
+    }
+    
+    &-link {
+        color: $dark;
+        transition: color .2s ease-in-out;
+        
+        &:hover,
+        &:active {
+            color: $blue;
+        }
+    }
+    
+    &-user {
+        @include flex-center-between();
+    }
+    
+    & .greetings {
+        @include flex-center-between();
+        
+        &-text {
+            @include mx(0, 2rem);
+        }
+        
+        &-logout {
+            background-color: $red;
+            color: $white;
+            @include padding(.5rem, 1rem);
+            transition: all .2s ease-in-out;
+            
+            &:hover,
+            &:focus {
+                background-color: rgba($red, .8);
+            }
+        }
+    }
+}

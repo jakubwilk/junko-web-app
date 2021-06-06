@@ -8,6 +8,8 @@ import { createUserSession } from '../../api/auth';
 import { HTTP_CODE } from '../../constants/http';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../../context/auth-context';
+import { TUserBasicResponseData } from '../../types/user.types';
+import { getUserData } from '../../api/user';
 
 const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -19,7 +21,7 @@ const loginSchema = Yup.object().shape({
 
 const LoginForm = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
-    const { setId, setRole } = useContext(AuthContext);
+    const { setId, setRole, setEmail, setFirstName, setLastName } = useContext(AuthContext);
     const history = useHistory();
 
     const initialValues: ILoginInitialValues = {
@@ -43,9 +45,14 @@ const LoginForm = () => {
                 const response: TResponseLoginUser = await createUserSession(userData);
 
                 if (response.statusCode === HTTP_CODE.OK) {
-                    setLoading(false);
                     setId(response.userId);
                     setRole(response.userRole);
+
+                    const userBasicData: TUserBasicResponseData = await getUserData(response.userId);
+                    setEmail(userBasicData.data.email);
+                    setFirstName(userBasicData.data.firstName);
+                    setLastName(userBasicData.data.lastName);
+                    setLoading(false);
                     history.push('/dashboard');
                 } else {
                     setLoading(false);

@@ -22,10 +22,8 @@ const App = () => {
             if (userSession.statusCode === HTTP_CODE.OK) {
                 setId(userSession.userId);
                 setRole(userSession.userRole);
-            }
 
-            const userBasicData: TUserBasicResponseData = await getUserData(userSession.userId);
-            if (userBasicData.statusCode === HTTP_CODE.OK) {
+                const userBasicData: TUserBasicResponseData = await getUserData(userSession.userId);
                 setEmail(userBasicData.data.email);
                 setFirstName(userBasicData.data.firstName);
                 setLastName(userBasicData.data.lastName);

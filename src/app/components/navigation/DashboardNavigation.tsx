@@ -1,5 +1,6 @@
 import { FC, ReactElement } from 'react';
 import logo from './../../../assets/images/logo-site.png';
+import './dashboard-navigation.scss';
 
 const DashboardNavigation: FC<{
     children: ReactElement | ReactElement[]
@@ -11,7 +12,9 @@ const DashboardNavigation: FC<{
                 <div className={"navigation-content"}>
                     <img className={"site-logo"} src={logo} alt={""} />
 
-                    {props.children}
+                    <div className={"navigation-user"}>
+                        {props.children}
+                    </div>
                 </div>
 
             </div>
