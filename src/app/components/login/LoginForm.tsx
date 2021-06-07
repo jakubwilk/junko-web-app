@@ -64,7 +64,7 @@ const LoginForm = () => {
         >
             {({ errors, touched }) => (
                 <>
-                    {validationMessage === '' && (!errors.email || !errors.password) ? null : (
+                    {validationMessage === '' ? null : (
                         <span className={"validation-error"}>{validationMessage}</span>
                     )}
                     <Form className={"form"}>
