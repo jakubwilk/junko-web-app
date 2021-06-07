@@ -25,3 +25,7 @@ export type TRegisterUserData = {
     email: string,
     password: string
 }
+
+export type TResponseLogoutUser = {
+    statusCode: number
+}

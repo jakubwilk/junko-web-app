@@ -7,6 +7,11 @@ import { TDashboardNavigation } from '../../types/navigation';
 import UsersPage from '../users/Users';
 import Greetings from '../../components/navigation/Greetings';
 import { AuthContext } from '../../context/auth-context';
+import './dashboard.scss';
+import { deleteUserSession } from '../../api/auth';
+import { TResponseLogoutUser } from '../../types/auth.types';
+import { HTTP_CODE } from '../../constants/http';
+import { useHistory } from 'react-router';
 
 const AdminMainPage = () => {
     return (
@@ -15,11 +20,17 @@ const AdminMainPage = () => {
 }
 
 const AdminDashboard = () => {
-    const { id, email, firstName, lastName } = useContext(AuthContext);
+    const { id, email, firstName, lastName, clearAuthContext } = useContext(AuthContext);
     const [isReady, setReady] = useState<boolean>(false);
+    const history = useHistory();
 
-    const handleLogout = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log(id);
+    const handleLogout = async (e: MouseEvent<HTMLButtonElement>) => {
+        const response: TResponseLogoutUser = await deleteUserSession(id);
+
+        if (response.statusCode === HTTP_CODE.OK) {
+            clearAuthContext();
+            history.push('/sign-in');
+        }
     }
 
     useEffect(() => {
@@ -55,15 +66,15 @@ const AdminDashboard = () => {
             </DashboardNavigation>
 
             <Switch>
-                <Route exact={true} path={"/dashboard"}>
+                <Route exact path={"/dashboard"}>
                     <AdminMainPage />
                 </Route>
-                <Route exact={true} path={"/dashboard/users"}>
+                <Route path={"/dashboard/users"}>
                     <UsersPage />
                 </Route>
             </Switch>
         </div>
-    ) : null
+    ) : null;
 }
 
 export default AdminDashboard;

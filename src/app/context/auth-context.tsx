@@ -12,7 +12,8 @@ const initialValues: IUserAuthContext = {
     setEmail: (email) => {},
     setRole: (role) => {},
     setFirstName: (firstName) => {},
-    setLastName: (lastName) => {}
+    setLastName: (lastName) => {},
+    clearAuthContext: () => {}
 }
 
 export const AuthContext = createContext<IUserAuthContext>(initialValues);
@@ -23,6 +24,14 @@ export const AuthContextProvider = (props: TContextBody) => {
     const [role, setRole] = useState<number>(0);
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
+
+    const clearAuthContext = () => {
+        setId('');
+        setEmail('');
+        setRole(0);
+        setFirstName('');
+        setLastName('');
+    }
 
     return (
         <AuthContext.Provider value={{
@@ -35,7 +44,8 @@ export const AuthContextProvider = (props: TContextBody) => {
             setEmail,
             setRole,
             setFirstName,
-            setLastName
+            setLastName,
+            clearAuthContext
         }}>
             {props.children}
         </AuthContext.Provider>

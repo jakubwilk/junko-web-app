@@ -11,12 +11,14 @@ import NoMatch from './pages/no-match/NoMatch';
 import { HTTP_CODE } from './constants/http';
 import { TUserBasicResponseData } from './types/user.types';
 import { getUserData } from './api/user';
+import { Redirect } from 'react-router';
 
 const App = () => {
     const [isReady, setReady] = useState<boolean>(false);
     const { setId, setRole, setEmail, setFirstName, setLastName } = useContext(AuthContext);
 
     useEffect(() => {
+
         (async () => {
             const userSession: TResponseCheckUserRole = await getUserSession();
             if (userSession.statusCode === HTTP_CODE.OK) {
@@ -41,6 +43,9 @@ const App = () => {
         <Router>
             <Switch>
                 <Route exact path={"/"}>
+                    <Redirect to={"/sign-in"} />
+                </Route>
+                <Route path={"/sign-in"}>
                     <Login />
                 </Route>
                 <Route path={"/sign-up"}>

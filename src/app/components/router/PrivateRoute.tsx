@@ -10,7 +10,7 @@ const PrivateRoute: FC<{
 }> = (props) => {
     const { id } = useContext(AuthContext);
 
-    return id === undefined ? <Redirect to={"/"} /> : <Route path={props.path} exact={props.exact} component={props.component} />;
+    return id === '' ? <Redirect to={"/"} /> : <Route path={props.path} exact={props.exact} component={props.component} />;
 }
 
 export default PrivateRoute;

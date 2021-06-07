@@ -9,6 +9,7 @@ export interface IUserAuthContext {
     setRole: (role: number) => void;
     setFirstName: (firstName: string) => void;
     setLastName: (lastName: string) => void;
+    clearAuthContext: () => void;
 }
 
 export interface INavigationContext {

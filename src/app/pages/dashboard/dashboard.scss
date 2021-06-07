@@ -1,0 +1,6 @@
+@import "./../../../assets/styles/helpers";
+
+.admin-page {
+    background-color: $grey;
+    @include height(100vh, 100%);
+}
