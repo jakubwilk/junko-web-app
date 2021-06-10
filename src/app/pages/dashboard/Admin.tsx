@@ -12,10 +12,20 @@ import { deleteUserSession } from '../../api/auth';
 import { TResponseLogoutUser } from '../../types/auth.types';
 import { HTTP_CODE } from '../../constants/http';
 import { useHistory } from 'react-router';
+import UserGreetings from '../../components/dashboard/UserGreetings';
+import AdminStatistics from '../../components/dashboard/AdminStatistics';
 
 const AdminMainPage = () => {
     return (
-        <h2>Admin</h2>
+        <div className={"grid"}>
+            <div className={"orders"}>
+
+            </div>
+            <div className={"main"}>
+                <UserGreetings />
+                <AdminStatistics />
+            </div>
+        </div>
     );
 }
 

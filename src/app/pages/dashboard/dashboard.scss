@@ -3,4 +3,105 @@
 .admin-page {
     background-color: $grey;
     @include height(100vh, 100%);
+    
+    & .grid {
+        display: grid;
+        @include height(calc(100vh - 100px), 100%);
+        
+        @include laptop {
+            grid-template-rows: auto;
+            grid-template-columns: 45vw 1fr;
+        }
+    }
+    
+    & .main {
+        @include flex-column();
+        justify-content: space-between;
+        @include my(1px, 0);
+        background-color: $white;
+        
+        & .greetings {
+            @include padding(1.5rem, 1.5rem);
+            @include margin(2.5rem, 2.5rem);
+            @include border-radius(8px);
+            background-color: $snow;
+            
+            &-title {
+                @include font-size(32, $font-bold);
+                @include my(0, 1.5rem);
+            }
+            
+            &-text {
+                text-align: justify;
+                line-height: 1.8rem;
+                color: $dark;
+            }
+            
+            &-edit-profile {
+                background-color: $blue;
+                color: $white;
+                @include font-size(16, $font-bold);
+                @include padding(.5rem, 1.5rem);
+                transition: background-color .2s ease-in-out;
+                
+                &:hover,
+                &:focus {
+                    background-color: $sky;
+                }
+            }
+        }
+        
+        & .statistics {
+            @include margin(2.5rem, 2.5rem);
+            
+            &-grid {
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                list-style: none;
+                @include my(0);
+                @include px(0);
+            }
+            
+            &-item {
+                @include flex-column();
+                align-items: center;
+                
+                &:first-child {
+                    grid-column-start: 1;
+                    grid-column-end: 5;
+                }
+                
+                &:nth-child(2) {
+                    grid-column-start: 5;
+                    grid-column-end: 9;
+                }
+                
+                &:nth-child(3) {
+                    grid-column-start: 9;
+                    grid-column-end: 13;
+                }
+                
+                &:nth-child(4) {
+                    grid-column-start: 3;
+                    grid-column-end: 7;
+                }
+                
+                &:last-child {
+                    grid-column-start: 7;
+                    grid-column-end: 11;
+                }
+            }
+            
+            &-number {
+                @include font-size(42, $font-regular);
+            }
+            
+            &-title {
+                text-transform: lowercase;
+                color: $dark;
+                @include my(1rem, 0);
+            }
+        }
+    }
 }

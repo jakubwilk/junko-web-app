@@ -18,5 +18,11 @@ export const adminMenu: TDashboardNavigation[] = [
         url: '/dashboard/orders',
         title: 'Udaj się do listy zleceń',
         name: 'Zlecenia'
+    },
+    {
+        key: 4,
+        url: '/dashboard/my-orders',
+        title: 'Przejdź do listy wykonywanych przez Ciebie zleceń',
+        name: 'Moje zlecenia'
     }
 ]
