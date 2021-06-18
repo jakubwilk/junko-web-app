@@ -1,0 +1,64 @@
+@import './../../../assets/styles/helpers';
+
+.activate {
+    @include flex-center();
+    position: relative;
+    background: url('./../../../assets/images/login-background.jpg') center no-repeat;
+    background-size: cover;
+    text-align: center;
+    @include height(100vh, auto);
+    @include width(100vw, auto);
+    
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        @include hw(100%);
+        background-color: rgba($blue, .85);
+    }
+    
+    &-content {
+        @include padding(1.5rem, 1.5rem);
+        position: relative;
+        z-index: 10;
+        @include my(10vh);
+        background-color: $white;
+        width: 100%;
+        max-width: 650px;
+        @include border-radius(6px);
+    }
+    
+    &-title {
+        @include my(0, 2rem);
+        text-align: center;
+        line-height: 0;
+    }
+    
+    &-text {
+        @include my(0);
+        @include padding(1rem, 1rem);
+        color: $white;
+        @include border-radius(6px);
+        
+        &.active {
+            background-color: $green;
+        }
+        
+        &.inactive {
+            background-color: $red;
+        }
+    }
+    
+    &-back {
+        display: inline-block;
+        @include my(1rem, 0);
+        color: $blue;
+        transition: color .1s ease-in-out;
+        
+        &:hover {
+            color: $sky;
+        }
+    }
+}

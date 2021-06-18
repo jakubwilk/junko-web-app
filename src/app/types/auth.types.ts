@@ -29,3 +29,9 @@ export type TRegisterUserData = {
 export type TResponseLogoutUser = {
     statusCode: number
 }
+
+export type TStatusClass = 'active' | 'inactive';
+
+export type TResponseActivateUser = {
+    statusCode: number
+}

@@ -12,6 +12,7 @@ import { HTTP_CODE } from './constants/http';
 import { TUserBasicResponseData } from './types/user.types';
 import { getUserData } from './api/user';
 import { Redirect } from 'react-router';
+import ActiveAccount from './pages/active/ActiveAccount';
 
 const App = () => {
     const [isReady, setReady] = useState<boolean>(false);
@@ -50,6 +51,9 @@ const App = () => {
                 </Route>
                 <Route path={"/sign-up"}>
                     <Register />
+                </Route>
+                <Route path={"/auth/active/:token"}>
+                    <ActiveAccount />
                 </Route>
                 <PrivateRoute component={AdminDashboard} path={"/dashboard"} exact={false} />
                 <Route path={"*"}>

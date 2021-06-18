@@ -38,6 +38,18 @@ export const createUserSession = async (data: TLoginUserData) => {
     return response.json();
 }
 
+export const activeUser = async (token: string) => {
+    const response = await fetch(`${API_URL}/auth/activate/${token}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+
+    return response.json();
+}
+
 export const createUser = async (data: TRegisterUserData) => {
     const response = await fetch(`${API_URL}/auth`, {
         method: 'PUT',
@@ -46,7 +58,7 @@ export const createUser = async (data: TRegisterUserData) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    })
+    });
 
     return response.json();
 }
