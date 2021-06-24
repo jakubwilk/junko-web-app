@@ -10,6 +10,10 @@ export type TResponseLoginUser = {
     userRole: number
 }
 
+export type TResponseRegisterUser = {
+    statusCode: number;
+}
+
 export type TAddUserData = {
     email: string;
     role: number;

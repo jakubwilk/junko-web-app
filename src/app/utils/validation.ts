@@ -10,3 +10,14 @@ export const getValidationLoginMessage = (statusCode: number): string => {
             return '';
     }
 }
+
+export const getValidationRegisterMessage = (statusCode: number) => {
+    switch (statusCode) {
+        case 201:
+            return 'Konto zostało pomyślnie stworzone. Proszę przejść do skrzynki pocztowej w celu aktywacji konta.';
+        case 400:
+            return 'Podany adres email istnieje już w naszym systemie';
+        default:
+            return '';
+    }
+}

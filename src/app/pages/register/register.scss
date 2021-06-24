@@ -55,6 +55,24 @@
         }
     }
     
+    & .validation-error {
+        display: block;
+        @include border-radius(6px);
+        @include my(2rem, 0);
+        @include padding(.5rem, 1rem);
+        color: $white;
+        background-color: $red;
+    }
+    
+    & .validation-success {
+        display: block;
+        @include border-radius(6px);
+        @include my(2rem, 0);
+        @include padding(.5rem, 1rem);
+        color: $white;
+        background-color: $green;
+    }
+    
     & .form {
         @include my(2rem, 0);
         
