@@ -5,6 +5,13 @@ import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import './assets/styles/main.scss';
 import { NavigationContextProvider } from './app/context/navigation-context';
+import moment from 'moment/moment';
+import Moment from 'react-moment';
+import 'moment/locale/pl';
+
+Moment.globalMoment = moment;
+Moment.globalLocale = 'pl';
+Moment.globalLocal = true;
 
 ReactDOM.render(
     <AuthContextProvider>
