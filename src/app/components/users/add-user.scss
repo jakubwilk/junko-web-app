@@ -1,0 +1,123 @@
+@import './../../../assets/styles/helpers';
+
+.add-user {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: $white;
+    @include padding(1rem, 2rem);
+    @include border-radius(8px);
+    box-shadow: 4px 4px 0 0 rgba($dark, .15);
+    @include width(400px, 50vw);
+    @include mx(auto);
+    
+    &-title {
+        flex: 100%;
+        @include my(0, 1rem);
+    }
+    
+    & .validation-error {
+        display: block;
+        @include border-radius(6px);
+        @include my(2rem, 0);
+        @include padding(.5rem, 1rem);
+        color: $white;
+        background-color: $red;
+    }
+    
+    & .form {
+        @include my(0);
+        width: 100%;
+        
+        &-group {
+            @include my(0, 1rem);
+            
+            & label {
+                display: block;
+                @include font-size(14);
+                @include my(0, .25rem);
+                user-select: none;
+            }
+            
+            & select {
+                border-radius: 6px;
+                border: 1px solid #dee2e6;
+                @include font-size(16);
+                color: $dark;
+                @include padding(8px, 20px);
+                width: 100%;
+            }
+            
+            & input {
+                @include border-radius(6px);
+                border: 1px solid $grey;
+                width: 100%;
+                @include font-size(16);
+                @include padding(8px, 20px);
+                
+                &:hover,
+                &:focus {
+                    transition: all .2s ease-in-out;
+                    border-color: $blue;
+                    outline: none;
+                }
+            }
+            
+            &:last-of-type {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 1rem;
+            }
+        }
+        
+        &-group-checkbox {
+            @include flex-center-horizontal();
+            align-items: center;
+            @include my(0, 1rem);
+            
+            & label {
+                display: inline-block;
+                @include font-size(16);
+                user-select: none;
+                cursor: pointer;
+            }
+            
+            & input {
+                @include mx(.5rem, 0);
+                @include hw(16px);
+                cursor: pointer;
+            }
+        }
+        
+        &-field-error {
+            border-color: $red !important;
+        }
+        
+        &-error {
+            display: inline-block;
+            @include font-size(14);
+            @include my(.5rem, 0);
+            color: $red;
+        }
+        
+        &-button {
+            @include flex-center-horizontal();
+            align-items: center;
+            background-color: $blue;
+            color: $white;
+            @include font-size(16);
+            @include padding(8px, 25px);
+            @include mx(auto);
+            
+            &.disabled {
+                user-select: none;
+                pointer-events: none;
+                @include opacity(.5);
+            }
+            
+            & span {
+                @include mx(0, .5rem);
+            }
+        }
+    }
+}

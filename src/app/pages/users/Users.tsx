@@ -3,6 +3,7 @@ import { getAllUsers } from '../../api/user';
 import { TSingleUserData } from '../../types/user.types';
 import { UserCard } from '../../components/users/UserCard';
 import './users.scss';
+import { AddUser } from '../../components/users/AddUser';
 
 const UsersPage = () => {
     const [isReady, setReady] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const UsersPage = () => {
                 <div className={"users-list-grid"}>
 
                     <div className={"users-list-grid-item users-list-grid-main"}>
-                        Dodaj usera
+                        <AddUser />
                     </div>
                     {users.map((user: TSingleUserData, index: number) => (
                         <div key={index} className={"users-list-grid-item"}>
@@ -39,7 +40,7 @@ const UsersPage = () => {
                                 lastName={user.lastName}
                                 role={user.role}
                                 photo={user.photo}
-                                isActivate={user.isActivate}
+                                isActive={user.isActive}
                                 createdAt={user.createdAt}
                             />
                         </div>

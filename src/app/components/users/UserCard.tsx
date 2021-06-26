@@ -4,7 +4,7 @@ import defaultAvatar from './../../../assets/images/default_avatar.png';
 import './user-card.scss';
 import { ROLES } from '../../constants/roles';
 
-export const UserCard = ({ id, email, firstName, lastName, role, photo, isActivate, createdAt }: TSingleUserData) => {
+export const UserCard = ({ id, email, firstName, lastName, role, photo, isActive, createdAt }: TSingleUserData) => {
     const displayRole = () => {
         switch (role) {
             case ROLES.USER:
@@ -26,7 +26,7 @@ export const UserCard = ({ id, email, firstName, lastName, role, photo, isActiva
             <div className={"user-card-data"}>
                 <h2 className={"user-card-name"}>
                     {firstName.length > 0 && lastName.length > 0 ? firstName + ' ' + lastName : email}
-                    {isActivate ? (
+                    {isActive ? (
                         <span className={"user-card-status user-card-status-active"}>{"Aktywny"}</span>
                     ) : (
                         <span className={"user-card-status user-card-status-inactive"}>{"Nieaktywny"}</span>

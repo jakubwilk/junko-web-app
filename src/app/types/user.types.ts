@@ -16,6 +16,6 @@ export type TSingleUserData = {
     lastName: string,
     role: number,
     photo: string,
-    isActivate: boolean,
+    isActive: boolean,
     createdAt: Date
 }
