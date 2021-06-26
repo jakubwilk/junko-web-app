@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllUsers } from '../../api/user';
 import { TSingleUserData } from '../../types/user.types';
 import { UserCard } from '../../components/users/UserCard';
+import './users.scss';
 
 const UsersPage = () => {
     const [isReady, setReady] = useState<boolean>(false);
@@ -10,6 +11,7 @@ const UsersPage = () => {
     useEffect(() => {
        getAllUsers()
            .then(res => {
+               console.log(res);
                const data: TSingleUserData[] = res.data;
                setUsers(data);
                setReady(true);
@@ -35,6 +37,7 @@ const UsersPage = () => {
                                 email={user.email}
                                 firstName={user.firstName}
                                 lastName={user.lastName}
+                                role={user.role}
                                 photo={user.photo}
                                 isActivate={user.isActivate}
                                 createdAt={user.createdAt}

@@ -1,0 +1,20 @@
+@import './../../../assets/styles/helpers';
+
+.users-list {
+    
+    &-grid {
+        display: flex;
+        align-content: stretch;
+        flex-wrap: wrap;
+        gap: 2rem;
+        
+        &-item {
+            position: relative;
+            flex: 1;
+        }
+    
+        &-main {
+            flex: 100%;
+        }
+    }
+}
