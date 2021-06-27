@@ -14,6 +14,8 @@ import { HTTP_CODE } from '../../constants/http';
 import { useHistory } from 'react-router';
 import UserGreetings from '../../components/dashboard/UserGreetings';
 import AdminStatistics from '../../components/dashboard/AdminStatistics';
+import { EditUser } from '../../components/users/EditUser';
+import { UserContext } from '../../context/user-context';
 
 const AdminMainPage = () => {
     return (
@@ -31,6 +33,7 @@ const AdminMainPage = () => {
 
 const AdminDashboard = () => {
     const { id, email, firstName, lastName, clearAuthContext } = useContext(AuthContext);
+    const { isEditEnable } = useContext(UserContext);
     const [isReady, setReady] = useState<boolean>(false);
     const history = useHistory();
 
@@ -83,6 +86,8 @@ const AdminDashboard = () => {
                     <UsersPage />
                 </Route>
             </Switch>
+
+            {isEditEnable ? <EditUser /> : null}
         </div>
     ) : null;
 }

@@ -8,6 +8,7 @@ import { NavigationContextProvider } from './app/context/navigation-context';
 import moment from 'moment/moment';
 import Moment from 'react-moment';
 import 'moment/locale/pl';
+import { UserContextProvider } from './app/context/user-context';
 
 Moment.globalMoment = moment;
 Moment.globalLocale = 'pl';
@@ -16,7 +17,9 @@ Moment.globalLocal = true;
 ReactDOM.render(
     <AuthContextProvider>
         <NavigationContextProvider>
-            <App/>
+            <UserContextProvider>
+                <App/>
+            </UserContextProvider>
         </NavigationContextProvider>
     </AuthContextProvider>,
     document.getElementById('root')

@@ -3,8 +3,16 @@ import Moment from 'react-moment';
 import defaultAvatar from './../../../assets/images/default_avatar.png';
 import './user-card.scss';
 import { ROLES } from '../../constants/roles';
+import { useContext, MouseEvent } from 'react';
+import { UserContext } from '../../context/user-context';
 
 export const UserCard = ({ id, email, firstName, lastName, role, photo, isActive, createdAt }: TSingleUserData) => {
+    const { setEditEnable } = useContext(UserContext);
+
+    const openModal = (e: MouseEvent<HTMLDivElement>, value: boolean) => {
+        setEditEnable(value);
+    }
+
     const displayRole = () => {
         switch (role) {
             case ROLES.USER:
@@ -19,7 +27,7 @@ export const UserCard = ({ id, email, firstName, lastName, role, photo, isActive
     }
 
     return (
-        <div className={"user-card"} tabIndex={1}>
+        <div className={"user-card"} tabIndex={1} onClick={(e) => openModal(e, true)}>
             <div className={"user-card-photo"}>
                 {photo.length > 0 ? <img src={photo} alt={email} /> : <img src={defaultAvatar} alt={email} />}
             </div>

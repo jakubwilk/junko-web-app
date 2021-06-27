@@ -38,7 +38,7 @@ const App = () => {
         return () => {
             setReady(false);
         }
-    }, [])
+    }, [setEmail, setFirstName, setId, setLastName, setRole])
 
     return isReady ? (
         <Router>

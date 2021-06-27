@@ -12,13 +12,11 @@ const UsersPage = () => {
     useEffect(() => {
        getAllUsers()
            .then(res => {
-               console.log(res);
                const data: TSingleUserData[] = res.data;
                setUsers(data);
                setReady(true);
            })
            .catch(err => {
-               console.log(err);
                setReady(true);
            });
     }, []);

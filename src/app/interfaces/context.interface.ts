@@ -16,3 +16,10 @@ export interface INavigationContext {
     currentUrl: string;
     setCurrentUrl: (url: string) => void;
 }
+
+export interface IUserContext {
+    id: string;
+    isEditEnable: boolean;
+    setEditEnable: (value: boolean) => void;
+    clearUserContext: () => void;
+}

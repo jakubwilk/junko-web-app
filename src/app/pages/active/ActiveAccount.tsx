@@ -39,7 +39,7 @@ const ActiveAccount = () => {
         return () => {
             setReady(false);
         }
-    }, []);
+    });
 
     return isReady ? (
         <>

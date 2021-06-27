@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -6,7 +6,7 @@ import { IRegisterInitialValues } from '../../interfaces/register.interface';
 import { TRegisterUserData, TResponseRegisterUser } from '../../types/auth.types';
 import { createUser } from '../../api/auth';
 import { HTTP_CODE } from '../../constants/http';
-import { getValidationLoginMessage, getValidationRegisterMessage } from '../../utils/validation';
+import { getValidationRegisterMessage } from '../../utils/validation';
 
 const registerSchema = Yup.object().shape({
     email: Yup.string()
@@ -69,7 +69,7 @@ const RegisterForm = () => {
                         <div className={"form-group"}>
                             <label htmlFor={"password"}>{"Hasło użytkownika"}</label>
                             <Field className={errors.password && touched.password ? "form-field-error" : ""} type={"password"} id={"password"} name={"password"} autoComplete={"off"} />
-                            {errors.password && touched. password ? (
+                            {errors.password && touched.password ? (
                                 <span className={"form-error"}>{errors.password}</span>
                             ) : null}
                         </div>
