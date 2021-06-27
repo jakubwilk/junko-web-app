@@ -64,8 +64,8 @@ export const createUser = async (data: TRegisterUserData) => {
 }
 
 export const addUser = async (data: TAddUserData) => {
-    const response = await fetch(`${API_URL}/auth/add`, {
-        method: 'POST',
+    const response = await fetch(`${API_URL}/auth/add/user`, {
+        method: 'PUT',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json'

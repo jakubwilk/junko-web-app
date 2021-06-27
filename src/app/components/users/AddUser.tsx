@@ -4,6 +4,10 @@ import './add-user.scss';
 import { IAddUserInitialValues } from '../../interfaces/register.interface';
 import { useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { TAddUserData, TResponseRegisterUser } from '../../types/auth.types';
+import { addUser } from '../../api/auth';
+import { HTTP_CODE } from '../../constants/http';
+import { getValidationRegisterMessage } from '../../utils/validation';
 
 const addUserSchema = Yup.object().shape({
     email: Yup.string()
@@ -31,6 +35,7 @@ const roles = [
 export const AddUser = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
     const [validationMessage, setValidationMessage] = useState<string>('');
+    const [statusCode, setStatusCode] = useState<number>(0);
 
     const initialValues: IAddUserInitialValues = {
         email: '',
@@ -45,13 +50,25 @@ export const AddUser = () => {
                 initialValues={initialValues}
                 validationSchema={addUserSchema}
                 onSubmit={async (values, actions) => {
-                    console.log(values);
+                    const userData: TAddUserData = {
+                        email: values.email,
+                        password: values.password,
+                        role: values.role
+                    }
+
+                    setLoading(true);
+                    const response: TResponseRegisterUser = await addUser(userData);
+
+                    const message: string = getValidationRegisterMessage(response.statusCode);
+                    setValidationMessage(message);
+                    setStatusCode(response.statusCode);
+                    setLoading(false);
                 }
             }>
                 {({ errors, touched }) => (
                     <>
                         {validationMessage === '' ? null : (
-                            <span className={"validation-error"}>{validationMessage}</span>
+                            <span className={statusCode === HTTP_CODE.CREATED ? "validation-success" : "validation-error"}>{validationMessage}</span>
                         )}
                         <Form className={"form"}>
                             <div className={"form-group"}>

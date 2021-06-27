@@ -16,6 +16,7 @@ export type TResponseRegisterUser = {
 
 export type TAddUserData = {
     email: string;
+    password: string;
     role: number;
 }
 
