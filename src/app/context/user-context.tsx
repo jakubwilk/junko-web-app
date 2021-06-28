@@ -5,6 +5,7 @@ import { IUserContext } from '../interfaces/context.interface';
 const initialValue: IUserContext = {
     id: '',
     isEditEnable: false,
+    setId: (id: string) => {},
     setEditEnable: (value: boolean) => {},
     clearUserContext: () => {}
 }
@@ -24,6 +25,7 @@ export const UserContextProvider = (props: TContextBody) => {
         <UserContext.Provider value={{
             id,
             isEditEnable,
+            setId,
             setEditEnable,
             clearUserContext
         }}>

@@ -40,3 +40,16 @@ export type TStatusClass = 'active' | 'inactive';
 export type TResponseActivateUser = {
     statusCode: number
 }
+
+export type TEditUserData = {
+    firstName: string,
+    lastName: string,
+    password?: string,
+    city: string,
+    phoneNumber: string,
+    role: number
+}
+
+export type TSaveEditUserResponse = {
+    statusCode: number
+}

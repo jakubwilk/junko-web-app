@@ -20,6 +20,7 @@ export interface INavigationContext {
 export interface IUserContext {
     id: string;
     isEditEnable: boolean;
+    setId: (id: string) => void;
     setEditEnable: (value: boolean) => void;
     clearUserContext: () => void;
 }

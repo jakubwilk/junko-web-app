@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useContext, useEffect, useState } from 'react';
 import { getAllUsers } from '../../api/user';
 import { TSingleUserData } from '../../types/user.types';
 import { UserCard } from '../../components/users/UserCard';
 import './users.scss';
 import { AddUser } from '../../components/users/AddUser';
+import { UserContext } from '../../context/user-context';
 
 const UsersPage = () => {
     const [isReady, setReady] = useState<boolean>(false);

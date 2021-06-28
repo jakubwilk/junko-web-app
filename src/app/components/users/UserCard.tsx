@@ -7,10 +7,11 @@ import { useContext, MouseEvent } from 'react';
 import { UserContext } from '../../context/user-context';
 
 export const UserCard = ({ id, email, firstName, lastName, role, photo, isActive, createdAt }: TSingleUserData) => {
-    const { setEditEnable } = useContext(UserContext);
+    const { setEditEnable, setId } = useContext(UserContext);
 
-    const openModal = (e: MouseEvent<HTMLDivElement>, value: boolean) => {
+    const openModal = (e: MouseEvent<HTMLDivElement>, value: boolean, id: string) => {
         setEditEnable(value);
+        setId(id);
     }
 
     const displayRole = () => {
@@ -27,7 +28,7 @@ export const UserCard = ({ id, email, firstName, lastName, role, photo, isActive
     }
 
     return (
-        <div className={"user-card"} tabIndex={1} onClick={(e) => openModal(e, true)}>
+        <div className={"user-card"} tabIndex={1} onClick={(e) => openModal(e, true, id)}>
             <div className={"user-card-photo"}>
                 {photo.length > 0 ? <img src={photo} alt={email} /> : <img src={defaultAvatar} alt={email} />}
             </div>
