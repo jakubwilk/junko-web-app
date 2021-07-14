@@ -1,37 +1,37 @@
-import { MouseEvent, useContext, useEffect, useState } from 'react';
-import { getAllUsers } from '../../api/user';
-import { TSingleUserData } from '../../types/user.types';
-import { UserCard } from '../../components/users/UserCard';
-import './users.scss';
-import { AddUser } from '../../components/users/AddUser';
-import { UserContext } from '../../context/user-context';
+import { useEffect, useState } from 'react'
+import { getAllUsers } from '../../api/user'
+import { TSingleUserData } from '../../types/user.types'
+import { UserCard } from '../../components/users/UserCard'
+import './users.scss'
+import { AddUser } from '../../components/users/AddUser'
 
 const UsersPage = () => {
-    const [isReady, setReady] = useState<boolean>(false);
-    const [users, setUsers] = useState<TSingleUserData[]>([]);
+    const [isReady, setReady] = useState<boolean>(false)
+    const [users, setUsers] = useState<TSingleUserData[]>([])
 
     useEffect(() => {
-       getAllUsers()
-           .then(res => {
-               const data: TSingleUserData[] = res.data;
-               setUsers(data);
-               setReady(true);
-           })
-           .catch(err => {
-               setReady(true);
-           });
-    }, []);
+        getAllUsers()
+            .then((res) => {
+                const data: TSingleUserData[] = res.data
+                setUsers(data)
+                setReady(true)
+            })
+            .catch((err) => {
+                setReady(true)
+            })
+    }, [])
 
     return isReady ? (
-        <section className={"users-list"}>
-            <div className={"container"}>
-                <div className={"users-list-grid"}>
-
-                    <div className={"users-list-grid-item users-list-grid-main"}>
+        <section className={'users-list'}>
+            <div className={'container'}>
+                <div className={'users-list-grid'}>
+                    <div
+                        className={'users-list-grid-item users-list-grid-main'}
+                    >
                         <AddUser />
                     </div>
                     {users.map((user: TSingleUserData, index: number) => (
-                        <div key={index} className={"users-list-grid-item"}>
+                        <div key={index} className={'users-list-grid-item'}>
                             <UserCard
                                 id={user.id}
                                 email={user.email}
@@ -44,11 +44,10 @@ const UsersPage = () => {
                             />
                         </div>
                     ))}
-
                 </div>
             </div>
         </section>
-    ) : null;
+    ) : null
 }
 
-export default UsersPage;
+export default UsersPage

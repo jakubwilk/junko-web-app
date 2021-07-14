@@ -1,33 +1,33 @@
 export type TResponseCheckUserRole = {
-    statusCode: number,
-    userRole: number,
-    userId: string,
+    statusCode: number
+    userRole: number
+    userId: string
 }
 
 export type TResponseLoginUser = {
-    statusCode: number,
-    userId: string,
+    statusCode: number
+    userId: string
     userRole: number
 }
 
 export type TResponseRegisterUser = {
-    statusCode: number;
+    statusCode: number
 }
 
 export type TAddUserData = {
-    email: string;
-    password: string;
-    role: number;
+    email: string
+    password: string
+    role: number
 }
 
 export type TLoginUserData = {
-    email: string,
-    password: string,
+    email: string
+    password: string
     isRemember: boolean
 }
 
 export type TRegisterUserData = {
-    email: string,
+    email: string
     password: string
 }
 
@@ -35,18 +35,19 @@ export type TResponseLogoutUser = {
     statusCode: number
 }
 
-export type TStatusClass = 'active' | 'inactive';
+export type TStatusClass = 'active' | 'inactive'
 
 export type TResponseActivateUser = {
     statusCode: number
 }
 
 export type TEditUserData = {
-    firstName: string,
-    lastName: string,
-    password?: string,
-    city: string,
-    phoneNumber: string,
+    file: any
+    firstName: string
+    lastName: string
+    password?: string
+    city: string
+    phoneNumber: string
     role: number
 }
 

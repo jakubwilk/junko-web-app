@@ -1,16 +1,20 @@
-import { API_URL } from '../constants/api';
-import { TAddUserData, TLoginUserData, TRegisterUserData } from '../types/auth.types';
+import { API_URL } from '../constants/api'
+import {
+    TAddUserData,
+    TLoginUserData,
+    TRegisterUserData,
+} from '../types/auth.types'
 
 export const getUserSession = async () => {
     const response = await fetch(`${API_URL}/auth/role`, {
         method: 'GET',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+            'Content-Type': 'application/json',
+        },
+    })
 
-    return response.json();
+    return response.json()
 }
 
 export const deleteUserSession = async (userId: string) => {
@@ -18,11 +22,11 @@ export const deleteUserSession = async (userId: string) => {
         method: 'GET',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+            'Content-Type': 'application/json',
+        },
+    })
 
-    return response.json();
+    return response.json()
 }
 
 export const createUserSession = async (data: TLoginUserData) => {
@@ -30,12 +34,12 @@ export const createUserSession = async (data: TLoginUserData) => {
         method: 'POST',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
-    });
+        body: JSON.stringify(data),
+    })
 
-    return response.json();
+    return response.json()
 }
 
 export const activeUser = async (token: string) => {
@@ -43,11 +47,11 @@ export const activeUser = async (token: string) => {
         method: 'GET',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-    });
+    })
 
-    return response.json();
+    return response.json()
 }
 
 export const createUser = async (data: TRegisterUserData) => {
@@ -55,12 +59,12 @@ export const createUser = async (data: TRegisterUserData) => {
         method: 'PUT',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
-    });
+        body: JSON.stringify(data),
+    })
 
-    return response.json();
+    return response.json()
 }
 
 export const addUser = async (data: TAddUserData) => {
@@ -68,10 +72,10 @@ export const addUser = async (data: TAddUserData) => {
         method: 'PUT',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
-    });
+        body: JSON.stringify(data),
+    })
 
-    return response.json();
+    return response.json()
 }

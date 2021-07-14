@@ -1,9 +1,9 @@
-@import "./../../../assets/styles/helpers";
+@import './../../../assets/styles/helpers';
 
 .register {
     @include flex-center();
     position: relative;
-    background: url("./../../../assets/images/login-background.jpg") center no-repeat;
+    background: url('./../../../assets/images/login-background.jpg') center no-repeat;
     background-size: cover;
     text-align: center;
     @include height(100vh, auto);

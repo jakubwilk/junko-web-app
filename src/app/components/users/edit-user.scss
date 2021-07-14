@@ -93,8 +93,14 @@
                 grid-template-columns: repeat(2, 1fr);
                 grid-gap: 1rem;
             }
+            
+            &.multi {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 1rem;
+            }
         }
-    
+        
         & .button-group {
             @include flex-center-horizontal();
             

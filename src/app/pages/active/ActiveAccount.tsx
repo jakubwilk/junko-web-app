@@ -1,69 +1,83 @@
-import { useEffect, useState } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
-import { useHistory, useParams } from 'react-router';
-import { activeUser } from '../../api/auth';
-import logo from '../../../assets/images/logo-site.png';
-import { TStatusClass } from '../../types/auth.types';
-import './activate.scss';
+import { useEffect, useState } from 'react'
+import ClipLoader from 'react-spinners/ClipLoader'
+import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router'
+import { activeUser } from '../../api/auth'
+import logo from '../../../assets/images/logo-site.png'
+import { TStatusClass } from '../../types/auth.types'
+import './activate.scss'
 
-const accountActive: string = 'Konto zostało aktywowane, za chwilę nastąpi przeniesienie na stronę logowania.';
-const accountInactive: string = 'Wystąpił problem z aktywacją konta. Klucz jest niepoprawny albo konto zostało już wcześniej aktywowane.';
+const accountActive: string =
+    'Konto zostało aktywowane, za chwilę nastąpi przeniesienie na stronę logowania.'
+const accountInactive: string =
+    'Wystąpił problem z aktywacją konta. Klucz jest niepoprawny albo konto zostało już wcześniej aktywowane.'
 
 const ActiveAccount = () => {
-    const history = useHistory();
-    const [isReady, setReady] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>('');
-    const [statusClassName, setStatusClassName] = useState<TStatusClass>('inactive');
-    const { token } = useParams<{ token: string }>();
+    const history = useHistory()
+    const [isReady, setReady] = useState<boolean>(false)
+    const [message, setMessage] = useState<string>('')
+    const [statusClassName, setStatusClassName] =
+        useState<TStatusClass>('inactive')
+    const { token } = useParams<{ token: string }>()
 
     useEffect(() => {
-        (async () => {
-            const activeAccount = await activeUser(token);
+        ;(async () => {
+            const activeAccount = await activeUser(token)
 
             if (activeAccount.statusCode === undefined) {
-                setMessage(accountInactive);
+                setMessage(accountInactive)
             } else {
-                setMessage(accountActive);
-                setStatusClassName('active');
+                setMessage(accountActive)
+                setStatusClassName('active')
 
                 setTimeout(() => {
-                    history.push('/');
-                }, 3000);
+                    history.push('/')
+                }, 3000)
             }
 
-            setReady(true);
-        })();
+            setReady(true)
+        })()
 
         return () => {
-            setReady(false);
+            setReady(false)
         }
-    });
+    })
 
     return isReady ? (
         <>
             <Helmet>
-                <title>{"Junko | Aktywacja konta"}</title>
+                <title>{'Junko | Aktywacja konta'}</title>
             </Helmet>
 
-            <div className={"activate"}>
-                <div className={"activate-content"}>
-                    <h1 className={"activate-title"}>
-                        <img src={logo} alt={"Czarne logo junko z niebieskiem logotypem"} />
+            <div className={'activate'}>
+                <div className={'activate-content'}>
+                    <h1 className={'activate-title'}>
+                        <img
+                            src={logo}
+                            alt={'Czarne logo junko z niebieskiem logotypem'}
+                        />
                     </h1>
-                    <p className={`activate-text ${statusClassName}`}>{message}</p>
+                    <p className={`activate-text ${statusClassName}`}>
+                        {message}
+                    </p>
                     {statusClassName === 'inactive' ? (
-                        <Link className={"activate-back"} to={"/"}>{"Powrót do strony głównej"}</Link>
+                        <Link className={'activate-back'} to={'/'}>
+                            {'Powrót do strony głównej'}
+                        </Link>
                     ) : null}
                 </div>
             </div>
         </>
     ) : (
-        <div className={"page-loader"}>
-            <ClipLoader color={"rgba(105, 165, 254, 1)"} loading={isReady} size={125} />
+        <div className={'page-loader'}>
+            <ClipLoader
+                color={'rgba(105, 165, 254, 1)'}
+                loading={isReady}
+                size={125}
+            />
         </div>
-    );
+    )
 }
 
-export default ActiveAccount;
+export default ActiveAccount

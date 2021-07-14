@@ -1,31 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { AuthContextProvider } from './app/context/auth-context';
-import App from './app/App';
-import reportWebVitals from './reportWebVitals';
-import './assets/styles/main.scss';
-import { NavigationContextProvider } from './app/context/navigation-context';
-import moment from 'moment/moment';
-import Moment from 'react-moment';
-import 'moment/locale/pl';
-import { UserContextProvider } from './app/context/user-context';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AuthContextProvider } from './app/context/auth-context'
+import App from './app/App'
+import reportWebVitals from './reportWebVitals'
+import './assets/styles/main.scss'
+import { NavigationContextProvider } from './app/context/navigation-context'
+import moment from 'moment/moment'
+import Moment from 'react-moment'
+import 'moment/locale/pl'
+import { UserContextProvider } from './app/context/user-context'
 
-Moment.globalMoment = moment;
-Moment.globalLocale = 'pl';
-Moment.globalLocal = true;
+Moment.globalMoment = moment
+Moment.globalLocale = 'pl'
+Moment.globalLocal = true
 
 ReactDOM.render(
     <AuthContextProvider>
         <NavigationContextProvider>
             <UserContextProvider>
-                <App/>
+                <App />
             </UserContextProvider>
         </NavigationContextProvider>
     </AuthContextProvider>,
     document.getElementById('root')
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()

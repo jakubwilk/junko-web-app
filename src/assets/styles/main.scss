@@ -69,3 +69,17 @@ option {
     top: 0;
     left: 0;
 }
+
+.modal {
+    position: relative;
+    
+    &-loader {
+        @include flex-center();
+        position: absolute;
+        z-index: 30;
+        background-color: $white;
+        @include hw(inherit);
+        top: 0;
+        left: 0;
+    }
+}

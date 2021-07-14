@@ -4,6 +4,7 @@
 	"homepage": "./",
 	"private": true,
 	"dependencies": {
+		"@hookform/resolvers": "^2.6.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",
@@ -16,13 +17,17 @@
 		"@types/react-router-dom": "^5.1.7",
 		"axios": "^0.21.1",
 		"cross-env": "^7.0.3",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-prettier": "^3.4.0",
 		"formik": "^2.2.8",
 		"history": "^5.0.0",
 		"moment": "^2.29.1",
+		"prettier": "^2.3.2",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-helmet": "^6.1.0",
 		"react-helmet-async": "^1.0.9",
+		"react-hook-form": "^7.10.1",
 		"react-moment": "^1.1.1",
 		"react-router": "^5.2.0",
 		"react-router-dom": "^5.2.0",
@@ -42,9 +47,27 @@
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
+		"plugins": [
+			"prettier"
+		],
 		"extends": [
 			"react-app",
-			"react-app/jest"
+			"react-app/jest",
+			"prettier"
+		],
+		"overrides": [
+			{
+				"files": [
+					"**/*.ts?(x)"
+				],
+				"rules": {
+					"strict": [
+						"error",
+						"global"
+					],
+					"prettier/prettier": "error"
+				}
+			}
 		]
 	},
 	"browserslist": {
