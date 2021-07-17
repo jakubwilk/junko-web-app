@@ -9,7 +9,7 @@ const UsersPage = () => {
     const [isReady, setReady] = useState<boolean>(false)
     const [users, setUsers] = useState<TSingleUserData[]>([])
 
-    useEffect(() => {
+    const getUsersList = () => {
         getAllUsers()
             .then((res) => {
                 const data: TSingleUserData[] = res.data
@@ -19,15 +19,17 @@ const UsersPage = () => {
             .catch((err) => {
                 setReady(true)
             })
+    }
+
+    useEffect(() => {
+        getUsersList()
     }, [])
 
     return isReady ? (
         <section className={'users-list'}>
             <div className={'container'}>
                 <div className={'users-list-grid'}>
-                    <div
-                        className={'users-list-grid-item users-list-grid-main'}
-                    >
+                    <div className={'users-list-grid-item users-list-grid-main'}>
                         <AddUser />
                     </div>
                     {users.map((user: TSingleUserData, index: number) => (

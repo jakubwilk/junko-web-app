@@ -21,3 +21,14 @@ export const getValidationRegisterMessage = (statusCode: number) => {
             return ''
     }
 }
+
+export const getValidationEditUserMessage = (statusCode: number) => {
+    switch (statusCode) {
+        case 200:
+            return 'Profil został pomyślnie zmieniony'
+        case 500:
+            return 'Wystąpił problem po stronie serwera. Proszę spróbować później'
+        default:
+            return ''
+    }
+}

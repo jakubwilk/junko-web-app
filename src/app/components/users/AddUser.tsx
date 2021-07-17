@@ -10,9 +10,7 @@ import { HTTP_CODE } from '../../constants/http'
 import { getValidationRegisterMessage } from '../../utils/validation'
 
 const addUserSchema = Yup.object().shape({
-    email: Yup.string()
-        .email('Podano niepoprawny adres')
-        .required('Email jest wymagany'),
+    email: Yup.string().email('Podano niepoprawny adres').required('Email jest wymagany'),
     password: Yup.string().required('Hasło jest wymagane'),
 })
 
@@ -56,13 +54,9 @@ export const AddUser = () => {
                     }
 
                     setLoading(true)
-                    const response: TResponseRegisterUser = await addUser(
-                        userData
-                    )
+                    const response: TResponseRegisterUser = await addUser(userData)
 
-                    const message: string = getValidationRegisterMessage(
-                        response.statusCode
-                    )
+                    const message: string = getValidationRegisterMessage(response.statusCode)
                     setValidationMessage(message)
                     setStatusCode(response.statusCode)
                     setLoading(false)
@@ -83,9 +77,7 @@ export const AddUser = () => {
                         )}
                         <Form className={'form'}>
                             <div className={'form-group'}>
-                                <label htmlFor={'role'}>
-                                    {'Rola użytkownika'}
-                                </label>
+                                <label htmlFor={'role'}>{'Rola użytkownika'}</label>
                                 <Field as={'select'} name={'role'}>
                                     {roles.map((role) => (
                                         <option key={role.id} value={role.id}>
@@ -96,14 +88,10 @@ export const AddUser = () => {
                             </div>
                             <div className={'form-group'}>
                                 <div>
-                                    <label htmlFor={'email'}>
-                                        {'Email użytkownika'}
-                                    </label>
+                                    <label htmlFor={'email'}>{'Email użytkownika'}</label>
                                     <Field
                                         className={
-                                            errors.email && touched.email
-                                                ? 'form-field-error'
-                                                : ''
+                                            errors.email && touched.email ? 'form-field-error' : ''
                                         }
                                         id={'email'}
                                         name={'email'}
@@ -111,15 +99,11 @@ export const AddUser = () => {
                                         autoComplete={'off'}
                                     />
                                     {errors.email && touched.email ? (
-                                        <span className={'form-error'}>
-                                            {errors.email}
-                                        </span>
+                                        <span className={'form-error'}>{errors.email}</span>
                                     ) : null}
                                 </div>
                                 <div>
-                                    <label htmlFor={'password'}>
-                                        {'Hasło użytkownika'}
-                                    </label>
+                                    <label htmlFor={'password'}>{'Hasło użytkownika'}</label>
                                     <Field
                                         className={
                                             errors.password && touched.password
@@ -132,16 +116,12 @@ export const AddUser = () => {
                                         autoComplete={'off'}
                                     />
                                     {errors.password && touched.password ? (
-                                        <span className={'form-error'}>
-                                            {errors.password}
-                                        </span>
+                                        <span className={'form-error'}>{errors.password}</span>
                                     ) : null}
                                 </div>
                             </div>
                             <button
-                                className={`button form-button ${
-                                    isLoading ? 'disabled' : ''
-                                }`}
+                                className={`button form-button ${isLoading ? 'disabled' : ''}`}
                                 type={'submit'}
                             >
                                 {isLoading ? (

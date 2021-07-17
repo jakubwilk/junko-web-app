@@ -42,7 +42,6 @@ export type TResponseActivateUser = {
 }
 
 export type TEditUserData = {
-    file: any
     firstName: string
     lastName: string
     password?: string
