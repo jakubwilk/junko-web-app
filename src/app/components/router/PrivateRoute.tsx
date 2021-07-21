@@ -13,11 +13,7 @@ const PrivateRoute: FC<{
     return id === '' ? (
         <Redirect to={'/'} />
     ) : (
-        <Route
-            path={props.path}
-            exact={props.exact}
-            component={props.component}
-        />
+        <Route path={props.path} exact={props.exact} component={props.component} />
     )
 }
 

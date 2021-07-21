@@ -6,7 +6,7 @@ import PrivateRoute from './components/router/PrivateRoute'
 import { getUserSession } from './api/auth'
 import { TResponseCheckUserRole } from './types/auth.types'
 import { AuthContext } from './context/auth-context'
-import AdminDashboard from './pages/dashboard/Admin'
+import AdminDashboard from './pages/dashboard/Dashboard'
 import NoMatch from './pages/no-match/NoMatch'
 import { HTTP_CODE } from './constants/http'
 import { TUserBasicResponseData } from './types/user.types'
@@ -16,8 +16,7 @@ import ActiveAccount from './pages/active/ActiveAccount'
 
 const App = () => {
     const [isReady, setReady] = useState<boolean>(false)
-    const { setId, setRole, setEmail, setFirstName, setLastName } =
-        useContext(AuthContext)
+    const { setId, setRole, setEmail, setFirstName, setLastName } = useContext(AuthContext)
 
     useEffect(() => {
         ;(async () => {
@@ -26,9 +25,7 @@ const App = () => {
                 setId(userSession.userId)
                 setRole(userSession.userRole)
 
-                const userBasicData: TUserBasicResponseData = await getUserData(
-                    userSession.userId
-                )
+                const userBasicData: TUserBasicResponseData = await getUserData(userSession.userId)
                 setEmail(userBasicData.data.email)
                 setFirstName(userBasicData.data.firstName)
                 setLastName(userBasicData.data.lastName)
@@ -57,11 +54,7 @@ const App = () => {
                 <Route path={'/auth/active/:token'}>
                     <ActiveAccount />
                 </Route>
-                <PrivateRoute
-                    component={AdminDashboard}
-                    path={'/dashboard'}
-                    exact={false}
-                />
+                <PrivateRoute component={AdminDashboard} path={'/dashboard'} exact={false} />
                 <Route path={'*'}>
                     <NoMatch />
                 </Route>

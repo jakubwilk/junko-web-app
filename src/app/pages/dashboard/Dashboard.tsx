@@ -12,26 +12,14 @@ import { deleteUserSession } from '../../api/auth'
 import { TResponseLogoutUser } from '../../types/auth.types'
 import { HTTP_CODE } from '../../constants/http'
 import { useHistory } from 'react-router'
-import UserGreetings from '../../components/dashboard/UserGreetings'
-import AdminStatistics from '../../components/dashboard/AdminStatistics'
 import { EditUser } from '../../components/users/EditUser'
 import { UserContext } from '../../context/user-context'
-
-const AdminMainPage = () => {
-    return (
-        <div className={'grid'}>
-            <div className={'orders'}></div>
-            <div className={'main'}>
-                <UserGreetings />
-                <AdminStatistics />
-            </div>
-        </div>
-    )
-}
+import { ROLES } from '../../constants/roles'
+import { AdminMainPage } from './AdminPage'
+import { UserMainPage } from './UserPage'
 
 const AdminDashboard = () => {
-    const { id, email, firstName, lastName, clearAuthContext } =
-        useContext(AuthContext)
+    const { id, email, role, firstName, lastName, clearAuthContext } = useContext(AuthContext)
     const { isEditEnable } = useContext(UserContext)
     const [isReady, setReady] = useState<boolean>(false)
     const history = useHistory()
@@ -84,7 +72,8 @@ const AdminDashboard = () => {
 
             <Switch>
                 <Route exact path={'/dashboard'}>
-                    <AdminMainPage />
+                    {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <AdminMainPage /> : null}
+                    {role === ROLES.USER ? <UserMainPage /> : null}
                 </Route>
                 <Route path={'/dashboard/users'}>
                     <UsersPage />
