@@ -14,6 +14,27 @@
             flex: calc(50% - 1rem);
         }
         
+        & .button-card {
+            position: absolute;
+            right: 1rem;
+            bottom: 1rem;
+            border: 0;
+            background-color: $white;
+            cursor: pointer;
+            @include font-size(16, $font-bold);
+            @include margin(0, 0);
+            @include padding(5px, 10px);
+            box-shadow: 3px 3px 0 0 rgba($dark, .15);
+            
+            &-danger {
+                color: $red;
+            }
+            
+            &-success {
+                color: green;
+            }
+        }
+        
         &-main {
             flex: 100%;
         }

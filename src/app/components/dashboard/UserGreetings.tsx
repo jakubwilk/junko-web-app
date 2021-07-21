@@ -1,16 +1,21 @@
-import { useContext } from 'react'
+import { MouseEvent, useContext } from 'react'
 import { AuthContext } from '../../context/auth-context'
 import { ROLES } from '../../constants/roles'
+import { UserContext } from '../../context/user-context'
 
 const UserGreetings = () => {
-    const { role, email, firstName, lastName } = useContext(AuthContext)
+    const { id, role, email, firstName, lastName } = useContext(AuthContext)
+    const { setEditEnable, setId } = useContext(UserContext)
+
+    const openModal = (e: MouseEvent<HTMLButtonElement>, value: boolean, id: string) => {
+        setEditEnable(value)
+        setId(id)
+    }
 
     return (
         <div className={'greetings'}>
             <h2 className={'greetings-title'}>{`Cześć, ${
-                firstName === '' && lastName === ''
-                    ? email
-                    : firstName + ' ' + lastName
+                firstName === '' && lastName === '' ? email : firstName + ' ' + lastName
             }`}</h2>
             {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? (
                 <>
@@ -20,7 +25,10 @@ const UserGreetings = () => {
                     <p
                         className={'greetings-text'}
                     >{`By móc edytować swój profil, wystarczy, że klikniesz przycisk poniżej, a następnie wypełnisz odpowiednie pola.`}</p>
-                    <button className={'button greetings-edit-profile'}>
+                    <button
+                        className={'button greetings-edit-profile'}
+                        onClick={(e) => openModal(e, true, id)}
+                    >
                         {'Edytuj profil'}
                     </button>
                 </>

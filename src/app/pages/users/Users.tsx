@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAllUsers } from '../../api/user'
 import { TSingleUserData } from '../../types/user.types'
 import { UserCard } from '../../components/users/UserCard'
 import './users.scss'
 import { AddUser } from '../../components/users/AddUser'
+import { AuthContext } from '../../context/auth-context'
+import { ROLES } from '../../constants/roles'
 
 const UsersPage = () => {
+    const { role } = useContext(AuthContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [users, setUsers] = useState<TSingleUserData[]>([])
 
@@ -13,6 +16,7 @@ const UsersPage = () => {
         getAllUsers()
             .then((res) => {
                 const data: TSingleUserData[] = res.data
+                console.log(data)
                 setUsers(data)
                 setReady(true)
             })
@@ -44,6 +48,19 @@ const UsersPage = () => {
                                 isActive={user.isActive}
                                 createdAt={user.createdAt}
                             />
+                            {role === ROLES.OWNER ? (
+                                <>
+                                    {user.isActive ? (
+                                        <button className={'button-card button-card-danger'}>
+                                            {'Dezaktywuj konto'}
+                                        </button>
+                                    ) : (
+                                        <button className={'button-card button-card-success'}>
+                                            {'Aktywuj konto'}
+                                        </button>
+                                    )}
+                                </>
+                            ) : null}
                         </div>
                     ))}
                 </div>

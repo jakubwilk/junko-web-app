@@ -18,6 +18,10 @@
         outline: none;
     }
     
+    &-inactive {
+        @include opacity(.5);
+    }
+    
     &-photo {
         @include mx(0, 2rem);
         

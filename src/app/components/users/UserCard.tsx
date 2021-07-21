@@ -18,11 +18,7 @@ export const UserCard = ({
 }: TSingleUserData) => {
     const { setEditEnable, setId } = useContext(UserContext)
 
-    const openModal = (
-        e: MouseEvent<HTMLDivElement>,
-        value: boolean,
-        id: string
-    ) => {
+    const openModal = (e: MouseEvent<HTMLDivElement>, value: boolean, id: string) => {
         setEditEnable(value)
         setId(id)
     }
@@ -42,7 +38,7 @@ export const UserCard = ({
 
     return (
         <div
-            className={'user-card'}
+            className={`user-card ${isActive ? 'user-card-active' : 'user-card-inactive'}`}
             tabIndex={1}
             onClick={(e) => openModal(e, true, id)}
         >
@@ -59,19 +55,11 @@ export const UserCard = ({
                         ? firstName + ' ' + lastName
                         : email}
                     {isActive ? (
-                        <span
-                            className={
-                                'user-card-status user-card-status-active'
-                            }
-                        >
+                        <span className={'user-card-status user-card-status-active'}>
                             {'Aktywny'}
                         </span>
                     ) : (
-                        <span
-                            className={
-                                'user-card-status user-card-status-inactive'
-                            }
-                        >
+                        <span className={'user-card-status user-card-status-inactive'}>
                             {'Nieaktywny'}
                         </span>
                     )}
@@ -79,17 +67,10 @@ export const UserCard = ({
                 </h2>
                 <p className={'user-card-date'}>
                     {'Konto utworzone: '}
-                    <Moment
-                        className={'user-card-time'}
-                        fromNow={true}
-                        locale={'pl'}
-                    >
+                    <Moment className={'user-card-time'} fromNow={true} locale={'pl'}>
                         {createdAt}
                     </Moment>
-                    <Moment
-                        className={'user-card-detail-time'}
-                        format={'DD/MM/YYYY'}
-                    >
+                    <Moment className={'user-card-detail-time'} format={'DD/MM/YYYY'}>
                         {createdAt}
                     </Moment>
                 </p>
