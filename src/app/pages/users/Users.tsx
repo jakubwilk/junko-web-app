@@ -1,22 +1,44 @@
-import { useContext, useEffect, useState } from 'react'
-import { getAllUsers } from '../../api/user'
+import { MouseEvent, useContext, useEffect, useState } from 'react'
+import { getAllUsers, toggleUserActivate } from '../../api/user'
 import { TSingleUserData } from '../../types/user.types'
 import { UserCard } from '../../components/users/UserCard'
 import './users.scss'
 import { AddUser } from '../../components/users/AddUser'
 import { AuthContext } from '../../context/auth-context'
 import { ROLES } from '../../constants/roles'
+import { HTTP_CODE } from '../../constants/http'
 
 const UsersPage = () => {
     const { role } = useContext(AuthContext)
     const [isReady, setReady] = useState<boolean>(false)
+    const [isLoading, setLoading] = useState<boolean>(false)
     const [users, setUsers] = useState<TSingleUserData[]>([])
+
+    const setUserActiiveStatus = (
+        e: MouseEvent<HTMLButtonElement>,
+        userId: string,
+        isActivate: boolean
+    ) => {
+        e.preventDefault()
+
+        toggleUserActivate(userId, isActivate)
+            .then((res) => {
+                if (res.statusCode === HTTP_CODE.OK) {
+                    window.location.reload()
+                }
+
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    }
 
     const getUsersList = () => {
         getAllUsers()
             .then((res) => {
                 const data: TSingleUserData[] = res.data
-                console.log(data)
                 setUsers(data)
                 setReady(true)
             })
@@ -49,17 +71,16 @@ const UsersPage = () => {
                                 createdAt={user.createdAt}
                             />
                             {role === ROLES.OWNER ? (
-                                <>
-                                    {user.isActive ? (
-                                        <button className={'button-card button-card-danger'}>
-                                            {'Dezaktywuj konto'}
-                                        </button>
-                                    ) : (
-                                        <button className={'button-card button-card-success'}>
-                                            {'Aktywuj konto'}
-                                        </button>
-                                    )}
-                                </>
+                                <button
+                                    className={`button-card ${
+                                        user.isActive ? 'button-card-danger' : 'button-card-success'
+                                    } ${isLoading ? 'button-card-loading' : ''}`}
+                                    onClick={(e) =>
+                                        setUserActiiveStatus(e, user.id, !user.isActive)
+                                    }
+                                >
+                                    {user.isActive ? 'Dezaktywuj konto' : 'Aktywuj konto'}
+                                </button>
                             ) : null}
                         </div>
                     ))}

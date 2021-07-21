@@ -33,6 +33,12 @@
             &-success {
                 color: green;
             }
+            
+            &-loading {
+                user-select: none;
+                pointer-events: none;
+                @include opacity(.6);
+            }
         }
         
         &-main {

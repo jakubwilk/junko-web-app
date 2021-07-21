@@ -53,3 +53,15 @@ export const saveEditUserData = async (userId: string, data: TEditUserData) => {
 
     return response.json()
 }
+
+export const toggleUserActivate = async (userId: string, isActivate: boolean) => {
+    const response = await fetch(`${API_URL}/users/${userId}/${isActivate}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    return response.json()
+}
