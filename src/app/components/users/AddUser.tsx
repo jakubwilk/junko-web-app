@@ -2,7 +2,7 @@ import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import './add-user.scss'
 import { IAddUserInitialValues } from '../../interfaces/register.interface'
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { TAddUserData, TResponseRegisterUser } from '../../types/auth.types'
 import { addUser } from '../../api/auth'
@@ -33,6 +33,10 @@ export const AddUser = () => {
     const [isLoading, setLoading] = useState<boolean>(false)
     const [validationMessage, setValidationMessage] = useState<string>('')
     const [statusCode, setStatusCode] = useState<number>(0)
+
+    const reloadPage = (e: MouseEvent<HTMLButtonElement>) => {
+        window.location.reload()
+    }
 
     const initialValues: IAddUserInitialValues = {
         email: '',
@@ -73,6 +77,14 @@ export const AddUser = () => {
                                 }
                             >
                                 {validationMessage}
+                                {statusCode === HTTP_CODE.CREATED ? (
+                                    <button
+                                        onClick={(e) => reloadPage(e)}
+                                        className={'button validation-reload'}
+                                    >
+                                        {'Odśwież strone'}
+                                    </button>
+                                ) : null}
                             </span>
                         )}
                         <Form className={'form'}>

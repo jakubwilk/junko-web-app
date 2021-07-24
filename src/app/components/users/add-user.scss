@@ -34,6 +34,16 @@
         background-color: $green;
     }
     
+    & .validation-reload {
+        @include padding(0, 0);
+        background-color: transparent;
+        color: $white;
+        text-decoration: underline;
+        @include font-size(16);
+        display: inline-block;
+        @include mx(10px, 0);
+    }
+    
     & .form {
         @include my(0);
         width: 100%;

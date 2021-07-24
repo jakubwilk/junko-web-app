@@ -1,7 +1,7 @@
 @import './../../../assets/styles/helpers';
 
 .users-list {
-    @include my(2rem);
+    @include py(2rem);
     
     &-grid {
         display: flex;
