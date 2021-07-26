@@ -34,10 +34,6 @@ export const getEditUserData = async (userId: string) => {
         },
     })
 
-    if (!response.ok) {
-        throw Error('Problem z pobraniem danych użytkownika')
-    }
-
     return response.json()
 }
 

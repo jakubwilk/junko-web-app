@@ -1,0 +1,91 @@
+@import './../../../assets/styles/helpers';
+
+.orders {
+    @include py(2rem);
+    
+    &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    &-title {
+        @include my(0);
+        @include font-size(36, $font-bold);
+    }
+    
+    &-button-add {
+        background-color: $blue;
+        color: $white;
+        @include font-size(16, $font-regular);
+        @include padding(.7rem, 2rem);
+        transition: background-color .1s ease-in-out;
+        
+        &:hover {
+            background-color: $sky;
+        }
+    }
+    
+    &-list {
+        background-color: $white;
+        @include border-radius(6px);
+        @include my(1.5rem, 0);
+        overflow: hidden;
+        overflow-x: auto;
+        width: 100%;
+    }
+    
+    &-table {
+        width: auto;
+        @include padding(1.5rem, 1rem);
+        
+        &-head {
+            border-bottom: 2px solid $grey;
+            @include py(0, 1rem);
+        }
+        
+        &-header {
+            display: grid;
+            grid-template-columns: 100px 300px 200px 200px 300px 1fr;
+            column-gap: 1rem;
+        
+            & span {
+                @include font-size(16, $font-bold);
+            }
+        }
+    
+        &-body {
+            @include mx(-1rem);
+            
+            &-row {
+                display: grid;
+                grid-template-columns: 100px 300px 200px 200px 300px 1fr;
+                column-gap: 1rem;
+                @include py(0.8rem);
+                @include px(1rem);
+                cursor: pointer;
+                border-bottom: 1px solid rgba($grey, .8);
+                
+                &:last-child {
+                    border-bottom: 0;
+                }
+                
+                &:hover {
+                    background-color: rgba($grey, .8);
+                }
+            }
+            
+            & .active {
+                color: $green;
+            }
+            
+            & .in-progress {
+                color: $blue;
+            }
+            
+            & .completed {
+                color: $red;
+            }
+        }
+    }
+}

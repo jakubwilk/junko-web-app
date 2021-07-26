@@ -17,6 +17,7 @@ import { UserContext } from '../../context/user-context'
 import { ROLES } from '../../constants/roles'
 import { AdminMainPage } from './AdminPage'
 import { UserMainPage } from './UserPage'
+import { OrdersPage } from '../orders/Orders'
 
 const AdminDashboard = () => {
     const { id, email, role, firstName, lastName, clearAuthContext } = useContext(AuthContext)
@@ -77,6 +78,10 @@ const AdminDashboard = () => {
                 </Route>
                 <Route path={'/dashboard/users'}>
                     <UsersPage />
+                </Route>
+                <Route path={'/dashboard/orders'}>
+                    {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <OrdersPage /> : null}
+                    {role === ROLES.USER ? <UserMainPage /> : null}
                 </Route>
             </Switch>
 
