@@ -99,5 +99,9 @@
                 @include px(1rem);
             }
         }
+        
+        &-cell {
+            text-align: center;
+        }
     }
 }

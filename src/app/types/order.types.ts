@@ -11,3 +11,11 @@ export type TOrdersTableData = {
     owner: string
     status: number
 }
+
+export type TAddOrderData = {
+    employeeId: string
+    customerEmail: string
+    title: string
+    issueTime: Date
+    details: string
+}

@@ -5,8 +5,10 @@ import { IUserContext } from '../interfaces/context.interface'
 const initialValue: IUserContext = {
     id: '',
     isEditEnable: false,
+    isOrderEnable: false,
     setId: (id: string) => {},
     setEditEnable: (value: boolean) => {},
+    setOrderEnable: (value: boolean) => {},
     clearUserContext: () => {},
 }
 
@@ -15,10 +17,12 @@ export const UserContext = createContext<IUserContext>(initialValue)
 export const UserContextProvider = (props: TContextBody) => {
     const [id, setId] = useState<string>('')
     const [isEditEnable, setEditEnable] = useState<boolean>(false)
+    const [isOrderEnable, setOrderEnable] = useState<boolean>(false)
 
     const clearUserContext = () => {
         setId('')
         setEditEnable(false)
+        setOrderEnable(false)
     }
 
     return (
@@ -26,8 +30,10 @@ export const UserContextProvider = (props: TContextBody) => {
             value={{
                 id,
                 isEditEnable,
+                isOrderEnable,
                 setId,
                 setEditEnable,
+                setOrderEnable,
                 clearUserContext,
             }}
         >

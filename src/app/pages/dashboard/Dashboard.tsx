@@ -18,10 +18,11 @@ import { ROLES } from '../../constants/roles'
 import { AdminMainPage } from './AdminPage'
 import { UserMainPage } from './UserPage'
 import { OrdersPage } from '../orders/Orders'
+import { AddOrder } from '../../components/orders/AddOrder'
 
 const AdminDashboard = () => {
     const { id, email, role, firstName, lastName, clearAuthContext } = useContext(AuthContext)
-    const { isEditEnable } = useContext(UserContext)
+    const { isEditEnable, isOrderEnable } = useContext(UserContext)
     const [isReady, setReady] = useState<boolean>(false)
     const history = useHistory()
 
@@ -86,6 +87,7 @@ const AdminDashboard = () => {
             </Switch>
 
             {isEditEnable ? <EditUser /> : null}
+            {isOrderEnable ? <AddOrder /> : null}
         </div>
     ) : null
 }

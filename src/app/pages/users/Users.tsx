@@ -14,7 +14,7 @@ const UsersPage = () => {
     const [isLoading, setLoading] = useState<boolean>(false)
     const [users, setUsers] = useState<TSingleUserData[]>([])
 
-    const setUserActiiveStatus = (
+    const setUserActiveStatus = (
         e: MouseEvent<HTMLButtonElement>,
         userId: string,
         isActivate: boolean
@@ -75,9 +75,7 @@ const UsersPage = () => {
                                     className={`button-card ${
                                         user.isActive ? 'button-card-danger' : 'button-card-success'
                                     } ${isLoading ? 'button-card-loading' : ''}`}
-                                    onClick={(e) =>
-                                        setUserActiiveStatus(e, user.id, !user.isActive)
-                                    }
+                                    onClick={(e) => setUserActiveStatus(e, user.id, !user.isActive)}
                                 >
                                     {user.isActive ? 'Dezaktywuj konto' : 'Aktywuj konto'}
                                 </button>

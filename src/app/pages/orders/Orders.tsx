@@ -1,10 +1,12 @@
 import './orders.scss'
-import { useEffect, useState } from 'react'
+import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { ordersTableFakeData, ordersTableHeaderMenu } from '../../constants/orders'
 import { TOrdersTableData } from '../../types/order.types'
 import { ClipLoader } from 'react-spinners'
+import { UserContext } from '../../context/user-context'
 
 export const OrdersPage = () => {
+    const { setOrderEnable } = useContext(UserContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [data, setData] = useState<TOrdersTableData[]>([])
 
@@ -21,6 +23,10 @@ export const OrdersPage = () => {
         }
     }
 
+    const openModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
+        setOrderEnable(value)
+    }
+
     useEffect(() => {
         setTimeout(() => {
             setData(ordersTableFakeData)
@@ -35,7 +41,12 @@ export const OrdersPage = () => {
             <div className={'container'}>
                 <header className={'orders-header'}>
                     <h2 className={'orders-title'}>{'Zlecenia'}</h2>
-                    <button className={'button orders-button-add'}>{'Dodaj zlecenie'}</button>
+                    <button
+                        className={'button orders-button-add'}
+                        onClick={(e) => openModal(e, true)}
+                    >
+                        {'Dodaj zlecenie'}
+                    </button>
                 </header>
                 <div className={'orders-list'}>
                     <div className={'orders-table'}>
@@ -50,7 +61,7 @@ export const OrdersPage = () => {
                         </header>
                         {isReady ? (
                             <main className={'orders-table-body'}>
-                                {data.length === 0 ? (
+                                {data.length > 0 ? (
                                     <>
                                         {data.map((item, index) => (
                                             <div key={index} className={'orders-table-body-row'}>
@@ -70,7 +81,9 @@ export const OrdersPage = () => {
                                                     <span>{item.owner}</span>
                                                 </div>
                                                 <div className={'orders-table-cell'}>
-                                                    {displayOrderStatus(item.status)}
+                                                    <strong>
+                                                        {displayOrderStatus(item.status)}
+                                                    </strong>
                                                 </div>
                                             </div>
                                         ))}
