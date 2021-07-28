@@ -1,9 +1,10 @@
 import './orders.scss'
 import { MouseEvent, useContext, useEffect, useState } from 'react'
-import { ordersTableFakeData, ordersTableHeaderMenu } from '../../constants/orders'
+import { ordersTableHeaderMenu } from '../../constants/orders'
 import { TOrdersTableData } from '../../types/order.types'
 import { ClipLoader } from 'react-spinners'
 import { UserContext } from '../../context/user-context'
+import { getOrdersList } from '../../api/order'
 
 export const OrdersPage = () => {
     const { setOrderEnable } = useContext(UserContext)
@@ -28,10 +29,15 @@ export const OrdersPage = () => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            setData(ordersTableFakeData)
-            setReady(true)
-        }, 5000)
+        getOrdersList()
+            .then((data) => {
+                console.log(data)
+                setReady(true)
+            })
+            .catch((err) => {
+                console.log(err)
+                setReady(true)
+            })
 
         return () => {}
     }, [])
