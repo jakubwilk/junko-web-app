@@ -19,3 +19,13 @@ export type TAddOrderData = {
     issueTime: Date
     details: string
 }
+
+export type TOrderEmployees = {
+    id: string
+    firstName: string
+    lastName: string
+}
+
+export type TAddOrderResponse = {
+    statusCode: number
+}

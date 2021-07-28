@@ -1,14 +1,16 @@
 import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 import './add-order.scss'
-import { Form, Formik, Field } from 'formik'
+import { Form, Formik, Field, FormikValues } from 'formik'
 import { parse, isDate } from 'date-fns'
 import * as Yup from 'yup'
-import { TAddOrderData } from '../../types/order.types'
+import { TAddOrderData, TAddOrderResponse, TOrderEmployees } from '../../types/order.types'
 import { HTTP_CODE } from '../../constants/http'
 import { UserContext } from '../../context/user-context'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { addNewOrder, getOrderEmployees } from '../../api/order'
+import { getValidationAddOrderMessage, getValidationEditUserMessage } from '../../utils/validation'
 
 const parseDateString = (value: Date, originalValue: string) => {
     return isDate(originalValue) ? originalValue : parse(originalValue, 'dd-MM-yyyy', new Date())
@@ -35,6 +37,7 @@ const initialData: TAddOrderData = {
 
 export const AddOrder = () => {
     const { setOrderEnable } = useContext(UserContext)
+    const [users, setUsers] = useState<TOrderEmployees[]>([])
     const [isReady, setReady] = useState<boolean>(false)
     const [isCreated, setCreated] = useState<boolean>(false)
     const [isLoading, setLoading] = useState<boolean>(false)
@@ -49,8 +52,31 @@ export const AddOrder = () => {
         }
     }
 
+    const reloadPage = (e: MouseEvent<HTMLButtonElement>) => {
+        window.location.reload()
+    }
+
     useEffect(() => {
-        setReady(true)
+        getOrderEmployees()
+            .then((data) => {
+                const users: TOrderEmployees[] = []
+                data.data.map((user: TOrderEmployees) => {
+                    const userData: TOrderEmployees = {
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                    }
+
+                    users.push(userData)
+                })
+
+                setUsers(users)
+                setReady(true)
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setReady(true)
+            })
 
         return () => {}
     }, [])
@@ -66,7 +92,15 @@ export const AddOrder = () => {
                                 initialValues={initialData}
                                 validationSchema={addSchema}
                                 onSubmit={async (values, actions) => {
-                                    console.log(values)
+                                    setLoading(true)
+                                    const response: TAddOrderResponse = await addNewOrder(values)
+                                    const message: string = getValidationAddOrderMessage(
+                                        response.statusCode
+                                    )
+                                    setValidationMessage(message)
+                                    setStatusCode(response.statusCode)
+                                    setLoading(false)
+                                    setCreated(true)
                                 }}
                             >
                                 {({ values, errors, touched, setFieldValue }) => (
@@ -80,6 +114,14 @@ export const AddOrder = () => {
                                                 }
                                             >
                                                 {validationMessage}
+                                                {statusCode === HTTP_CODE.CREATED ? (
+                                                    <button
+                                                        onClick={(e) => reloadPage(e)}
+                                                        className={'button validation-reload'}
+                                                    >
+                                                        {'Odśwież strone'}
+                                                    </button>
+                                                ) : null}
                                             </span>
                                         )}
                                         <Form className={'form'}>
@@ -135,10 +177,12 @@ export const AddOrder = () => {
                                                         className={''}
                                                         id={'employeeId'}
                                                         name={'employeeId'}
-                                                        value={'1'}
                                                     >
-                                                        <option value={'1'}>{'adam'}</option>
-                                                        <option value={'2'}>{'patryk'}</option>
+                                                        {users.map((user: TOrderEmployees) => (
+                                                            <option key={user.id} value={user.id}>
+                                                                {user.firstName} {user.lastName}
+                                                            </option>
+                                                        ))}
                                                     </Field>
                                                 </div>
                                             </div>

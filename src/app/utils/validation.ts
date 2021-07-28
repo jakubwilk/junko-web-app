@@ -32,3 +32,12 @@ export const getValidationEditUserMessage = (statusCode: number) => {
             return ''
     }
 }
+
+export const getValidationAddOrderMessage = (statusCode: number) => {
+    switch (statusCode) {
+        case 201:
+            return 'Zlecenie zostało dodane pomyślnie'
+        default:
+            return ''
+    }
+}
