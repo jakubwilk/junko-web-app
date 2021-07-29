@@ -5,6 +5,8 @@ import { TOrdersTableData } from '../../types/order.types'
 import { ClipLoader } from 'react-spinners'
 import { UserContext } from '../../context/user-context'
 import { getOrdersList } from '../../api/order'
+import { format } from 'date-fns'
+import { pl } from 'date-fns/locale'
 
 export const OrdersPage = () => {
     const { setOrderEnable } = useContext(UserContext)
@@ -31,7 +33,9 @@ export const OrdersPage = () => {
     useEffect(() => {
         getOrdersList()
             .then((data) => {
-                console.log(data)
+                const orders: TOrdersTableData[] = data.data
+                console.log(orders)
+                setData(orders)
                 setReady(true)
             })
             .catch((err) => {
@@ -41,6 +45,8 @@ export const OrdersPage = () => {
 
         return () => {}
     }, [])
+
+    console.log(data)
 
     return (
         <section className={'orders'}>
@@ -72,19 +78,31 @@ export const OrdersPage = () => {
                                         {data.map((item, index) => (
                                             <div key={index} className={'orders-table-body-row'}>
                                                 <div className={'orders-table-cell'}>
-                                                    <span>{item.id}</span>
+                                                    <span>{index + 1}</span>
                                                 </div>
                                                 <div className={'orders-table-cell'}>
                                                     <span>{item.client}</span>
                                                 </div>
                                                 <div className={'orders-table-cell'}>
-                                                    <span>{item.createdAt}</span>
+                                                    <span>
+                                                        {format(
+                                                            new Date(item.startDate),
+                                                            'dd-MM-yyyy',
+                                                            { locale: pl }
+                                                        )}
+                                                    </span>
                                                 </div>
                                                 <div className={'orders-table-cell'}>
-                                                    <span>{item.updatedAt}</span>
+                                                    <span>
+                                                        {format(
+                                                            new Date(item.modifyDate),
+                                                            'dd-MM-yyyy',
+                                                            { locale: pl }
+                                                        )}
+                                                    </span>
                                                 </div>
                                                 <div className={'orders-table-cell'}>
-                                                    <span>{item.owner}</span>
+                                                    <span>{item.employee}</span>
                                                 </div>
                                                 <div className={'orders-table-cell'}>
                                                     <strong>

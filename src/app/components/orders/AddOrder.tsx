@@ -36,7 +36,7 @@ const initialData: TAddOrderData = {
 }
 
 export const AddOrder = () => {
-    const { setOrderEnable } = useContext(UserContext)
+    const { id, setOrderEnable } = useContext(UserContext)
     const [users, setUsers] = useState<TOrderEmployees[]>([])
     const [isReady, setReady] = useState<boolean>(false)
     const [isCreated, setCreated] = useState<boolean>(false)
@@ -177,6 +177,7 @@ export const AddOrder = () => {
                                                         className={''}
                                                         id={'employeeId'}
                                                         name={'employeeId'}
+                                                        defaultValue={id}
                                                     >
                                                         {users.map((user: TOrderEmployees) => (
                                                             <option key={user.id} value={user.id}>

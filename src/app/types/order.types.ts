@@ -4,11 +4,11 @@ export type TOrdersTableHeader = {
 }
 
 export type TOrdersTableData = {
-    id: number
+    id?: number
     client: string
-    createdAt: string
-    updatedAt: string
-    owner: string
+    startDate: Date
+    modifyDate: Date
+    employee: string
     status: number
 }
 
