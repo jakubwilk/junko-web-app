@@ -3,13 +3,13 @@ import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { ordersTableHeaderMenu } from '../../constants/orders'
 import { TOrdersTableData } from '../../types/order.types'
 import { ClipLoader } from 'react-spinners'
-import { UserContext } from '../../context/user-context'
 import { getOrdersList } from '../../api/order'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
+import { OrderContext } from '../../context/order-context'
 
 export const OrdersPage = () => {
-    const { setOrderEnable } = useContext(UserContext)
+    const { setAddOrderEnable, setEditOrderEnable } = useContext(OrderContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [data, setData] = useState<TOrdersTableData[]>([])
 
@@ -26,8 +26,12 @@ export const OrdersPage = () => {
         }
     }
 
-    const openModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
-        setOrderEnable(value)
+    const openAddOrderModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
+        setAddOrderEnable(value)
+    }
+
+    const openEditOrderModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
+        setEditOrderEnable(value)
     }
 
     useEffect(() => {
@@ -55,7 +59,7 @@ export const OrdersPage = () => {
                     <h2 className={'orders-title'}>{'Zlecenia'}</h2>
                     <button
                         className={'button orders-button-add'}
-                        onClick={(e) => openModal(e, true)}
+                        onClick={(e) => openAddOrderModal(e, true)}
                     >
                         {'Dodaj zlecenie'}
                     </button>
@@ -108,6 +112,19 @@ export const OrdersPage = () => {
                                                     <strong>
                                                         {displayOrderStatus(item.status)}
                                                     </strong>
+                                                </div>
+                                                <div className={'orders-table-buttons'}>
+                                                    <button
+                                                        className={'button orders-table-button'}
+                                                        onClick={(e) => openEditOrderModal(e, true)}
+                                                    >
+                                                        {'Edytuj'}
+                                                    </button>
+                                                    <button
+                                                        className={'button orders-table-button'}
+                                                    >
+                                                        {'Historia'}
+                                                    </button>
                                                 </div>
                                             </div>
                                         ))}

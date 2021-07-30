@@ -9,6 +9,7 @@ import moment from 'moment/moment'
 import Moment from 'react-moment'
 import 'moment/locale/pl'
 import { UserContextProvider } from './app/context/user-context'
+import { OrderContextProvider } from './app/context/order-context'
 
 Moment.globalMoment = moment
 Moment.globalLocale = 'pl'
@@ -18,7 +19,9 @@ ReactDOM.render(
     <AuthContextProvider>
         <NavigationContextProvider>
             <UserContextProvider>
-                <App />
+                <OrderContextProvider>
+                    <App />
+                </OrderContextProvider>
             </UserContextProvider>
         </NavigationContextProvider>
     </AuthContextProvider>,

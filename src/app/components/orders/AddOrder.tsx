@@ -11,6 +11,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { addNewOrder, getOrderEmployees } from '../../api/order'
 import { getValidationAddOrderMessage, getValidationEditUserMessage } from '../../utils/validation'
+import { OrderContext } from '../../context/order-context'
 
 const parseDateString = (value: Date, originalValue: string) => {
     return isDate(originalValue) ? originalValue : parse(originalValue, 'dd-MM-yyyy', new Date())
@@ -36,7 +37,8 @@ const initialData: TAddOrderData = {
 }
 
 export const AddOrder = () => {
-    const { id, setOrderEnable } = useContext(UserContext)
+    const { id } = useContext(UserContext)
+    const { setAddOrderEnable } = useContext(OrderContext)
     const [users, setUsers] = useState<TOrderEmployees[]>([])
     const [isReady, setReady] = useState<boolean>(false)
     const [isCreated, setCreated] = useState<boolean>(false)
@@ -45,7 +47,7 @@ export const AddOrder = () => {
     const [statusCode, setStatusCode] = useState<number>(0)
 
     const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
-        setOrderEnable(false)
+        setAddOrderEnable(false)
 
         if (isCreated) {
             window.location.reload()
