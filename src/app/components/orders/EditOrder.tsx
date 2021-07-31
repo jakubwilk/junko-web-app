@@ -3,9 +3,14 @@ import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { OrderContext } from '../../context/order-context'
 import { Form, Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import { TEditOrderData, TOrderEmployees, TOrderStatus } from '../../types/order.types'
-import { editOrder } from '../../api/order'
-import { getValidationAddOrderMessage } from '../../utils/validation'
+import {
+    TAddOrderResponse,
+    TEditOrderData,
+    TOrderEmployees,
+    TOrderStatus,
+} from '../../types/order.types'
+import { addNewOrder, editOrder, saveEditOrder } from '../../api/order'
+import { getValidationAddOrderMessage, getValidationEditOrderMessage } from '../../utils/validation'
 import { HTTP_CODE } from '../../constants/http'
 import { ClipLoader } from 'react-spinners'
 import DatePicker from 'react-datepicker'
@@ -70,8 +75,18 @@ export const EditOrder = () => {
                                 initialValues={initialData}
                                 validationSchema={null}
                                 onSubmit={async (values, actions) => {
-                                    console.log(values)
-                                    console.log(actions)
+                                    setLoading(true)
+                                    const response: TAddOrderResponse = await saveEditOrder(values)
+                                    const message: string = getValidationEditOrderMessage(
+                                        response.statusCode
+                                    )
+
+                                    console.log(response)
+
+                                    setValidationMessage(message)
+                                    setStatusCode(response.statusCode)
+                                    setLoading(false)
+                                    setEdited(true)
                                 }}
                             >
                                 {({ values, errors, touched, setFieldValue }) => (
@@ -79,13 +94,13 @@ export const EditOrder = () => {
                                         {validationMessage === '' ? null : (
                                             <span
                                                 className={
-                                                    statusCode === HTTP_CODE.CREATED
+                                                    statusCode === HTTP_CODE.OK
                                                         ? 'validation-success'
                                                         : 'validation-error'
                                                 }
                                             >
                                                 {validationMessage}
-                                                {statusCode === HTTP_CODE.CREATED ? (
+                                                {statusCode === HTTP_CODE.OK ? (
                                                     <button
                                                         onClick={(e) => reloadPage(e)}
                                                         className={'button validation-reload'}

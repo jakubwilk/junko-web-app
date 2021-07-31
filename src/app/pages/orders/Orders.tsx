@@ -46,7 +46,6 @@ export const OrdersPage = () => {
         getOrdersList()
             .then((data) => {
                 const orders: TOrdersTableData[] = data.data
-                console.log(orders)
                 setData(orders)
                 setReady(true)
             })

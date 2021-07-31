@@ -41,3 +41,14 @@ export const getValidationAddOrderMessage = (statusCode: number) => {
             return ''
     }
 }
+
+export const getValidationEditOrderMessage = (statusCode: number) => {
+    switch (statusCode) {
+        case 200:
+            return 'Zlecenie zostało zmienione pomyślnie'
+        case 500:
+            return 'Wystąpił problem po stronie serwera. Proszę spróbować później'
+        default:
+            return ''
+    }
+}
