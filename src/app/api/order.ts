@@ -36,3 +36,15 @@ export const addNewOrder = async (data: any) => {
 
     return response.json()
 }
+
+export const editOrder = async (id: string) => {
+    const response = await fetch(`${API_URL}/orders/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    return response.json()
+}

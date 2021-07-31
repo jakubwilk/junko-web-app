@@ -1,4 +1,4 @@
-import { TOrdersTableHeader } from '../types/order.types'
+import { TOrdersTableHeader, TOrderStatus } from '../types/order.types'
 
 export const ordersTableHeaderMenu: TOrdersTableHeader[] = [
     {
@@ -24,5 +24,23 @@ export const ordersTableHeaderMenu: TOrdersTableHeader[] = [
     {
         id: 6,
         name: 'Status',
+    },
+]
+
+export const ordersStatus: TOrderStatus[] = [
+    {
+        id: 1,
+        name: 'Aktywny',
+        value: 1,
+    },
+    {
+        id: 2,
+        name: 'W trakcie',
+        value: 2,
+    },
+    {
+        id: 3,
+        name: 'Zakończony',
+        value: 3,
     },
 ]

@@ -7,9 +7,12 @@ import { getOrdersList } from '../../api/order'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import { OrderContext } from '../../context/order-context'
+import { AuthContext } from '../../context/auth-context'
+import { ROLES } from '../../constants/roles'
 
 export const OrdersPage = () => {
-    const { setAddOrderEnable, setEditOrderEnable } = useContext(OrderContext)
+    const { role } = useContext(AuthContext)
+    const { setId, setAddOrderEnable, setEditOrderEnable } = useContext(OrderContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [data, setData] = useState<TOrdersTableData[]>([])
 
@@ -30,7 +33,12 @@ export const OrdersPage = () => {
         setAddOrderEnable(value)
     }
 
-    const openEditOrderModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
+    const openEditOrderModal = (
+        e: MouseEvent<HTMLButtonElement>,
+        value: boolean,
+        orderId: string
+    ) => {
+        setId(orderId)
         setEditOrderEnable(value)
     }
 
@@ -49,8 +57,6 @@ export const OrdersPage = () => {
 
         return () => {}
     }, [])
-
-    console.log(data)
 
     return (
         <section className={'orders'}>
@@ -114,12 +120,20 @@ export const OrdersPage = () => {
                                                     </strong>
                                                 </div>
                                                 <div className={'orders-table-buttons'}>
-                                                    <button
-                                                        className={'button orders-table-button'}
-                                                        onClick={(e) => openEditOrderModal(e, true)}
-                                                    >
-                                                        {'Edytuj'}
-                                                    </button>
+                                                    {role === ROLES.OWNER ? (
+                                                        <button
+                                                            className={'button orders-table-button'}
+                                                            onClick={(e) =>
+                                                                openEditOrderModal(
+                                                                    e,
+                                                                    true,
+                                                                    item.orderId
+                                                                )
+                                                            }
+                                                        >
+                                                            {'Edytuj'}
+                                                        </button>
+                                                    ) : null}
                                                     <button
                                                         className={'button orders-table-button'}
                                                     >

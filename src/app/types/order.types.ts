@@ -4,7 +4,7 @@ export type TOrdersTableHeader = {
 }
 
 export type TOrdersTableData = {
-    id?: number
+    orderId: string
     client: string
     startDate: Date
     modifyDate: Date
@@ -20,6 +20,18 @@ export type TAddOrderData = {
     details: string
 }
 
+export type TEditOrderData = {
+    id: string
+    title: string
+    clientEmail: string
+    employeeId: string
+    issueTime: string
+    created_at: string
+    updated_at: string
+    status: number
+    details: string
+}
+
 export type TOrderEmployees = {
     id: string
     firstName: string
@@ -28,4 +40,10 @@ export type TOrderEmployees = {
 
 export type TAddOrderResponse = {
     statusCode: number
+}
+
+export type TOrderStatus = {
+    id: number
+    value: number
+    name: string
 }
