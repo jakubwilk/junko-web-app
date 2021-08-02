@@ -14,6 +14,68 @@
         }
     }
     
+    & .orders {
+        overflow-y: auto;
+        height: calc(100vh - 100px);
+        
+        &-loader {
+            @include hw(100%);
+            @include flex-center();
+        }
+        
+        &-item {
+            display: grid;
+            @include mx(2rem);
+            grid-template-columns: 80% 1fr;
+            background-color: $white;
+            box-shadow: 4px 4px 0 0 rgba($dark, .15);
+            @include padding(1.5rem, 1.5rem);
+            
+            & > div:last-of-type {
+                @include flex-center();
+            }
+            
+            &:not(:first-child) {
+                @include my(2rem);
+            }
+        }
+        
+        &-title {
+            @include font-size(16, $font-normal);
+            
+            & > span {
+                font-weight: $font-bold;
+            }
+        }
+        
+        &-time {
+            display: flex;
+            gap: 1rem;
+            @include my(1rem, 0);
+            @include font-size(14);
+            
+            & span {
+                font-weight: $font-bold;
+            }
+        }
+        
+        &-status {
+            font-weight: $font-bold;
+        }
+    
+        & .active {
+            color: $green;
+        }
+    
+        & .in-progress {
+            color: $blue;
+        }
+    
+        & .completed {
+            color: $red;
+        }
+    }
+    
     & .main {
         @include flex-column();
         justify-content: space-between;
