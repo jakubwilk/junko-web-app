@@ -15,6 +15,7 @@
     }
     
     & .orders {
+        @include py(2rem);
         overflow-y: auto;
         height: calc(100vh - 100px);
         

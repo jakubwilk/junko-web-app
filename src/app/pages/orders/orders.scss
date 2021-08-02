@@ -1,6 +1,6 @@
 @import './../../../assets/styles/helpers';
 
-.orders {
+.orders-page {
     @include py(2rem);
     
     &-header {
@@ -52,6 +52,10 @@
             & span {
                 @include font-size(16, $font-bold);
             }
+            
+            &-2 {
+                grid-template-columns: 100px 1fr 200px 200px 300px;
+            }
         }
     
         &-buttons {
@@ -95,6 +99,10 @@
                 cursor: pointer;
                 border-bottom: 1px solid rgba($grey, .8);
                 
+                &-2 {
+                    grid-template-columns: 100px 1fr 200px 200px 300px;
+                }
+                
                 &:last-child {
                     border-bottom: 0;
                 }
@@ -102,7 +110,7 @@
                 &:hover {
                     background-color: rgba($grey, .8);
                     
-                    & > .orders-table-buttons {
+                    & > .orders-page-table-buttons {
                         display: flex;
                     }
                 }

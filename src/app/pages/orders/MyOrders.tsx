@@ -1,18 +1,17 @@
-import './orders.scss'
 import { MouseEvent, useContext, useEffect, useState } from 'react'
-import { ordersTableHeaderMenu } from '../../constants/orders'
 import { TOrdersTableData } from '../../types/order.types'
-import { ClipLoader } from 'react-spinners'
-import { getOrdersList } from '../../api/order'
+import { OrderContext } from '../../context/order-context'
+import { userOrdersTableHeaderMenu } from '../../constants/orders'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
-import { OrderContext } from '../../context/order-context'
-import { AuthContext } from '../../context/auth-context'
 import { ROLES } from '../../constants/roles'
+import { ClipLoader } from 'react-spinners'
+import { AuthContext } from '../../context/auth-context'
+import { getOrdersCurrentEmployee } from '../../api/order'
 
-export const OrdersPage = () => {
-    const { role } = useContext(AuthContext)
-    const { setId, setAddOrderEnable, setEditOrderEnable } = useContext(OrderContext)
+export const MyOrders = () => {
+    const { id, role } = useContext(AuthContext)
+    const { setId, setEditOrderEnable } = useContext(OrderContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [data, setData] = useState<TOrdersTableData[]>([])
 
@@ -29,10 +28,6 @@ export const OrdersPage = () => {
         }
     }
 
-    const openAddOrderModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
-        setAddOrderEnable(value)
-    }
-
     const openEditOrderModal = (
         e: MouseEvent<HTMLButtonElement>,
         value: boolean,
@@ -43,7 +38,7 @@ export const OrdersPage = () => {
     }
 
     useEffect(() => {
-        getOrdersList()
+        getOrdersCurrentEmployee(id)
             .then((data) => {
                 const orders: TOrdersTableData[] = data.data
                 setData(orders)
@@ -61,19 +56,13 @@ export const OrdersPage = () => {
         <section className={'orders-page'}>
             <div className={'container'}>
                 <header className={'orders-page-header'}>
-                    <h2 className={'orders-page-title'}>{'Zlecenia'}</h2>
-                    <button
-                        className={'button orders-page-button-add'}
-                        onClick={(e) => openAddOrderModal(e, true)}
-                    >
-                        {'Dodaj zlecenie'}
-                    </button>
+                    <h2 className={'orders-page-title'}>{'Moje zlecenia'}</h2>
                 </header>
                 <div className={'orders-page-list'}>
                     <div className={'orders-page-table'}>
                         <header className={'orders-page-table-head'}>
-                            <div className={'orders-page-table-header'}>
-                                {ordersTableHeaderMenu.map((item, index) => (
+                            <div className={'orders-page-table-header orders-page-table-header-2'}>
+                                {userOrdersTableHeaderMenu.map((item, index) => (
                                     <div key={index} className={'orders-page-table-cell'}>
                                         <span>{item.name}</span>
                                     </div>
@@ -87,7 +76,9 @@ export const OrdersPage = () => {
                                         {data.map((item, index) => (
                                             <div
                                                 key={index}
-                                                className={'orders-page-table-body-row'}
+                                                className={
+                                                    'orders-page-table-body-row orders-page-table-body-row-2'
+                                                }
                                             >
                                                 <div className={'orders-page-table-cell'}>
                                                     <span>{index + 1}</span>
@@ -112,9 +103,6 @@ export const OrdersPage = () => {
                                                             { locale: pl }
                                                         )}
                                                     </span>
-                                                </div>
-                                                <div className={'orders-page-table-cell'}>
-                                                    <span>{item.employee}</span>
                                                 </div>
                                                 <div className={'orders-page-table-cell'}>
                                                     <strong>

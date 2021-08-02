@@ -25,6 +25,18 @@ export const getOrderEmployees = async () => {
     return response.json()
 }
 
+export const getOrdersCurrentEmployee = async (userId: string) => {
+    const response = await fetch(`${API_URL}/orders/author/${userId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    return response.json()
+}
+
 export const addNewOrder = async (data: any) => {
     const response = await fetch(`${API_URL}/orders`, {
         method: 'PUT',

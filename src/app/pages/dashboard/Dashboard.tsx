@@ -21,6 +21,7 @@ import { OrdersPage } from '../orders/Orders'
 import { AddOrder } from '../../components/orders/AddOrder'
 import { EditOrder } from '../../components/orders/EditOrder'
 import { OrderContext } from '../../context/order-context'
+import { MyOrders } from '../orders/MyOrders'
 
 const AdminDashboard = () => {
     const { id, email, role, firstName, lastName, clearAuthContext } = useContext(AuthContext)
@@ -85,6 +86,10 @@ const AdminDashboard = () => {
                 </Route>
                 <Route path={'/dashboard/orders'}>
                     {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <OrdersPage /> : null}
+                    {role === ROLES.USER ? <UserMainPage /> : null}
+                </Route>
+                <Route path={'/dashboard/my-orders'}>
+                    {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <MyOrders /> : null}
                     {role === ROLES.USER ? <UserMainPage /> : null}
                 </Route>
             </Switch>
