@@ -26,3 +26,18 @@ export const adminMenu: TDashboardNavigation[] = [
         name: 'Moje zlecenia',
     },
 ]
+
+export const userMenu: TDashboardNavigation[] = [
+    {
+        key: 1,
+        url: '/dashboard',
+        title: 'Przejdź do strony głównej',
+        name: 'Strona główna',
+    },
+    {
+        key: 2,
+        url: '/history',
+        title: 'Udaj się do historii zleceń',
+        name: 'Historia',
+    },
+]

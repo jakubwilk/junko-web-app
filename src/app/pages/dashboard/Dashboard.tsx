@@ -2,7 +2,7 @@ import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { NavLink, Route, Switch } from 'react-router-dom'
 import DashboardNavigation from '../../components/navigation/DashboardNavigation'
-import { adminMenu } from '../../constants/nav'
+import { adminMenu, userMenu } from '../../constants/nav'
 import { TDashboardNavigation } from '../../types/navigation'
 import UsersPage from '../users/Users'
 import Greetings from '../../components/navigation/Greetings'
@@ -48,25 +48,44 @@ const AdminDashboard = () => {
     }, [])
 
     return isReady ? (
-        <div className={'admin-page'}>
+        <div className={role === ROLES.USER ? 'user-page' : 'admin-page'}>
             <Helmet>
                 <title>{'Junko | Panel pracownika'}</title>
             </Helmet>
 
             <DashboardNavigation>
                 <ul className={'navigation-menu'}>
-                    {adminMenu.map((item: TDashboardNavigation) => (
-                        <li key={item.key} className={'navigation-item'}>
-                            <NavLink
-                                className={'navigation-link'}
-                                activeClassName={'navigation-active'}
-                                to={item.url}
-                                title={item.title}
-                            >
-                                {item.name}
-                            </NavLink>
-                        </li>
-                    ))}
+                    {role === ROLES.EMPLOYEE || role === ROLES.OWNER ? (
+                        <>
+                            {adminMenu.map((item: TDashboardNavigation) => (
+                                <li key={item.key} className={'navigation-item'}>
+                                    <NavLink
+                                        className={'navigation-link'}
+                                        activeClassName={'navigation-active'}
+                                        to={item.url}
+                                        title={item.title}
+                                    >
+                                        {item.name}
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </>
+                    ) : (
+                        <>
+                            {userMenu.map((item: TDashboardNavigation) => (
+                                <li key={item.key} className={'navigation-item'}>
+                                    <NavLink
+                                        className={'navigation-link'}
+                                        activeClassName={'navigation-active'}
+                                        to={item.url}
+                                        title={item.title}
+                                    >
+                                        {item.name}
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </>
+                    )}
                 </ul>
                 <Greetings
                     email={email}
@@ -82,7 +101,8 @@ const AdminDashboard = () => {
                     {role === ROLES.USER ? <UserMainPage /> : null}
                 </Route>
                 <Route path={'/dashboard/users'}>
-                    <UsersPage />
+                    {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <OrdersPage /> : null}
+                    {role === ROLES.USER ? <UsersPage /> : null}
                 </Route>
                 <Route path={'/dashboard/orders'}>
                     {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <OrdersPage /> : null}

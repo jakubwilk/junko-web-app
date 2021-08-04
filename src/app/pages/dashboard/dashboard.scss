@@ -1,6 +1,7 @@
 @import './../../../assets/styles/helpers';
 
-.admin-page {
+.admin-page,
+.user-page {
     background-color: $grey;
     @include height(100vh, 100%);
     
@@ -79,7 +80,6 @@
     
     & .main {
         @include flex-column();
-        justify-content: space-between;
         @include my(1px, 0);
         background-color: $white;
         
@@ -166,5 +166,35 @@
                 @include my(1rem, 0);
             }
         }
+    }
+}
+
+.admin-page {
+    & .main {
+        justify-content: space-between;
+    }
+}
+
+.user-page {
+    & .news {
+        @include padding(1.5rem, 1.5rem);
+        @include mx(2.5rem);
+        @include my(2.5rem, 0);
+        @include border-radius(8px);
+        background-color: rgba($red, .25);
+        
+        &-title {
+            @include my(0, 1rem);
+            @include font-size(16, $font-bold);
+            color: $red;
+        }
+        
+        &-text {
+            @include my(0);
+        }
+    }
+    
+    & .main {
+        justify-content: flex-start;
     }
 }

@@ -20,10 +20,7 @@ const Login = () => {
             <div className={'login'}>
                 <div className={'login-content'}>
                     <h1 className={'login-title'}>
-                        <img
-                            src={logo}
-                            alt={'Czarne logo junko z niebieskiem logotypem'}
-                        />
+                        <img src={logo} alt={'Czarne logo junko z niebieskiem logotypem'} />
                     </h1>
                     <p className={'login-subtitle'}>
                         {'By kontynuować zaloguj się na swoje konto'}
@@ -36,13 +33,7 @@ const Login = () => {
             </div>
         </>
     ) : (
-        <>
-            {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? (
-                <Redirect to={'/dashboard'} />
-            ) : null}
-            {role === ROLES.USER ? <Redirect to={'/panel'} /> : null}
-            {role === undefined ? <Redirect to={'/'} /> : null}
-        </>
+        <>{role === undefined ? <Redirect to={'/'} /> : <Redirect to={'/dashboard'} />}</>
     )
 }
 

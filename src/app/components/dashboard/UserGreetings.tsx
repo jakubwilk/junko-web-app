@@ -33,7 +33,20 @@ const UserGreetings = () => {
                     </button>
                 </>
             ) : (
-                <p className={'greetings-text'}>{``}</p>
+                <>
+                    <p
+                        className={'greetings-text'}
+                    >{`Znajdujesz się w swoim kokpicie, gdzie możesz przeglądać zlecenia, które są realizowane bądź zostały zrealizowane dla Ciebie. Na stronie głównej znajduje się krótka lista wykonanych jak i aktywnych zleceń, które zostały podjętę przez nasz zespół, natomiast w zakładce "Historia" możesz znaleźć kompletny spis wszystkich zleceń, a także ich historię łącznie z tymi aktywnymi.`}</p>
+                    <p
+                        className={'greetings-text'}
+                    >{`By móc edytować swój profil, wystarczy, że klikniesz przycisk poniżej, a następnie wypełnisz odpowiednie pola.`}</p>
+                    <button
+                        className={'button greetings-edit-profile'}
+                        onClick={(e) => openModal(e, true, id)}
+                    >
+                        {'Edytuj profil'}
+                    </button>
+                </>
             )}
         </div>
     )
