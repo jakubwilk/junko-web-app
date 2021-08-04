@@ -36,7 +36,7 @@ export const userMenu: TDashboardNavigation[] = [
     },
     {
         key: 2,
-        url: '/history',
+        url: '/dashboard/history',
         title: 'Udaj się do historii zleceń',
         name: 'Historia',
     },

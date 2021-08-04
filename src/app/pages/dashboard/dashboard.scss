@@ -25,6 +25,12 @@
             @include flex-center();
         }
         
+        &-empty {
+            font-weight: $font-bold;
+            @include my(0);
+            text-align: center;
+        }
+        
         &-item {
             display: grid;
             @include mx(2rem);
