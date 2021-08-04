@@ -12,7 +12,7 @@ import { ROLES } from '../../constants/roles'
 
 export const HistoryPage = () => {
     const { id, role } = useContext(AuthContext)
-    const { setId, setAddOrderEnable, setEditOrderEnable } = useContext(OrderContext)
+    const { setId, setEditOrderEnable, setOrderHistoryEnable } = useContext(OrderContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [data, setData] = useState<TOrdersTableData[]>([])
 
@@ -29,10 +29,6 @@ export const HistoryPage = () => {
         }
     }
 
-    const openAddOrderModal = (e: MouseEvent<HTMLButtonElement>, value: boolean) => {
-        setAddOrderEnable(value)
-    }
-
     const openEditOrderModal = (
         e: MouseEvent<HTMLButtonElement>,
         value: boolean,
@@ -40,6 +36,15 @@ export const HistoryPage = () => {
     ) => {
         setId(orderId)
         setEditOrderEnable(value)
+    }
+
+    const openOrderHistoryModal = (
+        e: MouseEvent<HTMLButtonElement>,
+        value: boolean,
+        orderId: string
+    ) => {
+        setId(orderId)
+        setOrderHistoryEnable(value)
     }
 
     useEffect(() => {
@@ -135,6 +140,13 @@ export const HistoryPage = () => {
                                                     <button
                                                         className={
                                                             'button orders-page-table-button'
+                                                        }
+                                                        onClick={(e) =>
+                                                            openOrderHistoryModal(
+                                                                e,
+                                                                true,
+                                                                item.orderId
+                                                            )
                                                         }
                                                     >
                                                         {'Historia'}

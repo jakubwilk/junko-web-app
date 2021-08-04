@@ -6,9 +6,11 @@ const initialValues: IOrderContext = {
     id: '',
     isAddOrderEnable: false,
     isEditOrderEnable: false,
+    isOrderHistoryEnable: false,
     setId: (id: string) => {},
     setAddOrderEnable: (value: boolean) => {},
     setEditOrderEnable: (value: boolean) => {},
+    setOrderHistoryEnable: (value: boolean) => {},
     clearOrderContext: () => {},
 }
 
@@ -18,6 +20,7 @@ export const OrderContextProvider = (props: TContextBody) => {
     const [id, setId] = useState<string>('')
     const [isAddOrderEnable, setAddOrderEnable] = useState<boolean>(false)
     const [isEditOrderEnable, setEditOrderEnable] = useState<boolean>(false)
+    const [isOrderHistoryEnable, setOrderHistoryEnable] = useState<boolean>(false)
 
     const clearOrderContext = () => {
         setId('')
@@ -31,9 +34,11 @@ export const OrderContextProvider = (props: TContextBody) => {
                 id,
                 isAddOrderEnable,
                 isEditOrderEnable,
+                isOrderHistoryEnable,
                 setId,
                 setAddOrderEnable,
                 setEditOrderEnable,
+                setOrderHistoryEnable,
                 clearOrderContext,
             }}
         >

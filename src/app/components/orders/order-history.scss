@@ -1,0 +1,167 @@
+@import './../../../assets/styles/helpers';
+
+.overlay {
+    @include hw(100vh, 100vw);
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba($black, .75);
+    z-index: 100;
+    
+    &-content {
+        position: relative;
+        @include flex-center();
+        align-items: center;
+        @include hw(inherit);
+        @include padding(4rem, 2rem);
+        box-sizing: border-box;
+    }
+}
+
+.order-history {
+    @include border-radius(14px);
+    background-color: $white;
+    width: 40vw;
+    min-width: 400px;
+    max-width: 800px;
+    @include padding(1.5rem, 1.5rem);
+    
+    &-title {
+        flex: 100%;
+        @include my(0, 1rem);
+    }
+    
+    & .validation-error {
+        display: block;
+        @include border-radius(6px);
+        @include my(0, 1rem);
+        @include padding(.5rem, 1rem);
+        color: $white;
+        background-color: $red;
+    }
+    
+    & .validation-success {
+        display: block;
+        @include border-radius(6px);
+        @include my(0, 1rem);
+        @include padding(.5rem, 1rem);
+        color: $white;
+        background-color: $green;
+    }
+    
+    & .validation-reload {
+        @include padding(0, 0);
+        background-color: transparent;
+        color: $white;
+        text-decoration: underline;
+        @include font-size(16);
+        display: inline-block;
+        @include mx(10px, 0);
+    }
+    
+    & .form {
+        @include my(0, 1.5rem);
+        @include padding(1rem, 1rem);
+        width: 100%;
+        @include border-radius(10px);
+        background-color: rgba($silver, .3);
+        
+        & .react-datepicker-wrapper {
+            width: 100%;
+        }
+        
+        &-group {
+            @include my(0, 1rem);
+            
+            & label {
+                display: block;
+                @include font-size(14);
+                @include my(0, .25rem);
+                user-select: none;
+            }
+            
+            & select {
+                border-radius: 6px;
+                border: 1px solid #dee2e6;
+                @include font-size(16);
+                color: $dark;
+                @include padding(8px, 20px);
+                width: 100%;
+            }
+            
+            & input,
+            & textarea {
+                @include border-radius(6px);
+                border: 1px solid $grey;
+                width: 100%;
+                @include font-size(16);
+                @include padding(8px, 20px);
+                
+                &:hover,
+                &:focus {
+                    transition: all .2s ease-in-out;
+                    border-color: $blue;
+                    outline: none;
+                }
+            }
+            
+            & textarea {
+                resize: none;
+            }
+            
+            & select {
+                width: 100%;
+            }
+            
+            &:nth-child(2) {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 1rem;
+            }
+        }
+        
+        & .button-group {
+            @include flex-center-horizontal();
+            
+            & .form-button {
+                @include mx(0, 1rem);
+            }
+            
+            & .form-button-cancel {
+                @include mx(1rem, 0);
+                background-color: $red;
+            }
+        }
+        
+        &-field-error {
+            border-color: $red !important;
+        }
+        
+        &-error {
+            display: inline-block;
+            @include font-size(14);
+            @include my(.5rem, 0);
+            color: $red;
+        }
+        
+        &-button {
+            @include flex-center-horizontal();
+            align-items: center;
+            background-color: $blue;
+            color: $white;
+            @include font-size(16);
+            @include padding(8px, 25px);
+            @include mx(auto);
+            
+            &.disabled {
+                user-select: none;
+                pointer-events: none;
+                @include opacity(.5);
+            }
+            
+            & span {
+                @include mx(0, .5rem);
+            }
+        }
+    }
+}

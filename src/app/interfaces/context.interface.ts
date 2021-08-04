@@ -33,8 +33,10 @@ export interface IOrderContext {
     id: string
     isAddOrderEnable: boolean
     isEditOrderEnable: boolean
+    isOrderHistoryEnable: boolean
     setId: (id: string) => void
     setAddOrderEnable: (value: boolean) => void
     setEditOrderEnable: (value: boolean) => void
+    setOrderHistoryEnable: (value: boolean) => void
     clearOrderContext: () => void
 }

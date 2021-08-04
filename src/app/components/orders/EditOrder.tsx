@@ -2,7 +2,6 @@ import './edit-order.scss'
 import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { OrderContext } from '../../context/order-context'
 import { Form, Formik, Field } from 'formik'
-import * as Yup from 'yup'
 import {
     TAddOrderResponse,
     TEditOrderData,

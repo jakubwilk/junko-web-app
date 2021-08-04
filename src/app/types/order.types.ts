@@ -47,3 +47,9 @@ export type TOrderStatus = {
     value: number
     name: string
 }
+
+export type THistoryOrderData = {
+    title: string
+    description: string
+    date: Date
+}

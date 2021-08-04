@@ -12,7 +12,8 @@ import { ROLES } from '../../constants/roles'
 
 export const OrdersPage = () => {
     const { role } = useContext(AuthContext)
-    const { setId, setAddOrderEnable, setEditOrderEnable } = useContext(OrderContext)
+    const { setId, setAddOrderEnable, setEditOrderEnable, setOrderHistoryEnable } =
+        useContext(OrderContext)
     const [isReady, setReady] = useState<boolean>(false)
     const [data, setData] = useState<TOrdersTableData[]>([])
 
@@ -40,6 +41,15 @@ export const OrdersPage = () => {
     ) => {
         setId(orderId)
         setEditOrderEnable(value)
+    }
+
+    const openOrderHistoryModal = (
+        e: MouseEvent<HTMLButtonElement>,
+        value: boolean,
+        orderId: string
+    ) => {
+        setId(orderId)
+        setOrderHistoryEnable(value)
     }
 
     useEffect(() => {
@@ -141,6 +151,13 @@ export const OrdersPage = () => {
                                                     <button
                                                         className={
                                                             'button orders-page-table-button'
+                                                        }
+                                                        onClick={(e) =>
+                                                            openOrderHistoryModal(
+                                                                e,
+                                                                true,
+                                                                item.orderId
+                                                            )
                                                         }
                                                     >
                                                         {'Historia'}
