@@ -40,7 +40,7 @@ export const UserMainPage = () => {
             })
 
         return () => {}
-    }, [])
+    }, [id])
 
     return (
         <div className={'grid'}>

@@ -52,3 +52,14 @@ export const getValidationEditOrderMessage = (statusCode: number) => {
             return ''
     }
 }
+
+export const getValidationAddOrderHistoryMessage = (statusCode: number) => {
+    switch (statusCode) {
+        case 201:
+            return 'Pozycja została dodana pomyślnie'
+        case 500:
+            return 'Wystąpił problem po stronie serwera. Proszę spróbować później'
+        default:
+            return ''
+    }
+}

@@ -60,7 +60,7 @@ export const HistoryPage = () => {
             })
 
         return () => {}
-    }, [])
+    }, [id])
 
     return (
         <section className={'orders-page'}>

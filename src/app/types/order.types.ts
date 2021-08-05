@@ -53,3 +53,10 @@ export type THistoryOrderData = {
     description: string
     date: Date
 }
+
+export type TAddOrderHistoryData = {
+    id: string
+    title: string
+    description: string
+    time: Date
+}

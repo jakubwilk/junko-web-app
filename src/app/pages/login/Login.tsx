@@ -5,7 +5,6 @@ import LoginForm from '../../components/login/LoginForm'
 import './login.scss'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/auth-context'
-import { ROLES } from '../../constants/roles'
 import { Redirect } from 'react-router'
 
 const Login = () => {

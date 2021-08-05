@@ -10,7 +10,7 @@ import { UserContext } from '../../context/user-context'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { addNewOrder, getOrderEmployees } from '../../api/order'
-import { getValidationAddOrderMessage, getValidationEditUserMessage } from '../../utils/validation'
+import { getValidationAddOrderMessage } from '../../utils/validation'
 import { OrderContext } from '../../context/order-context'
 
 const parseDateString = (value: Date, originalValue: string) => {
@@ -47,6 +47,7 @@ export const AddOrder = () => {
     const [statusCode, setStatusCode] = useState<number>(0)
 
     const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         setAddOrderEnable(false)
 
         if (isCreated) {
@@ -55,6 +56,7 @@ export const AddOrder = () => {
     }
 
     const reloadPage = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         window.location.reload()
     }
 
@@ -69,7 +71,7 @@ export const AddOrder = () => {
                         lastName: user.lastName,
                     }
 
-                    users.push(userData)
+                    return users.push(userData)
                 })
 
                 setUsers(users)
@@ -93,7 +95,7 @@ export const AddOrder = () => {
                             <Formik
                                 initialValues={initialData}
                                 validationSchema={addSchema}
-                                onSubmit={async (values, actions) => {
+                                onSubmit={async (values) => {
                                     setLoading(true)
                                     const response: TAddOrderResponse = await addNewOrder(values)
                                     const message: string = getValidationAddOrderMessage(

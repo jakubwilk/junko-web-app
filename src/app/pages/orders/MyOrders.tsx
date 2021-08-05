@@ -50,7 +50,7 @@ export const MyOrders = () => {
             })
 
         return () => {}
-    }, [])
+    }, [id])
 
     return (
         <section className={'orders-page'}>

@@ -8,8 +8,8 @@ import {
     TOrderEmployees,
     TOrderStatus,
 } from '../../types/order.types'
-import { addNewOrder, editOrder, saveEditOrder } from '../../api/order'
-import { getValidationAddOrderMessage, getValidationEditOrderMessage } from '../../utils/validation'
+import { editOrder, saveEditOrder } from '../../api/order'
+import { getValidationEditOrderMessage } from '../../utils/validation'
 import { HTTP_CODE } from '../../constants/http'
 import { ClipLoader } from 'react-spinners'
 import DatePicker from 'react-datepicker'
@@ -38,6 +38,7 @@ export const EditOrder = () => {
     const [isLoading, setLoading] = useState<boolean>(false)
 
     const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         setEditOrderEnable(false)
 
         if (isEdited) {
@@ -46,6 +47,7 @@ export const EditOrder = () => {
     }
 
     const reloadPage = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
         window.location.reload()
     }
 
@@ -61,7 +63,7 @@ export const EditOrder = () => {
             })
 
         return () => {}
-    }, [])
+    }, [id])
 
     return (
         <div className={'overlay'}>
@@ -73,7 +75,7 @@ export const EditOrder = () => {
                             <Formik
                                 initialValues={initialData}
                                 validationSchema={null}
-                                onSubmit={async (values, actions) => {
+                                onSubmit={async (values) => {
                                     setLoading(true)
                                     const response: TAddOrderResponse = await saveEditOrder(values)
                                     const message: string = getValidationEditOrderMessage(
