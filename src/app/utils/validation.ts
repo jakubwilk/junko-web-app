@@ -37,6 +37,8 @@ export const getValidationAddOrderMessage = (statusCode: number) => {
     switch (statusCode) {
         case 201:
             return 'Zlecenie zostało dodane pomyślnie'
+        case 500:
+            return 'Wystąpił błąd podczas dodawnaia zlecenia'
         default:
             return ''
     }
