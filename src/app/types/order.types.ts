@@ -60,3 +60,12 @@ export type TAddOrderHistoryData = {
     description: string
     time: Date
 }
+
+export type TOrderHistoryData = {
+    id: string
+    order_id: string
+    title: string
+    created_at: Date
+    updated_at: Date
+    description: string
+}

@@ -26,6 +26,7 @@ export const OrderContextProvider = (props: TContextBody) => {
         setId('')
         setAddOrderEnable(false)
         setEditOrderEnable(false)
+        setOrderHistoryEnable(false)
     }
 
     return (

@@ -103,7 +103,7 @@ const AdminDashboard = () => {
                     {role === ROLES.USER ? <UserMainPage /> : null}
                 </Route>
                 <Route path={'/dashboard/users'}>
-                    {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <OrdersPage /> : null}
+                    {role === ROLES.OWNER || role === ROLES.EMPLOYEE ? <UsersPage /> : null}
                     {role === ROLES.USER ? <UsersPage /> : null}
                 </Route>
                 <Route path={'/dashboard/orders'}>

@@ -164,4 +164,80 @@
             }
         }
     }
+    
+    &-text {
+        text-align: center;
+    }
+    
+    & .order-grid {
+        @include my(0, 1.5rem);
+        
+        & > div {
+            width: 50%;
+            position: relative;
+            
+            &:nth-child(even) {
+                margin-left: auto;
+                text-align: left;
+                @include px(1rem, 0);
+                
+                &::after {
+                    content: '';
+                    position: absolute;
+                    @include hw(100%, 1px);
+                    background-color: rgba($dark, .8);
+                    left: 0;
+                    top: 0;
+                    z-index: 10;
+                }
+                
+                &::before {
+                    content: '';
+                    position: absolute;
+                    @include hw(10px);
+                    background-color: $dark;
+                    @include border-radius(50%);
+                    left: -5px;
+                    top: 50%;
+                    margin-top: -10px;
+                    z-index: 1000;
+                }
+            }
+            
+            &:nth-child(odd) {
+                margin-right: auto;
+                text-align: right;
+                @include px(0, 1rem);
+    
+                &::after {
+                    content: '';
+                    position: absolute;
+                    @include hw(100%, 1px);
+                    background-color: rgba($dark, .8);
+                    right: -1px;
+                    top: 0;
+                }
+    
+                &::before {
+                    content: '';
+                    position: absolute;
+                    @include hw(10px);
+                    background-color: $dark;
+                    @include border-radius(50%);
+                    right: -5px;
+                    top: 50%;
+                    margin-top: -10px;
+                    z-index: 1000;
+                }
+            }
+            
+            & > h4 {
+                @include my(0);
+            }
+            
+            & > time {
+                @include font-size(14);
+            }
+        }
+    }
 }
