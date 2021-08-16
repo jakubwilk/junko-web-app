@@ -1,6 +1,18 @@
 import { API_URL } from '../constants/api'
 import { TAddOrderHistoryData, TEditOrderData } from '../types/order.types'
 
+export const getOrdersStatistics = async (id: string) => {
+    const response = await fetch(`${API_URL}/orders/stats/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    return response.json()
+}
+
 export const getOrdersList = async () => {
     const response = await fetch(`${API_URL}/orders/all`, {
         method: 'GET',

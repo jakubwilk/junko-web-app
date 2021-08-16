@@ -1,6 +1,18 @@
 import { API_URL } from '../constants/api'
 import { TEditUserData } from '../types/auth.types'
 
+export const getUsersStatistics = async () => {
+    const response = await fetch(`${API_URL}/users/stats`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    return response.json()
+}
+
 export const getAllUsers = async () => {
     const response = await fetch(`${API_URL}/users/all`, {
         method: 'GET',

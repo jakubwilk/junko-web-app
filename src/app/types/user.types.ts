@@ -19,3 +19,8 @@ export type TSingleUserData = {
     isActive: boolean
     createdAt: Date
 }
+
+export type TUsersStatistics = {
+    users: number
+    employees: number
+}

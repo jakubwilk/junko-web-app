@@ -69,3 +69,9 @@ export type TOrderHistoryData = {
     updated_at: Date
     description: string
 }
+
+export type TOrdersStatistics = {
+    orders: number
+    activeOrders: number
+    userOrders: number
+}
